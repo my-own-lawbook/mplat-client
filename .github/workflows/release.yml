@@ -45,13 +45,12 @@ env:
   APK_OUTPUT_DIR: "./composeApp/build/outputs/apk/release/"
   AAB_OUTPUT_DIR: "./composeApp/build/outputs/bundle/release/"
 
-permissions:
-  contents: write
-
 jobs:
   buildAndroid:
     runs-on: ubuntu-latest
     name: Create Release
+
+    permissions: write-all
 
     steps:
 
