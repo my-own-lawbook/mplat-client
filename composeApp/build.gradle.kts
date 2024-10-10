@@ -81,15 +81,25 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    signingConfigs {
+        create("release") {
+            keyAlias = "System.getenv(SIGNING_KEY_ALIAS)"
+            keyPassword = "System.getenv(SIGNING_KEY_PASSWORD)"
+            storePassword = "System.getenv(SIGNING_STORE_PASSWORD)"
+            storeFile = file("./../release-keystore.jks")
+        }
+    }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
 }
 
 dependencies {
@@ -101,7 +111,7 @@ compose.desktop {
         mainClass = "me.bumiller.mol.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Exe)
             packageName = "me.bumiller.mol"
             packageVersion = "1.0.0"
         }

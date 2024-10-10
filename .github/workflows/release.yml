@@ -1,0 +1,73 @@
+name: Build and Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: The sem-ver of this release
+        required: true
+        type: string
+      includeAndroidApk:
+        description: Create an android jar
+        type: boolean
+        default: true
+      includeAndroidAab:
+        description: Create an android app bundle
+        type: boolean
+        default: true
+      includeDesktopDeb:
+        description: Create a debian bundle
+        type: boolean
+        default: true
+      includeDesktopMsi:
+        description: Create a microsoft installer
+        type: boolean
+        default: true
+      includeDesktopDmg:
+        description: Create a mac dmg package
+        type: boolean
+        default: true
+      includeDesktopExe:
+        description: Create a exe file
+        type: boolean
+        default: true
+      includeWebDist:
+        description: Create a static web distribution
+        type: boolean
+        default: true
+
+env:
+  SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+  SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_ALIAS }}
+  SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_KEY_ALIAS }}
+  SIGNING_STORE_BASE_64: ${{ secrets.SIGNING_KEY_ALIAS }}
+
+
+jobs:
+  buildAndroid:
+    runs-on: ubuntu-latest
+    name: Build Android release files
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Create keystore file
+        run: |
+          echo ${SIGNING_STORE_BASE_64} > release-keystore.jks.base64.txt
+          openssl base64 -d < release-keystore.jks.base64.txt > release-keystore.jks
+
+      - name: Create APK
+        if: ${{ inputs.includeAndroidApk }}
+        run: ./gradlew assembleRelease
+
+      - name: Create AAB
+        if: ${{ inputs.includeAndroidAab }}
+        run: ./gradlew bundleRelease
