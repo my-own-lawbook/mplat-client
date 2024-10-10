@@ -95,7 +95,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          repository: my-own-lawbook/server
+          repository: my-own-lawbook/mplat-client
           body: <Create changelog>
           body_path: ./changelogs/${{ inputs.releaseVersion }}.md
           name: ${{ inputs.releaseVersion }}
