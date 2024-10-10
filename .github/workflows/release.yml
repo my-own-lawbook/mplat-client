@@ -1,4 +1,4 @@
-name: Build and Test
+name: Create Release
 
 on:
   workflow_dispatch:
