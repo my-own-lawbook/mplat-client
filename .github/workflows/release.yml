@@ -73,13 +73,13 @@ jobs:
         if: ${{ inputs.includeAndroidApk }}
         run: |
           ./gradlew assembleRelease
-          mv ${APK_OUTPUT_DIR}composeApp-release.apk ${APK_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.apk
+          mv "${APK_OUTPUT_DIR}composeApp-release.apk" "${APK_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.apk"
 
       - name: Create AAB
         if: ${{ inputs.includeAndroidAab }}
         run: |
           ./gradlew bundleRelease
-          mv ${AAB_OUTPUT_DIR}composeApp-release.aab ${AAB_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.aab
+          mv "${AAB_OUTPUT_DIR}composeApp-release.aab" "${AAB_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.aab"
 
       
 
@@ -92,6 +92,7 @@ jobs:
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           repository: my-own-lawbook/server
           body: <Create changelog>
           body_path: ./changelogs/${{ inputs.releaseVersion }}.md
