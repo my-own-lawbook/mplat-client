@@ -64,7 +64,7 @@ jobs:
       - name: Create keystore file
         run: |
           echo ${SIGNING_STORE_BASE_64} > release-keystore.jks.base64.txt
-          openssl base64 -d < release-keystore.jks.base64.txt > release-keystore.jks
+          cat release-keystore.jks.base64.txt | base64 -d > release-keystore.jks
 
       - name: Create APK
         if: ${{ inputs.includeAndroidApk }}
@@ -78,7 +78,7 @@ jobs:
           ./gradlew bundleRelease
           mv ${AAB_OUTPUT_DIR}*.apk ${AAB_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.aab
 
-
+      
 
       - name: Create Tag
         uses: tvdias/github-tagger@v0.0.1
