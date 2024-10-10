@@ -42,11 +42,13 @@ env:
   SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_KEY_ALIAS }}
   SIGNING_STORE_BASE_64: ${{ secrets.SIGNING_KEY_ALIAS }}
 
+  APK_OUTPUT_DIR: "./composeApp/build/outputs/apk/release/"
+  AAB_OUTPUT_DIR: "./composeApp/build/outputs/apk/release/"
 
 jobs:
   buildAndroid:
     runs-on: ubuntu-latest
-    name: Build Android release files
+    name: Create Release
 
     steps:
 
@@ -66,8 +68,32 @@ jobs:
 
       - name: Create APK
         if: ${{ inputs.includeAndroidApk }}
-        run: ./gradlew assembleRelease
+        run: |
+          ./gradlew assembleRelease
+          mv ${APK_OUTPUT_DIR}*.apk ${APK_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.apk
 
       - name: Create AAB
         if: ${{ inputs.includeAndroidAab }}
-        run: ./gradlew bundleRelease
+        run: |
+          ./gradlew bundleRelease
+          mv ${AAB_OUTPUT_DIR}*.apk ${AAB_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.aab
+
+
+
+      - name: Create Tag
+        uses: tvdias/github-tagger@v0.0.1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ inputs.releaseVersion }}
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          repository: my-own-lawbook/server
+          body: <Create changelog>
+          body_path: ./changelogs/${{ inputs.releaseVersion }}.md
+          name: ${{ inputs.releaseVersion }}
+          tag_name: ${{ inputs.releaseVersion }}
+          files: |
+            ${APK_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.apk
+            ${AAB_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.aab
