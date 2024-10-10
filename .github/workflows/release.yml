@@ -45,6 +45,9 @@ env:
   APK_OUTPUT_DIR: "./composeApp/build/outputs/apk/release/"
   AAB_OUTPUT_DIR: "./composeApp/build/outputs/bundle/release/"
 
+permissions:
+  contents: write
+
 jobs:
   buildAndroid:
     runs-on: ubuntu-latest
@@ -70,13 +73,13 @@ jobs:
         if: ${{ inputs.includeAndroidApk }}
         run: |
           ./gradlew assembleRelease
-          mv ${APK_OUTPUT_DIR}*.apk ${APK_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.apk
+          mv ${APK_OUTPUT_DIR}composeApp-release.apk ${APK_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.apk
 
       - name: Create AAB
         if: ${{ inputs.includeAndroidAab }}
         run: |
           ./gradlew bundleRelease
-          mv ${AAB_OUTPUT_DIR}*.aab ${AAB_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.aab
+          mv ${AAB_OUTPUT_DIR}composeApp-release.aab ${AAB_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.aab
 
       
 
