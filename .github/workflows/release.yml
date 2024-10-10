@@ -43,7 +43,7 @@ env:
   SIGNING_STORE_BASE_64: ${{ secrets.SIGNING_STORE_BASE_64 }}
 
   APK_OUTPUT_DIR: "./composeApp/build/outputs/apk/release/"
-  AAB_OUTPUT_DIR: "./composeApp/build/outputs/apk/release/"
+  AAB_OUTPUT_DIR: "./composeApp/build/outputs/bundle/release/"
 
 jobs:
   buildAndroid:
@@ -76,7 +76,7 @@ jobs:
         if: ${{ inputs.includeAndroidAab }}
         run: |
           ./gradlew bundleRelease
-          mv ${AAB_OUTPUT_DIR}*.apk ${AAB_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.aab
+          mv ${AAB_OUTPUT_DIR}*.aab ${AAB_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.aab
 
       
 
