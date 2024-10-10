@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    name: Build
+    name: Build and Test
 
     steps:
 
@@ -22,3 +22,6 @@ jobs:
 
       - name: Execute gradle assemble
         run: ./gradlew assemble
+
+      - name: Execute gradle check
+        run: ./gradlew check
