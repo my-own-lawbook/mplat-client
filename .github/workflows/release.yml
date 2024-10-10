@@ -73,12 +73,14 @@ jobs:
         if: ${{ inputs.includeAndroidApk }}
         run: |
           ./gradlew assembleRelease
+          ls -l ${APK_OUTPUT_DIR}
           mv "${APK_OUTPUT_DIR}composeApp-release.apk" "${APK_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.apk"
 
       - name: Create AAB
         if: ${{ inputs.includeAndroidAab }}
         run: |
           ./gradlew bundleRelease
+          ls -l ${AAB_OUTPUT_DIR}
           mv "${AAB_OUTPUT_DIR}composeApp-release.aab" "${AAB_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.aab"
 
       
@@ -99,5 +101,5 @@ jobs:
           name: ${{ inputs.releaseVersion }}
           tag_name: ${{ inputs.releaseVersion }}
           files: |
-            ${APK_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.apk
-            ${AAB_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.aab
+            ${{ env.APK_OUTPUT_DIR }}mol-${{ inputs.releaseVersion }}.apk
+            ${{ env.AAB_OUTPUT_DIR }}mol-${{ inputs.releaseVersion }}.aab
