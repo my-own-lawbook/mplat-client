@@ -1,5 +1,8 @@
 name: Create Release
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
     inputs:
@@ -49,8 +52,6 @@ jobs:
   buildAndroid:
     runs-on: ubuntu-latest
     name: Create Release
-
-    permissions: write-all
 
     steps:
 
