@@ -50,8 +50,9 @@ env:
 
 jobs:
   buildAndroid:
+    name: Create Android Packages
+
     runs-on: ubuntu-latest
-    name: Create Release
 
     steps:
 
@@ -73,18 +74,30 @@ jobs:
         if: ${{ inputs.includeAndroidApk }}
         run: |
           ./gradlew assembleRelease
-          ls -l ${APK_OUTPUT_DIR}
           mv "${APK_OUTPUT_DIR}composeApp-release.apk" "${APK_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.apk"
 
       - name: Create AAB
         if: ${{ inputs.includeAndroidAab }}
         run: |
           ./gradlew bundleRelease
-          ls -l ${AAB_OUTPUT_DIR}
           mv "${AAB_OUTPUT_DIR}composeApp-release.aab" "${AAB_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.aab"
 
-      
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mol-android-${{ inputs.releaseVersion }}.apk
+          path: ${{ env.APK_OUTPUT_DIR }}composeApp-release.apk
 
+      - name: Upload AAB Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mol-android-${{ inputs.releaseVersion }}.aab
+          path: ${{ env.AAB_OUTPUT_DIR }}composeApp-release.aab
+
+  createRelease:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
       - name: Create Tag
         uses: tvdias/github-tagger@v0.0.1
         with:
