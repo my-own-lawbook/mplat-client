@@ -10,34 +10,6 @@ on:
         description: The sem-ver of this release
         required: true
         type: string
-      includeAndroidApk:
-        description: Create an android jar
-        type: boolean
-        default: true
-      includeAndroidAab:
-        description: Create an android app bundle
-        type: boolean
-        default: true
-      includeDesktopDeb:
-        description: Create a debian bundle
-        type: boolean
-        default: true
-      includeDesktopMsi:
-        description: Create a microsoft installer
-        type: boolean
-        default: true
-      includeDesktopDmg:
-        description: Create a mac dmg package
-        type: boolean
-        default: true
-      includeDesktopExe:
-        description: Create a exe file
-        type: boolean
-        default: true
-      includeWebDist:
-        description: Create a static web distribution
-        type: boolean
-        default: true
 
 env:
   SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
@@ -47,6 +19,24 @@ env:
 
   APK_OUTPUT_DIR: "./composeApp/build/outputs/apk/release/"
   AAB_OUTPUT_DIR: "./composeApp/build/outputs/bundle/release/"
+  EXE_OUTPUT_DIR: "./composeApp/build/compose/binaries/main-release/exe/"
+  MSI_OUTPUT_DIR: "./composeApp/build/compose/binaries/main-release/msi/"
+  DEB_OUTPUT_DIR: "./composeApp/build/compose/binaries/main-release/deb/"
+  WEB_DIST_DIR: "./composeApp/build/dist/wasmJs/productionExecutable/"
+
+  APK_FILE_NAME: mol.apk
+  AAB_FILE_NAME: mol.aab
+  EXE_FILE_NAME: mol.exe
+  MSI_FILE_NAME: mol.msi
+  DEB_FILE_NAME: mol.deb
+  WEB_DIST_FILE_NAME: web-dist.zip
+
+  APK_ARTIFACT_NAME: Android-Apk
+  AAB_ARTIFACT_NAME: Android-Aab
+  EXE_ARTIFACT_NAME: Windows-Exe
+  MSI_ARTIFACT_NAME: Windows-Msi
+  DEB_ARTIFACT_NAME: Debian-Deb
+  WEB_ARTIFACT_NAME: Web-Distribution
 
 jobs:
   buildAndroid:
@@ -71,33 +61,168 @@ jobs:
           cat release-keystore.jks.base64.txt | base64 -d > release-keystore.jks
 
       - name: Create APK
-        if: ${{ inputs.includeAndroidApk }}
         run: |
           ./gradlew assembleRelease
-          mv "${APK_OUTPUT_DIR}composeApp-release.apk" "${APK_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.apk"
-
-      - name: Create AAB
-        if: ${{ inputs.includeAndroidAab }}
-        run: |
-          ./gradlew bundleRelease
-          mv "${AAB_OUTPUT_DIR}composeApp-release.aab" "${AAB_OUTPUT_DIR}mol-${{ inputs.releaseVersion }}.aab"
+          mv ${{ env.APK_OUTPUT_DIR }}*.apk ${{ env.APK_OUTPUT_DIR }}${{ env.APK_FILE_NAME }}
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: mol-android-${{ inputs.releaseVersion }}.apk
-          path: ${{ env.APK_OUTPUT_DIR }}composeApp-release.apk
+          name: ${{ env.APK_ARTIFACT_NAME }}
+          path: ${{ env.APK_OUTPUT_DIR }}${{ env.APK_FILE_NAME }}
+
+      - name: Create AAB
+        run: |
+          ./gradlew bundleRelease
+          mv ${{ env.AAB_OUTPUT_DIR }}*.aab ${{ env.AAB_OUTPUT_DIR }}${{ env.AAB_FILE_NAME }}
 
       - name: Upload AAB Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: mol-android-${{ inputs.releaseVersion }}.aab
-          path: ${{ env.AAB_OUTPUT_DIR }}composeApp-release.aab
+          name: ${{ env.AAB_ARTIFACT_NAME }}
+          path: ${{ env.AAB_OUTPUT_DIR }}${{ env.AAB_FILE_NAME }}
+
+  buildWeb:
+    name: Create Web Distribution
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Install zip tools
+        run: sudo apt update && sudo apt install zip
+
+      - name: Create Distribution
+        run: |
+          ./gradlew wasmJsBrowserDistribution
+          zip -r ${{ env.WEB_DIST_DIR }}${{ env.WEB_DIST_FILE_NAME }} ${{ env.WEB_DIST_DIR }}
+          ls -R ./composeApp
+
+      - name: Upload Web Distribution
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.WEB_ARTIFACT_NAME }}
+          path: ${{ env.WEB_DIST_DIR }}${{ env.WEB_DIST_FILE_NAME }}
+
+  buildWindows:
+    name: Create Windows Packages
+
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Create EXE
+        run: |
+          ./gradlew packageReleaseExe
+          mv ${{ env.EXE_OUTPUT_DIR }}*.exe ${{ env.EXE_OUTPUT_DIR }}${{ env.EXE_FILE_NAME }}
+
+      - name: Upload EXE Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.EXE_ARTIFACT_NAME }}
+          path: ${{ env.EXE_OUTPUT_DIR }}${{ env.EXE_FILE_NAME }}
+
+      - name: Create MSI
+        run: |
+          ./gradlew packageReleaseMsi
+          mv ${{ env.MSI_OUTPUT_DIR }}*.msi ${{ env.MSI_OUTPUT_DIR }}${{ env.MSI_FILE_NAME }}
+
+      - name: Upload MSI Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.MSI_ARTIFACT_NAME }}
+          path: ${{ env.MSI_OUTPUT_DIR }}${{ env.MSI_FILE_NAME }}
+
+  buildLinux:
+    name: Create Linux Packages
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Create DEB
+        run: |
+          ./gradlew packageReleaseDeb
+          mv ${{ env.DEB_OUTPUT_DIR }}*.deb ${{ env.DEB_OUTPUT_DIR }}${{ env.DEB_FILE_NAME }}
+
+      - name: Upload DEB Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.DEB_ARTIFACT_NAME }}
+          path: ${{ env.DEB_OUTPUT_DIR }}${{ env.DEB_FILE_NAME }}
 
   createRelease:
     name: Create Release
+
     runs-on: ubuntu-latest
+    needs:
+      - buildWeb
+
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download APK artifact
+        uses: actions/download-artifact@v4
+        id: download_apk
+        with:
+          name: ${{ env.APK_ARTIFACT_NAME }}
+
+      - name: Download AAB artifact
+        uses: actions/download-artifact@v4
+        id: download_aab
+        with:
+          name: ${{ env.AAB_ARTIFACT_NAME }}
+
+      - name: Download EXE artifact
+        uses: actions/download-artifact@v4
+        id: download_exe
+        with:
+          name: ${{ env.EXE_ARTIFACT_NAME }}
+
+      - name: Download MSI artifact
+        uses: actions/download-artifact@v4
+        id: download_msi
+        with:
+          name: ${{ env.MSI_ARTIFACT_NAME }}
+
+      - name: Download DEB artifact
+        uses: actions/download-artifact@v4
+        id: download_deb
+        with:
+          name: ${{ env.DEB_ARTIFACT_NAME }}
+
+      - name: Download WEB artifact
+        uses: actions/download-artifact@v4
+        id: download_web
+        with:
+          name: ${{ env.WEB_ARTIFACT_NAME }}
+
       - name: Create Tag
         uses: tvdias/github-tagger@v0.0.1
         with:
@@ -109,10 +234,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: my-own-lawbook/mplat-client
-          body: <Create changelog>
           body_path: ./changelogs/${{ inputs.releaseVersion }}.md
           name: ${{ inputs.releaseVersion }}
           tag_name: ${{ inputs.releaseVersion }}
           files: |
-            ${{ env.APK_OUTPUT_DIR }}mol-${{ inputs.releaseVersion }}.apk
-            ${{ env.AAB_OUTPUT_DIR }}mol-${{ inputs.releaseVersion }}.aab
+            ${{ steps.download_web.outputs.download-path }}/${{ env.WEB_DIST_FILE_NAME }}

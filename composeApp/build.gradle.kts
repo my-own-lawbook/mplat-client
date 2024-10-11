@@ -111,7 +111,7 @@ compose.desktop {
         mainClass = "me.bumiller.mol.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Exe, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "me.bumiller.mol"
             packageVersion = "1.0.0"
         }
