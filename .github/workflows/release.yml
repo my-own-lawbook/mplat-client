@@ -182,6 +182,9 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - buildWeb
+      - buildAndroid
+      - buildLinux
+      - buildWindows
 
     steps:
       - name: Checkout
