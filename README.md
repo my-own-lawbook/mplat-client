@@ -1,18 +1,57 @@
-This is a Kotlin Multiplatform project targeting Android, Web, Desktop.
+# MOL-Multiplatform-Client
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+This is the repository for the multiplatform-client of the MOL-Organization.
 
+## Installing
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+This project uses compose-kotlin-multiplatform and therefore compiles natively to the following targets:
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [GitHub](https://github.com/JetBrains/compose-multiplatform/issues).
+- Android
+- Desktop (JVM native)
+- Web (WebAssemblyJS)
 
-You can open the web application by running the `:composeApp:wasmJsBrowserDevelopmentRun` Gradle task.
+The app can be downloaded in these package formats:
+
+- Desktop
+  - Windows
+    - Microsoft Installer (.msi)
+    - Executable (.exe)
+  - Linux
+    - Debian archive (.deb)
+- Android
+  - Android Package (.apk)
+  - Android App Bundle (.aab)
+- Web
+  - Static web distribution (single page)
+
+Download the latest package of your choice from
+the [Releases page](https://github.com/my-own-lawbook/mplat-client/releases)
+
+## Contributing
+
+### Making changes
+
+If you want to push changes, do the following steps:
+
+- (If needed: fork the repository)
+- Choose or a create an issue/milestone in which you describe the problem/new feature
+- Create a new branch, and name it:
+  - If for milestone: milestone-<milestone-id>
+  - If for issue: issue-<issue-id>
+- Do your changes, prefixing the commits with the id of the issue the commit is related to, e.g.: 371: Did some changes
+- State your changes in the ./changelogs/next-changelog.md (or create if it doesn't exist)
+- Create a pull request
+
+### Create a release
+
+If you want to create a release, do the following steps:
+
+- Merge the develop branch into the main or master branch
+- Rename ./changelogs/next-changelog.md to <release-semver>.md and adjust content if needed
+- Bump version fields
+  - `./composeApp/build.gradle.kts#android`:
+    - Increment `versionCode` by one
+    - Set `versionName` to the semver
+  - `./composeApp/build.gradle.kts#compose.desktop`:
+    - Set `packageVersion` to the semver
+- Trigger the 'release.yml' workflow and enter the semver as the release version
