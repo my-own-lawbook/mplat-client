@@ -73,8 +73,8 @@ android {
         applicationId = "me.bumiller.mol"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "0.0.1"
     }
     packaging {
         resources {
@@ -113,7 +113,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Exe, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "me.bumiller.mol"
-            packageVersion = "1.0.0"
+            packageVersion = "0.0.1"
         }
     }
 }
