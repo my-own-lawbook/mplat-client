@@ -10,6 +10,8 @@ plugins {
 }
 
 kotlin {
+    jvmToolchain(21)
+
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
@@ -25,6 +27,9 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            implementation(libs.koin.android)
+            implementation(libs.koin.android.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -33,9 +38,18 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
+
+            api(libs.koin)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.lifecycle.viewmodel)
+
+            implementation(libs.compose.navigation)
+
+            implementation(libs.room.runtime)
+
             implementation(project(":model"))
+            implementation(project(":database"))
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -46,9 +60,10 @@ kotlin {
 
 android {
     namespace = "me.bumiller.mol"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
+        compileSdkVersion = "android-34"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
         applicationId = "me.bumiller.mol"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
@@ -78,7 +93,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
-
 }
 
 dependencies {
