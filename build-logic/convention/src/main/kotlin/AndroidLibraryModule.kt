@@ -3,6 +3,7 @@ import me.bumiller.mol.androidDependencies
 import me.bumiller.mol.androidInstrumentedTestDependencies
 import me.bumiller.mol.androidLibraryPlugin
 import me.bumiller.mol.dependencies
+import me.bumiller.mol.junitConfig
 import me.bumiller.mol.kotlinConfig
 import me.bumiller.mol.multiplatformPlugin
 import me.bumiller.mol.testDependencies
@@ -20,6 +21,7 @@ class AndroidLibraryModule : Plugin<Project> {
 
         kotlinConfig(isAndroid = true)
         androidConfig()
+        junitConfig()
 
         dependencies()
         testDependencies()

@@ -1,4 +1,5 @@
 import me.bumiller.mol.dependencies
+import me.bumiller.mol.junitConfig
 import me.bumiller.mol.kotlinConfig
 import me.bumiller.mol.multiplatformPlugin
 import me.bumiller.mol.testDependencies
@@ -14,6 +15,7 @@ class KotlinLibraryModule : Plugin<Project> {
         multiplatformPlugin()
 
         kotlinConfig()
+        junitConfig()
 
         dependencies()
         testDependencies()
