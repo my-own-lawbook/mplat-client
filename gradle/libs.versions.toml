@@ -16,6 +16,7 @@ androidx_test_junit = "1.2.1"
 androidx_test_runner = "1.6.2"
 junit = "5.11.4"
 uri_kmp = "0.0.18"
+mockk = "1.13.14"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -40,6 +41,7 @@ sqlite-driver = { group = "androidx.sqlite", name = "sqlite-bundled", version.re
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx_test_runner" }
 androidx-test-junit = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidx_test_junit" }
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 junit = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit" }
 

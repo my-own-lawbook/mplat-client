@@ -41,7 +41,8 @@ private fun Project.dependencies(sourceSetName: String) = dependencies(sourceSet
 
 private fun Project.testDependencies(sourceSetName: String) = dependencies(sourceSetName) {
     implementation(lib("junit"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+    implementation(lib("mockk"))
+    implementation(lib("coroutines.test"))
 }
 
 private fun Project.androidDependencies(sourceSetName: String) = dependencies(sourceSetName) {
