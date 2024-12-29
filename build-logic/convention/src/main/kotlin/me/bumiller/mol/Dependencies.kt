@@ -34,6 +34,7 @@ fun Project.androidInstrumentedTestDependencies() =
 
 private fun Project.dependencies(sourceSetName: String) = dependencies(sourceSetName) {
     implementation(lib("koin"))
+    implementation(lib("coroutines"))
     implementation(lib("google.guava.workaround"))
 }
 
