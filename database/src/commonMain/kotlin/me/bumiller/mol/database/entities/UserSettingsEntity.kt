@@ -41,7 +41,7 @@ data class UserSettingsEntity(
      *
      * Possible values are:
      * - dynamic
-     * - system
+     * - app
      */
     val colorScheme: String
 
