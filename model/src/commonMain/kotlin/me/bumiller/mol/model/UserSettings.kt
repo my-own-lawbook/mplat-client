@@ -1,5 +1,7 @@
 package me.bumiller.mol.model
 
+import com.eygraber.uri.Url
+
 /**
  * Contains the app-wide settings of the user
  */
@@ -17,9 +19,7 @@ data class UserSettings(
 
     /**
      * The url to the backend.
-     *
-     * Sadly no kotlin multiplatform URL class exists yet, so we need to use a string
      */
-    val backendUrl: String
+    val backendUrl: Url?
 
 )

@@ -15,6 +15,7 @@ navigation = "2.8.0-alpha02"
 androidx_test_junit = "1.2.1"
 androidx_test_runner = "1.6.2"
 junit = "5.11.4"
+uri_kmp = "0.0.18"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -27,6 +28,8 @@ koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = 
 koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin-kmp" }
 
 compose-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+
+uri = { group = "com.eygraber", name = "uri-kmp", version.ref = "uri_kmp" }
 
 coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
