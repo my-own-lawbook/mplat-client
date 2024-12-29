@@ -2,6 +2,7 @@ rootProject.name = "mplat-client"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             mavenContent {
@@ -29,3 +30,6 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":model")
+include(":database")
+include(":data")

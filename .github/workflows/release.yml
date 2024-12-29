@@ -22,21 +22,18 @@ env:
   EXE_OUTPUT_DIR: "./composeApp/build/compose/binaries/main-release/exe/"
   MSI_OUTPUT_DIR: "./composeApp/build/compose/binaries/main-release/msi/"
   DEB_OUTPUT_DIR: "./composeApp/build/compose/binaries/main-release/deb/"
-  WEB_DIST_DIR: "./composeApp/build/dist/wasmJs/productionExecutable/"
 
   APK_FILE_NAME: mol.apk
   AAB_FILE_NAME: mol.aab
   EXE_FILE_NAME: mol.exe
   MSI_FILE_NAME: mol.msi
   DEB_FILE_NAME: mol.deb
-  WEB_DIST_FILE_NAME: web-dist.zip
 
   APK_ARTIFACT_NAME: Android-Apk
   AAB_ARTIFACT_NAME: Android-Aab
   EXE_ARTIFACT_NAME: Windows-Exe
   MSI_ARTIFACT_NAME: Windows-Msi
   DEB_ARTIFACT_NAME: Debian-Deb
-  WEB_ARTIFACT_NAME: Web-Distribution
 
 jobs:
   buildAndroid:
@@ -82,37 +79,6 @@ jobs:
           name: ${{ env.AAB_ARTIFACT_NAME }}
           path: ${{ env.AAB_OUTPUT_DIR }}${{ env.AAB_FILE_NAME }}
 
-  buildWeb:
-    name: Create Web Distribution
-
-    runs-on: ubuntu-latest
-
-    steps:
-
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-
-      - name: Install zip tools
-        run: sudo apt update && sudo apt install zip
-
-      - name: Create Distribution
-        run: |
-          ./gradlew wasmJsBrowserDistribution
-          zip -r ${{ env.WEB_DIST_DIR }}${{ env.WEB_DIST_FILE_NAME }} ${{ env.WEB_DIST_DIR }}
-          ls -R ./composeApp
-
-      - name: Upload Web Distribution
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.WEB_ARTIFACT_NAME }}
-          path: ${{ env.WEB_DIST_DIR }}${{ env.WEB_DIST_FILE_NAME }}
-
   buildWindows:
     name: Create Windows Packages
 
@@ -126,7 +92,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: '21'
 
       - name: Create EXE
         run: |
@@ -163,7 +129,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: '21'
 
       - name: Create DEB
         run: |
@@ -181,7 +147,6 @@ jobs:
 
     runs-on: ubuntu-latest
     needs:
-      - buildWeb
       - buildAndroid
       - buildLinux
       - buildWindows
@@ -220,12 +185,6 @@ jobs:
         with:
           name: ${{ env.DEB_ARTIFACT_NAME }}
 
-      - name: Download WEB artifact
-        uses: actions/download-artifact@v4
-        id: download_web
-        with:
-          name: ${{ env.WEB_ARTIFACT_NAME }}
-
       - name: Create Tag
         uses: tvdias/github-tagger@v0.0.1
         with:
@@ -246,4 +205,3 @@ jobs:
             ${{ steps.download_exe.outputs.download-path }}/${{ env.EXE_FILE_NAME }}
             ${{ steps.download_msi.outputs.download-path }}/${{ env.MSI_FILE_NAME }}
             ${{ steps.download_deb.outputs.download-path }}/${{ env.DEB_FILE_NAME }}
-            ${{ steps.download_web.outputs.download-path }}/${{ env.WEB_DIST_FILE_NAME }}

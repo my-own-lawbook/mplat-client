@@ -1,8 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -12,26 +10,8 @@ plugins {
 }
 
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        moduleName = "composeApp"
-        browser {
-            val rootDirPath = project.rootDir.path
-            val projectDirPath = project.projectDir.path
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(rootDirPath)
-                        add(projectDirPath)
-                    }
-                }
-            }
-        }
-        binaries.executable()
-    }
-    
+    jvmToolchain(21)
+
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
@@ -47,6 +27,9 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            implementation(libs.koin.android)
+            implementation(libs.koin.android.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -55,8 +38,19 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
+
+            api(libs.koin)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.lifecycle.viewmodel)
+
+            implementation(libs.compose.navigation)
+
+            implementation(libs.room.runtime)
+
+            implementation(project(":model"))
+            implementation(project(":database"))
+            implementation(project(":data"))
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -67,14 +61,15 @@ kotlin {
 
 android {
     namespace = "me.bumiller.mol"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
+        compileSdkVersion = "android-34"
+        compileSdk = 34
         applicationId = "me.bumiller.mol"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        minSdk = 24
+        targetSdk = 34
         versionCode = 2
-        versionName = "0.0.1"
+        versionName = "0.0.2"
     }
     packaging {
         resources {
@@ -99,7 +94,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
-
 }
 
 dependencies {
@@ -113,7 +107,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Exe, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "me.bumiller.mol"
-            packageVersion = "0.0.1"
+            packageVersion = "0.0.2"
         }
     }
 }
