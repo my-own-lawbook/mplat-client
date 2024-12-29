@@ -1,5 +1,6 @@
 package me.bumiller.mol.di
 
+import me.bumiller.mol.data.di.dataModule
 import me.bumiller.mol.database.di.databaseModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
@@ -13,6 +14,6 @@ fun initKoin(config: KoinAppDeclaration? = null) {
     startKoin {
         config?.invoke(this)
 
-        modules(databaseModule, viewmodelModule)
+        modules(databaseModule, dataModule)
     }
 }

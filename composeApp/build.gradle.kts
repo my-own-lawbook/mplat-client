@@ -50,6 +50,7 @@ kotlin {
 
             implementation(project(":model"))
             implementation(project(":database"))
+            implementation(project(":data"))
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
