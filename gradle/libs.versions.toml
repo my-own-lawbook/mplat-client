@@ -15,6 +15,8 @@ koin_compose = "3.2.0"
 koin-kmp = "1.2.0-Beta4"
 android_sqlite = "2.5.0-alpha11"
 navigation = "2.8.0-alpha02"
+androidx_test_junit = "1.2.1"
+androidx_test_runner = "1.6.2"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -32,6 +34,13 @@ kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-co
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 sqlite-driver = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "android_sqlite" }
+
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx_test_runner" }
+androidx-test-junit = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidx_test_junit" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+
+
+google-guava-workaround = { group = "com.google.guava", name = "listenablefuture", version = "9999.0-empty-to-avoid-conflict-with-guava" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
