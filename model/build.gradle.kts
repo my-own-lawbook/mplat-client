@@ -1,8 +1,7 @@
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.mol.kotlin.library)
 }
 
 kotlin {
-
-    jvm("desktop")
+    jvmToolchain(21)
 }
