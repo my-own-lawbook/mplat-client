@@ -9,20 +9,22 @@ import me.bumiller.mol.database.entities.UserSettingsEntity
 import me.bumiller.mol.model.ColorMode
 import me.bumiller.mol.model.ColorScheme
 import me.bumiller.mol.model.UserSettings
+import java.util.Locale
 
 internal class DatabaseUserSettingsSource(
     private val userSettingsDao: UserSettingsDao
 ) : UserSettingsSource {
 
-    override val settings: Flow<UserSettings> = userSettingsDao.get()
-        .map {
-            if (it == null) {
-                userSettingsDao.insert(toEntity(DefaultSettings))
-                DefaultSettings
-            } else {
-                toModel(it)
+    override val settings: Flow<UserSettings>
+        get() = userSettingsDao.get()
+            .map {
+                if (it == null) {
+                    userSettingsDao.insert(toEntity(DefaultSettings))
+                    DefaultSettings
+                } else {
+                    toModel(it)
+                }
             }
-        }
 
     override suspend fun update(settings: UserSettings) {
         userSettingsDao.update(toEntity(settings))
@@ -34,8 +36,16 @@ private val DefaultSettings = UserSettings(ColorMode.System, ColorScheme.App, nu
 
 private fun toModel(entity: UserSettingsEntity): UserSettings =
     UserSettings(
-        colorMode = ColorMode.valueOf(entity.colorMode.lowercase()),
-        colorScheme = ColorScheme.valueOf(entity.colorScheme.lowercase()),
+        colorMode = ColorMode.valueOf(entity.colorMode.replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(
+                Locale.getDefault()
+            ) else it.toString()
+        }),
+        colorScheme = ColorScheme.valueOf(entity.colorScheme.replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(
+                Locale.getDefault()
+            ) else it.toString()
+        }),
         backendUrl = entity.backendUrl?.let(Url::parseOrNull)
             ?: throw IllegalStateException("Tried to convert invalid URL to ")
     )
