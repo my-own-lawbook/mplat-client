@@ -69,7 +69,7 @@ android {
         minSdk = 24
         targetSdk = 34
         versionCode = 2
-        versionName = "0.0.1"
+        versionName = "0.0.2"
     }
     packaging {
         resources {
@@ -107,7 +107,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Exe, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "me.bumiller.mol"
-            packageVersion = "0.0.1"
+            packageVersion = "0.0.2"
         }
     }
 }
