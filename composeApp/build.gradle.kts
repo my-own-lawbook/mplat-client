@@ -18,12 +18,12 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_21)
         }
     }
-    
+
     jvm("desktop")
-    
+
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -100,14 +100,17 @@ dependencies {
     debugImplementation(compose.uiTooling)
 }
 
-compose.desktop {
-    application {
-        mainClass = "me.bumiller.mol.MainKt"
+compose.desktop.application {
+    // Workaround according to https://github.com/JetBrains/compose-multiplatform/issues/3818#issuecomment-1795163561
+    buildTypes.release.proguard {
+        version.set("7.4.0")
+    }
 
-        nativeDistributions {
-            targetFormats(TargetFormat.Exe, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "me.bumiller.mol"
-            packageVersion = "0.0.2"
-        }
+    mainClass = "me.bumiller.mol.MainKt"
+
+    nativeDistributions {
+        targetFormats(TargetFormat.Exe, TargetFormat.Msi, TargetFormat.Deb)
+        packageName = "me.bumiller.mol"
+        packageVersion = "0.0.2"
     }
 }
