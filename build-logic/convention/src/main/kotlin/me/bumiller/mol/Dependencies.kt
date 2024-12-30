@@ -47,6 +47,7 @@ private fun Project.testDependencies(sourceSetName: String) = dependencies(sourc
 
 private fun Project.androidDependencies(sourceSetName: String) = dependencies(sourceSetName) {
     dependencies(sourceSetName)
+    implementation(lib("koin.android"))
     implementation(lib("google.guava.workaround"))
 }
 

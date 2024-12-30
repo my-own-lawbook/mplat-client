@@ -1,6 +1,6 @@
 package me.bumiller.mol
 
-const val Namespace = "me.bumiller.mol"
+const val NamespacePrefix = "me.bumiller.mol."
 const val CompileSdk = 34
 const val MinSdk = 24
 
