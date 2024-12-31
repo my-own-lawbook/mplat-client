@@ -47,7 +47,6 @@ private fun toModel(entity: UserSettingsEntity): UserSettings =
             ) else it.toString()
         }),
         backendUrl = entity.backendUrl?.let(Url::parseOrNull)
-            ?: throw IllegalStateException("Tried to convert invalid URL to ")
     )
 
 private fun toEntity(model: UserSettings): UserSettingsEntity =
