@@ -48,8 +48,7 @@ object Dependencies {
         common = listOf(
             "koin",
             "coroutines",
-            "uri",
-            "google.guava.workaround"
+            "uri"
         ),
         android = listOf(
             "koin.android"
