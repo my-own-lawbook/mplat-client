@@ -29,6 +29,12 @@ sealed class SimpleState<Data> {
      */
     fun dataOrNull(): Data? = (this as? Success)?.data
 
+    /**
+     * Whether the data is success
+     */
+    val isSuccess: Boolean
+        get() = this is Success<Data>
+
     companion object {
 
         /**
