@@ -1,6 +1,6 @@
 package me.bumiller.mol.di
 
-import me.bumiller.mol.MolAppViewModel
+import me.bumiller.mol.app.MolAppViewModel
 import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

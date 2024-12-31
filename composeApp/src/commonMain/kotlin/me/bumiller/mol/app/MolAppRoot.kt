@@ -1,4 +1,4 @@
-package me.bumiller.mol
+package me.bumiller.mol.app
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

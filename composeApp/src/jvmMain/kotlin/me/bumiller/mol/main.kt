@@ -6,6 +6,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import me.bumiller.mol.app.MolAppRoot
 import me.bumiller.mol.di.initKoin
 
 /**

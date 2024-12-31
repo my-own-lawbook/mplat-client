@@ -1,4 +1,4 @@
-package me.bumiller.mol
+package me.bumiller.mol.app
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
