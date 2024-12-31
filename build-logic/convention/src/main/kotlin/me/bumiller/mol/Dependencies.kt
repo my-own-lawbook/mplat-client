@@ -89,7 +89,8 @@ object Dependencies {
             "compose.resources",
             "koin.compose",
             "koin.compose.viewmodel",
-            "lifecycle.viewmodel"
+            "lifecycle.viewmodel",
+            "lifecycle.compose"
         ),
         android = listOf(
             "androidx.activity.compose",
