@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         splashScreen.setKeepOnScreenCondition { showSplashScreen }
 
         setContent {
-            App(
+            MolAppRoot(
                 onScreenReady = {
                     showSplashScreen = false
                 }

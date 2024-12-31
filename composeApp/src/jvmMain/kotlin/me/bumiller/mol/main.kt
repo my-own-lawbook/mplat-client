@@ -24,7 +24,7 @@ fun main() {
             title = "mplat-client",
             visible = showContent
         ) {
-            App(
+            MolAppRoot(
                 onScreenReady = {
                     showContent = true
                 }
