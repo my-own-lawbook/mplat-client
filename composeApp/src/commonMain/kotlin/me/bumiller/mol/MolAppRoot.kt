@@ -17,7 +17,7 @@ import org.koin.core.annotation.KoinExperimentalAPI
  */
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-fun App(
+fun MolAppRoot(
     onScreenReady: () -> Unit = {}
 ) = KoinContext {
     val viewModel = koinViewModel<MolAppViewModel>()
