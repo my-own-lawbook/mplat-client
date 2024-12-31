@@ -1,5 +1,6 @@
 package me.bumiller.mol
 
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -18,6 +19,11 @@ inline fun <reified T : Any> Project.extension(): T {
  * Gets the LibraryExtension
  */
 fun Project.libraryExtension() = extension<LibraryExtension>()
+
+/**
+ * Gets the ApplicationExtension
+ */
+fun Project.applicationExtension() = extension<ApplicationExtension>()
 
 /**
  * Gets the KotlinMultiplatformExtension

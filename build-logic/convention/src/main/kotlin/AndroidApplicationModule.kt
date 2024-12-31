@@ -1,4 +1,4 @@
-import me.bumiller.mol.androidConfig
+import me.bumiller.mol.androidApplicationConfig
 import me.bumiller.mol.androidPlugin
 import me.bumiller.mol.applyPlugin
 import me.bumiller.mol.baseDependencies
@@ -8,17 +8,17 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 /**
- * Gradle module that configures common properties for all modules that act as a library and use android dependencies.
+ * Gradle module that configures common properties for all modules that act as a android application.
  */
-class AndroidLibraryModule : Plugin<Project> {
+class AndroidApplicationModule : Plugin<Project> {
 
     override fun apply(target: Project) = with(target) {
         applyPlugin("me.bumiller.mol.kotlin.library")
 
-        androidPlugin()
+        androidPlugin(application = true)
 
         kotlinConfig(isAndroid = true)
-        androidConfig()
+        androidApplicationConfig()
 
         baseDependencies()
         testDependencies()
