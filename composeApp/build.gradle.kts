@@ -18,10 +18,16 @@ kotlin {
 
     sourceSets {
 
+        val jvmMain by getting
+
         commonMain.dependencies {
             implementation(project(":model"))
             implementation(project(":data"))
             implementation(project(":database"))
+        }
+
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs)
         }
 
     }
