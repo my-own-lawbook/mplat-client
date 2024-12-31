@@ -20,6 +20,10 @@ kotlin {
 
         val jvmMain by getting
 
+        androidMain.dependencies {
+            implementation(libs.android.splashscreen)
+        }
+
         commonMain.dependencies {
             implementation(project(":model"))
             implementation(project(":data"))

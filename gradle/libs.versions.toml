@@ -18,11 +18,14 @@ androidx_test_runner = "1.6.2"
 junit = "5.11.4"
 uri_kmp = "0.0.18"
 mockk = "1.13.14"
+splash = "1.0.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+
+android-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }
 
 koin = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }

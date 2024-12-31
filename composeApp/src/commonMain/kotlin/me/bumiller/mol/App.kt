@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.compose.KoinContext
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -25,8 +25,11 @@ fun App(
     // Notify the parent when this screen is ready.
     // May be used for a loading screen or the like.
     LaunchedEffect(Unit) {
-        delay(5000)
-        onScreenReady()
+        viewModel.stats.collectLatest {
+            if (it.isSuccess) {
+                onScreenReady()
+            }
+        }
     }
 
     val settingsStateFlow by viewModel.stats.collectAsStateWithLifecycle()
