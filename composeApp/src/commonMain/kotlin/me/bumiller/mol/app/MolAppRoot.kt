@@ -1,6 +1,5 @@
 package me.bumiller.mol.app
 
-import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -8,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import me.bumiller.mol.feature.onboarding.navigation.OnboardingLocation
 import me.bumiller.mol.ui.theme.MolTheme
 import org.koin.compose.KoinContext
 import org.koin.compose.viewmodel.koinViewModel
@@ -51,7 +51,10 @@ fun MolAppRoot(
             colorScheme = settings.colorScheme,
             contrastLevel = settings.contrastLevel
         ) {
-            Text(settings.toString())
+            when (location) {
+                MolTopLevelLocation.Onboarding -> OnboardingLocation {}
+                else -> {}
+            }
         }
     }
 }

@@ -29,6 +29,7 @@ kotlin {
             implementation(project(":data"))
             implementation(project(":ui"))
             implementation(project(":database"))
+            implementation(project(":feature:onboarding"))
         }
 
         jvmMain.dependencies {

@@ -27,20 +27,6 @@ class MolAppViewModel(
 ) : ViewModel() {
 
     /**
-     * Will wait for the first settings emission and set the initial value for the top-level-location accordingly.
-     */
-    init {
-        viewModelScope.launch {
-            val settings = settings.first { it.isSuccess }.dataOrNull()!!
-
-            val initialLocation = if (settings.backendUrl == null) MolTopLevelLocation.Onboarding
-            else MolTopLevelLocation.Home
-
-            _topLevelLocation.emit(SimpleState.success(initialLocation))
-        }
-    }
-
-    /**
      * A state flow of the user settings
      */
     val settings: StateFlow<SimpleState<UserSettings>> = settingsSource.settings
@@ -50,6 +36,22 @@ class MolAppViewModel(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = SimpleState.Loading()
         )
+
+    /**
+     * Will wait for the first settings emission and set the initial value for the top-level-location accordingly.
+     */
+    init {
+        viewModelScope.launch {
+            val settings = settings.first {
+                it.isSuccess
+            }.dataOrNull()!!
+
+            val initialLocation = if (settings.backendUrl == null) MolTopLevelLocation.Onboarding
+            else MolTopLevelLocation.Home
+
+            _topLevelLocation.emit(SimpleState.success(initialLocation))
+        }
+    }
 
     private val _topLevelLocation =
         MutableStateFlow<SimpleState<MolTopLevelLocation>>(SimpleState.loading())
