@@ -8,6 +8,7 @@ import me.bumiller.mol.database.daos.UserSettingsDao
 import me.bumiller.mol.database.entities.UserSettingsEntity
 import me.bumiller.mol.model.ColorMode
 import me.bumiller.mol.model.ColorScheme
+import me.bumiller.mol.model.ColorSchemeContrastLevel
 import me.bumiller.mol.model.UserSettings
 import java.util.Locale
 
@@ -32,7 +33,8 @@ internal class DatabaseUserSettingsSource(
 
 }
 
-private val DefaultSettings = UserSettings(ColorMode.System, ColorScheme.App, null)
+private val DefaultSettings =
+    UserSettings(ColorMode.System, ColorScheme.App, ColorSchemeContrastLevel.Normal, null)
 
 private fun toModel(entity: UserSettingsEntity): UserSettings =
     UserSettings(
@@ -46,6 +48,11 @@ private fun toModel(entity: UserSettingsEntity): UserSettings =
                 Locale.getDefault()
             ) else it.toString()
         }),
+        contrastLevel = ColorSchemeContrastLevel.valueOf(entity.contrastLevel.replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(
+                Locale.getDefault()
+            ) else it.toString()
+        }),
         backendUrl = entity.backendUrl?.let(Url::parseOrNull)
     )
 
@@ -54,5 +61,6 @@ private fun toEntity(model: UserSettings): UserSettingsEntity =
         id = 1L,
         backendUrl = model.backendUrl?.toString(),
         colorMode = model.colorMode.name.lowercase(),
-        colorScheme = model.colorScheme.name.lowercase()
+        colorScheme = model.colorScheme.name.lowercase(),
+        contrastLevel = model.contrastLevel.name.lowercase()
     )

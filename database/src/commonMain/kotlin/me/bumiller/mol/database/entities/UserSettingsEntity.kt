@@ -37,6 +37,16 @@ data class UserSettingsEntity(
     val colorMode: String,
 
     /**
+     * The contrast level.
+     *
+     * Possible values are:
+     * - normal
+     * - medium
+     * - high
+     */
+    val contrastLevel: String,
+
+    /**
      * The color scheme.
      *
      * Possible values are:
