@@ -1,11 +1,13 @@
 package me.bumiller.mol.app
 
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
+import me.bumiller.mol.ui.theme.MolTheme
 import org.koin.compose.KoinContext
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -18,6 +20,7 @@ import org.koin.core.annotation.KoinExperimentalAPI
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun MolAppRoot(
+    windowSizeClass: WindowSizeClass,
     onScreenReady: () -> Unit = {}
 ) = KoinContext {
     val viewModel = koinViewModel<MolAppViewModel>()
@@ -32,7 +35,17 @@ fun MolAppRoot(
         }
     }
 
-    val settingsStateFlow by viewModel.stats.collectAsStateWithLifecycle()
+    val settingsState by viewModel.stats.collectAsStateWithLifecycle()
+    val settings = settingsState.dataOrNull()
 
-    Text(settingsStateFlow.toString())
+    if (settings != null) {
+        MolTheme(
+            windowSizeClass = windowSizeClass,
+            colorMode = settings.colorMode,
+            colorScheme = settings.colorScheme,
+            contrastLevel = settings.contrastLevel
+        ) {
+            Text(settings.toString())
+        }
+    }
 }

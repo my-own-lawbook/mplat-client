@@ -27,6 +27,7 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":model"))
             implementation(project(":data"))
+            implementation(project(":ui"))
             implementation(project(":database"))
         }
 

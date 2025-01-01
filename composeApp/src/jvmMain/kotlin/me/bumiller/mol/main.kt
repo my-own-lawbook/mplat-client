@@ -1,5 +1,7 @@
 package me.bumiller.mol
 
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -12,6 +14,7 @@ import me.bumiller.mol.di.initKoin
 /**
  * Main entrypoint into the desktop app
  */
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 fun main() {
     initKoin()
 
@@ -26,6 +29,7 @@ fun main() {
             visible = showContent
         ) {
             MolAppRoot(
+                windowSizeClass = calculateWindowSizeClass(),
                 onScreenReady = {
                     showContent = true
                 }
