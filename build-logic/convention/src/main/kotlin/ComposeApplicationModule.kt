@@ -1,4 +1,5 @@
 import me.bumiller.mol.applyPlugin
+import me.bumiller.mol.composeConfig
 import me.bumiller.mol.composeDependencies
 import me.bumiller.mol.composePlugins
 import org.gradle.api.Plugin
@@ -13,6 +14,7 @@ class ComposeApplicationModule : Plugin<Project> {
         applyPlugin("me.bumiller.mol.android.application")
 
         composePlugins()
+        composeConfig()
 
         composeDependencies()
     }

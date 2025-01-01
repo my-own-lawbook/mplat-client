@@ -30,6 +30,19 @@ fun Project.androidConfig() = with(libraryExtension()) {
 }
 
 /**
+ * Configures the base compose settings
+ */
+fun Project.composeConfig() {
+
+    // Workaround according to https://github.com/JetBrains/compose-multiplatform/issues/4711
+    configurations.all {
+        resolutionStrategy {
+            force("androidx.compose.material:material-ripple:1.7.0-alpha05")
+        }
+    }
+}
+
+/**
  * Configures the base android-application settings
  */
 fun Project.androidApplicationConfig() = with(applicationExtension()) {

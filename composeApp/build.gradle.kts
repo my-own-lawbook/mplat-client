@@ -30,19 +30,13 @@ kotlin {
             implementation(project(":ui"))
             implementation(project(":database"))
             implementation(project(":feature:onboarding"))
+            implementation(project(":common-ui"))
         }
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
         }
 
-    }
-}
-
-// Workaround according to https://github.com/JetBrains/compose-multiplatform/issues/4711
-configurations.all {
-    resolutionStrategy {
-        force("androidx.compose.material:material-ripple:1.7.0-alpha05")
     }
 }
 
