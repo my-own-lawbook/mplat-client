@@ -48,7 +48,8 @@ object Dependencies {
         common = listOf(
             "koin",
             "coroutines",
-            "uri"
+            "uri",
+            "kotlin.serialization.json"
         ),
         android = listOf(
             "koin.android"

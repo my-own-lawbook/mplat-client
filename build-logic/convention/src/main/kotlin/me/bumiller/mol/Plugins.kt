@@ -11,6 +11,8 @@ const val MultiplatformPluginNotation = "kotlinMultiplatform"
 const val ComposeJetbrainsPluginNotation = "jetbrainsCompose"
 const val ComposeCompilerPluginNotation = "compose.compiler"
 
+const val SerializationPluginNotation = "serialization"
+
 const val AndroidLibraryPluginNotation = "androidLibrary"
 const val AndroidApplicationPluginNotation = "androidApplication"
 
@@ -27,6 +29,13 @@ fun Project.composePlugins() {
  */
 fun Project.multiplatformPlugin() {
     applyPlugin(plugin(MultiplatformPluginNotation))
+}
+
+/**
+ * Applies the kotlin serialization plugin
+ */
+fun Project.serializationPlugin() {
+    applyPlugin(plugin(SerializationPluginNotation))
 }
 
 /**

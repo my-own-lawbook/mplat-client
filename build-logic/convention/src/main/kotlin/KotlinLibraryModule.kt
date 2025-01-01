@@ -3,6 +3,7 @@ import me.bumiller.mol.baseDependencies
 import me.bumiller.mol.junitConfig
 import me.bumiller.mol.kotlinConfig
 import me.bumiller.mol.multiplatformPlugin
+import me.bumiller.mol.serializationPlugin
 import me.bumiller.mol.testDependencies
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -14,6 +15,7 @@ class KotlinLibraryModule : Plugin<Project> {
 
     override fun apply(target: Project) = with(target) {
         multiplatformPlugin()
+        serializationPlugin()
 
         kotlinConfig()
         junitConfig()
