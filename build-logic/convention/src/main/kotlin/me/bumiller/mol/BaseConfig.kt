@@ -37,7 +37,7 @@ fun Project.composeConfig() {
     // Workaround according to https://github.com/JetBrains/compose-multiplatform/issues/4711
     configurations.all {
         resolutionStrategy {
-            force("androidx.compose.material:material-ripple:1.7.0-alpha05")
+            force("androidx.compose.material:material-ripple:1.7.0-alpha01")
         }
     }
 }
