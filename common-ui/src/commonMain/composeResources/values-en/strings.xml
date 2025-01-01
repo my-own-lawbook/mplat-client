@@ -1,0 +1,15 @@
+<resources>
+    <string name="validation_email">The value must be a valid email address.</string>
+    <string name="validation_empty">The value not must be empty.</string>
+    <string name="validation_name">The value must be at least 2 letters long.</string>
+    <string name="validation_password">The value must be at least 8 digits long, and contain lowercase, uppercase and number letters. letters</string>
+    <string name="validation_password_repeat">The value must be equal to the entered password.</string>
+    <string name="validation_email_token">The token is not valid.</string>
+    <string name="validation_email_taken">This email is already registered</string>
+    <string name="validation_signup_token_invalid">The signup up token is not valid</string>
+    <string name="validation_secret_invalid">The secret is invalid</string>
+    <string name="validation_invalid_credentials">The credentials are invalid!</string>
+    <string name="validation_date_in_future">This date cannot be in the future.</string>
+    <string name="validation_url">The value must be a valid url.</string>
+    <string name="validation_url_reach">The server with this URL can\'t be reached.</string>
+</resources>
