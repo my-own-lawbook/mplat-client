@@ -1,15 +1,13 @@
 package me.bumiller.mol.app
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import me.bumiller.mol.common.ui.viewmodel.MolViewModel
 import me.bumiller.mol.data.UserSettingsSource
 import me.bumiller.mol.model.UserSettings
 import me.bumiller.mol.model.state.SimpleState
@@ -24,18 +22,14 @@ class MolAppViewModel(
      */
     settingsSource: UserSettingsSource
 
-) : ViewModel() {
+) : MolViewModel() {
 
     /**
      * A state flow of the user settings
      */
     val settings: StateFlow<SimpleState<UserSettings>> = settingsSource.settings
         .map(SimpleState.Companion::success)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = SimpleState.Loading()
-        )
+        .loadingStateIn()
 
     /**
      * Will wait for the first settings emission and set the initial value for the top-level-location accordingly.
