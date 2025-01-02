@@ -22,6 +22,7 @@ dependencies {
     compileOnly("com.android.tools.build:gradle:8.2.2")
     compileOnly("com.android.tools:common:31.7.3")
     compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.20")
+    compileOnly("org.jetbrains.compose:compose-gradle-plugin:1.8.0-alpha01")
 }
 
 tasks {

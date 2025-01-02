@@ -10,6 +10,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":model"))
+            implementation(project(":common-ui"))
         }
     }
 }

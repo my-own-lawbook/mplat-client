@@ -2,6 +2,8 @@ package me.bumiller.mol
 
 import com.android.build.api.dsl.Packaging
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.getByType
+import org.jetbrains.compose.resources.ResourcesExtension
 
 private fun Packaging.defaultPackaging() {
     resources {
@@ -11,13 +13,15 @@ private fun Packaging.defaultPackaging() {
     }
 }
 
+private fun Project.getNamespace() = NamespacePrefix + this.name
+    .lowercase()
+    .replace('-', '_')
+
 /**
  * Configures the base android settings
  */
 fun Project.androidConfig() = with(libraryExtension()) {
-    namespace = NamespacePrefix + this@androidConfig.name
-        .lowercase()
-        .replace('-', '_')
+    namespace = getNamespace()
 
     defaultConfig {
         compileSdk = CompileSdk
@@ -38,6 +42,14 @@ fun Project.composeConfig() {
     configurations.all {
         resolutionStrategy {
             force("androidx.compose.material:material-ripple:1.7.0-alpha01")
+        }
+    }
+
+    with(composeExtension()) {
+        with(this.extensions.getByType<ResourcesExtension>()) {
+            publicResClass = false
+            packageOfResClass = getNamespace()
+            generateResClass = always
         }
     }
 }
