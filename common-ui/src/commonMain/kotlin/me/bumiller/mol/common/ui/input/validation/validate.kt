@@ -1,6 +1,5 @@
 package me.bumiller.mol.common.ui.input.validation
 
-import com.eygraber.uri.Url
 import me.bumiller.mol.common.ui.input.InputValue
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -19,6 +18,7 @@ fun <Type> validateValue(inputValue: InputValue<Type>): InputValue<Type> {
             InputSemantic.Email -> validateEmail(inputValue.value)
             InputSemantic.Name -> validateName(inputValue.value)
             InputSemantic.NonEmpty -> validateNonEmpty(inputValue.value)
+            InputSemantic.Url -> validateUrl(inputValue.value)
             else -> null
         }
 
@@ -51,13 +51,12 @@ fun <Type> validateValue(inputValue: InputValue<Type>): InputValue<Type> {
  */
 fun <Type> InputValue<Type>.validate() = validateValue(this)
 
-private fun validateUrl(string: String): ValidationError? {
-    val url = Url.parseOrNull(string)
-    val valid = url?.scheme == "https"
+const val HTTPS_URL =
+    "https?://(www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)"
 
-    return if (valid) null
-    else ValidationError.BadUrl
-}
+private fun validateUrl(string: String): ValidationError? =
+    if (!Regex(HTTPS_URL).matches("https://$string")) ValidationError.BadUrl
+    else null
 
 
 private fun <Type> validateNotNull(value: Type) =
