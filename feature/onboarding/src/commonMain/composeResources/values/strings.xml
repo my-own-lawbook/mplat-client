@@ -1,0 +1,7 @@
+<resources>
+    <string name="url_screen_title">Set server endpoint</string>
+    <string name="url_screen_description">Enter the URL of the backend server you want to connect to. This allows the app to communicate with your chosen server for data and services. Ensure the URL is correct to avoid connection issues.</string>
+    <string name="cd_url_screen">A minimalistic depiction of a smartphone being connected to a server via a URL.</string>
+    <string name="url_screen_input_label">Server Address</string>
+    <string name="url_screen_button_confirm_label">Continue</string>
+</resources>

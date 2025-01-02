@@ -1,6 +1,6 @@
 package me.bumiller.mol.feature.onboarding.screen.url
 
-import kotlinx.coroutines.delay
+import me.bumiller.mol.common.ui.input.validation.validate
 import me.bumiller.mol.common.ui.viewmodel.MolViewModel
 import me.bumiller.mol.data.UserSettingsSource
 
@@ -33,9 +33,12 @@ class UrlViewModel(
         )
     }
 
-    private suspend fun UrlUiEvent.Confirm.handle() {
-        delay(5000)
-        fireEvent(UrlEvent.Continue)
+    private fun UrlUiEvent.Confirm.handle() {
+        updateUiState<UrlState> {
+            it.copy(
+                url = it.url.validate()
+            )
+        }
     }
 
 }
