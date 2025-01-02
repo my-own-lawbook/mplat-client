@@ -3,19 +3,58 @@ package me.bumiller.mol.common.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import me.bumiller.mol.common.ui.event.UiEvent
+import me.bumiller.mol.common.ui.event.ViewModelEvent
 import me.bumiller.mol.model.state.SimpleState
 import kotlin.reflect.KClass
 
 /**
- * Base class for any viewmodel
+ * Base class for any view model.
  */
-abstract class MolViewModel : ViewModel() {
+abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, Event : ViewModelEvent> :
+    ViewModel() {
+
+    //
+    // Events
+    //
+
+    /**
+     * Handles the event passed by the ui.
+     */
+    abstract suspend fun handleEvent(event: UiEvent)
+
+    /**
+     * Will queue the event to be handled by the view model.
+     *
+     * @param uiEvent The event from the ui.
+     */
+    fun onEvent(uiEvent: UiEvent) {
+        viewModelScope.launch {
+            handleEvent(uiEvent)
+        }
+    }
+
+    private val _events = MutableSharedFlow<Event>()
+
+    /**
+     * The events fired by the view model.
+     */
+    val events = _events.asSharedFlow()
+
+    /**
+     * Fired an event into the view model events flow.
+     *
+     * @param event The event to fire
+     */
+    protected suspend fun fireEvent(event: Event) = _events.emit(event)
 
     //
     // State configuring for view models

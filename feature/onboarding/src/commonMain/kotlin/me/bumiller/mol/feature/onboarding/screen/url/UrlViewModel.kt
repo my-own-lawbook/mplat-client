@@ -1,5 +1,6 @@
 package me.bumiller.mol.feature.onboarding.screen.url
 
+import kotlinx.coroutines.delay
 import me.bumiller.mol.common.ui.viewmodel.MolViewModel
 import me.bumiller.mol.data.UserSettingsSource
 
@@ -8,14 +9,33 @@ import me.bumiller.mol.data.UserSettingsSource
  */
 class UrlViewModel(
     private val settingsSource: UserSettingsSource
-) : MolViewModel() {
+) : MolViewModel<UrlUiEvent, UrlEvent>() {
 
     init {
-        registerUiState(0)
+        registerUiState(UrlState())
     }
 
-    val counterState = uiState<Int>()
+    /**
+     * The form state of the screen.
+     */
+    val formState = uiState<UrlState>()
 
-    fun incCounter() = updateUiState<Int> { it + 1 }
+    override suspend fun handleEvent(event: UrlUiEvent) = with(event) {
+        when (this) {
+            is UrlUiEvent.ChangeUrl -> handle()
+            is UrlUiEvent.Confirm -> handle()
+        }
+    }
+
+    private fun UrlUiEvent.ChangeUrl.handle() = updateUiState<UrlState> {
+        it.copy(
+            url = it.url.update(input)
+        )
+    }
+
+    private suspend fun UrlUiEvent.Confirm.handle() {
+        delay(5000)
+        fireEvent(UrlEvent.Continue)
+    }
 
 }

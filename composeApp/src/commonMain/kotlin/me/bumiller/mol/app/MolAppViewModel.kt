@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import me.bumiller.mol.common.ui.event.UiEvent
+import me.bumiller.mol.common.ui.event.ViewModelEvent
 import me.bumiller.mol.common.ui.viewmodel.MolViewModel
 import me.bumiller.mol.data.UserSettingsSource
 import me.bumiller.mol.model.UserSettings
@@ -22,7 +24,7 @@ class MolAppViewModel(
      */
     settingsSource: UserSettingsSource
 
-) : MolViewModel() {
+) : MolViewModel<UiEvent, ViewModelEvent>() {
 
     /**
      * A state flow of the user settings
@@ -54,5 +56,8 @@ class MolAppViewModel(
      * A state flow containing the current top level location that should be displayed.
      */
     val topLevelLocation = _topLevelLocation.asStateFlow()
+
+    override suspend fun handleEvent(event: UiEvent): Nothing =
+        throw Error("No ui event should be fired.")
 
 }
