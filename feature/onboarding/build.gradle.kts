@@ -13,6 +13,7 @@ kotlin {
             implementation(project(":data"))
             implementation(project(":ui"))
             implementation(project(":common-ui"))
+            implementation(project(":network"))
         }
     }
 }

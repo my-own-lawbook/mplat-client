@@ -31,6 +31,7 @@ kotlin {
             implementation(project(":database"))
             implementation(project(":feature:onboarding"))
             implementation(project(":common-ui"))
+            implementation(project(":network"))
         }
 
         jvmMain.dependencies {
