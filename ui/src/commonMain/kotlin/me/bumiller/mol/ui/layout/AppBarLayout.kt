@@ -1,16 +1,21 @@
 package me.bumiller.mol.ui.layout
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,6 +26,51 @@ import androidx.compose.ui.unit.times
 import me.bumiller.mol.ui.components.MolAppBar
 import me.bumiller.mol.ui.components.TopAppBarStyles
 import me.bumiller.mol.ui.locals.LocalWindowSizeClass
+
+@Composable
+private fun calculatePadding(): PaddingValues {
+    val horizontal = when (LocalWindowSizeClass.current.widthSizeClass) {
+        WindowWidthSizeClass.Compact -> 16.dp
+        WindowWidthSizeClass.Medium -> 32.dp
+        WindowWidthSizeClass.Expanded -> 128.dp
+        else -> throw IllegalStateException("Invalid window width size class.")
+    }
+
+    val bottom = when (LocalWindowSizeClass.current.heightSizeClass) {
+        WindowHeightSizeClass.Compact -> 8.dp
+        WindowHeightSizeClass.Medium -> 32.dp
+        WindowHeightSizeClass.Expanded -> 64.dp
+        else -> throw IllegalStateException("Invalid window width size class.")
+    }
+
+    val top = 8.dp
+
+    return PaddingValues(horizontal, top, horizontal, bottom)
+}
+
+/**
+ * Finalized layout direction of an [AppBarLayout].
+ */
+enum class CanonicalLayoutType(
+
+    /**
+     * True if it is a column, false otherwise.
+     */
+    val isVertical: Boolean
+
+) {
+
+    /**
+     * Vertical direction
+     */
+    Column(true),
+
+    /**
+     * Horizontal direction
+     */
+    Row(false)
+
+}
 
 /**
  * Different types to layout the children.
@@ -82,6 +132,7 @@ sealed class AppBarLayoutType(
  *
  * @param modifier The modifier
  * @param layoutType The layout type that defines how the two content chunks will be combined
+ * @param contentPadding The padding added inside the layout
  * @param appBarStyle The style of the app bar
  * @param title The title
  * @param navigationIcon The navigation icon
@@ -94,19 +145,21 @@ sealed class AppBarLayoutType(
 fun AppBarLayout(
     modifier: Modifier = Modifier,
     layoutType: AppBarLayoutType = AppBarLayoutType.Column(),
+    contentPadding: PaddingValues = calculatePadding(),
     appBarStyle: TopAppBarStyles = TopAppBarStyles.Centered,
     title: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
     windowInsets: WindowInsets = WindowInsets(0, 0, 0, 0),
-    firstContent: @Composable () -> Unit,
-    secondContent: @Composable () -> Unit
+    firstContent: @Composable (CanonicalLayoutType) -> Unit,
+    secondContent: @Composable (CanonicalLayoutType) -> Unit
 ) {
     when (layoutType) {
         is AppBarLayoutType.Column -> {
             ColumnAppBarLayout(
                 modifier,
                 layoutType,
+                contentPadding,
                 appBarStyle,
                 title,
                 navigationIcon,
@@ -121,6 +174,7 @@ fun AppBarLayout(
             RowAppBarLayout(
                 modifier,
                 layoutType,
+                contentPadding,
                 appBarStyle,
                 title,
                 navigationIcon,
@@ -132,12 +186,13 @@ fun AppBarLayout(
         }
 
         is AppBarLayoutType.SizeAware -> {
-            val doRow = LocalWindowSizeClass.current.widthSizeClass >= WindowWidthSizeClass.Medium
+            val doRow = LocalWindowSizeClass.current.widthSizeClass > WindowWidthSizeClass.Medium
 
             if (doRow) {
-                ColumnAppBarLayout(
+                RowAppBarLayout(
                     modifier,
                     layoutType,
+                    contentPadding,
                     appBarStyle,
                     title,
                     navigationIcon,
@@ -147,9 +202,10 @@ fun AppBarLayout(
                     secondContent
                 )
             } else {
-                RowAppBarLayout(
+                ColumnAppBarLayout(
                     modifier,
                     layoutType,
+                    contentPadding,
                     appBarStyle,
                     title,
                     navigationIcon,
@@ -168,13 +224,14 @@ fun AppBarLayout(
 private fun ColumnAppBarLayout(
     modifier: Modifier = Modifier,
     layoutType: AppBarLayoutType,
+    paddingValues: PaddingValues,
     appBarStyle: TopAppBarStyles = TopAppBarStyles.Centered,
     title: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
     windowInsets: WindowInsets = WindowInsets(0, 0, 0, 0),
-    firstContent: @Composable () -> Unit,
-    secondContent: @Composable () -> Unit
+    firstContent: @Composable (CanonicalLayoutType) -> Unit,
+    secondContent: @Composable (CanonicalLayoutType) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -191,32 +248,36 @@ private fun ColumnAppBarLayout(
         BoxWithConstraints(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues)
         ) {
             val height = maxHeight
 
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(layoutType.spacing)
             ) {
                 Box(
                     modifier = Modifier
                         .heightIn(
                             min = layoutType.verticalFirstWeightRange!!.start * height,
                             max = layoutType.verticalFirstWeightRange!!.endInclusive * height
-                        ),
+                        )
+                        .fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
-                    firstContent()
+                    firstContent(CanonicalLayoutType.Column)
                 }
                 Box(
                     modifier = Modifier
                         .heightIn(
                             min = (1 - layoutType.verticalFirstWeightRange!!.endInclusive) * height,
                             max = (1 - layoutType.verticalFirstWeightRange!!.start) * height
-                        ),
+                        )
+                        .fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
-                    secondContent()
+                    secondContent(CanonicalLayoutType.Column)
                 }
             }
         }
@@ -228,13 +289,14 @@ private fun ColumnAppBarLayout(
 private fun RowAppBarLayout(
     modifier: Modifier = Modifier,
     layoutType: AppBarLayoutType,
+    paddingValues: PaddingValues,
     appBarStyle: TopAppBarStyles = TopAppBarStyles.Centered,
     title: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
     windowInsets: WindowInsets = WindowInsets(0, 0, 0, 0),
-    firstContent: @Composable () -> Unit,
-    secondContent: @Composable () -> Unit
+    firstContent: @Composable (CanonicalLayoutType) -> Unit,
+    secondContent: @Composable (CanonicalLayoutType) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -257,26 +319,30 @@ private fun RowAppBarLayout(
             Row(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(paddingValues),
+                horizontalArrangement = Arrangement.spacedBy(layoutType.spacing)
             ) {
                 Box(
                     modifier = Modifier
                         .widthIn(
                             min = layoutType.horizontalFirstWeightRange!!.start * width,
                             max = layoutType.horizontalFirstWeightRange!!.endInclusive * width
-                        ),
+                        )
+                        .fillMaxHeight(),
                     contentAlignment = Alignment.Center
                 ) {
-                    firstContent()
+                    firstContent(CanonicalLayoutType.Row)
                 }
                 Box(
                     modifier = Modifier
                         .widthIn(
                             min = (1 - layoutType.horizontalFirstWeightRange!!.endInclusive) * width,
                             max = (1 - layoutType.horizontalFirstWeightRange!!.start) * width
-                        ),
+                        )
+                        .fillMaxHeight(),
                     contentAlignment = Alignment.Center
                 ) {
-                    secondContent()
+                    secondContent(CanonicalLayoutType.Row)
                 }
             }
         }
