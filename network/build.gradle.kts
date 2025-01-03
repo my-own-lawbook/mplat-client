@@ -17,6 +17,7 @@ kotlin {
             implementation(libs.ktor.contentnegotiation)
             implementation(libs.ktor.json)
             implementation(libs.ktor.logging)
+            implementation(libs.ktor.auth)
             implementation(libs.napier)
         }
     }

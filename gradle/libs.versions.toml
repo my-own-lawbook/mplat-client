@@ -75,6 +75,7 @@ ktor-contentnegotiation = { group = "io.ktor", name = "ktor-client-content-negot
 ktor-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-defaultrequest = { group = "io.ktor", name = "ktor-default-request", version.ref = "ktor" }
 ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+ktor-auth = { group = "io.ktor", name = "ktor-client-auth", version.ref = "ktor" }
 
 napier = { group = "io.github.aakira", name = "napier", version.ref = "napier" }
 
