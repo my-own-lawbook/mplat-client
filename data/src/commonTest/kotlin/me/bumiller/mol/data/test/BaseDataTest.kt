@@ -8,6 +8,7 @@ import me.bumiller.mol.database.daos.UserSettingsDao
 import me.bumiller.mol.database.entities.UserSettingsEntity
 import me.bumiller.mol.model.ColorMode
 import me.bumiller.mol.model.ColorScheme
+import me.bumiller.mol.model.ColorSchemeContrastLevel
 import me.bumiller.mol.model.UserSettings
 import org.junit.jupiter.api.BeforeEach
 
@@ -43,7 +44,8 @@ abstract class BaseDataTest {
         id = key,
         backendUrl = "https://www.example.com/$key",
         colorMode = "light",
-        colorScheme = "dynamic"
+        colorScheme = "dynamic",
+        contrastLevel = "normal"
     )
 
     /**
@@ -55,7 +57,8 @@ abstract class BaseDataTest {
     fun settingsModel(key: Long) = UserSettings(
         backendUrl = Url.parse("https://www.example.com/$key"),
         colorMode = ColorMode.Light,
-        colorScheme = ColorScheme.Dynamic
+        colorScheme = ColorScheme.Dynamic,
+        contrastLevel = ColorSchemeContrastLevel.Normal
     )
 
 }

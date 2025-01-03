@@ -2,25 +2,34 @@
 agp = "8.2.2"
 androidx-activityCompose = "1.9.3"
 androidx-lifecycle = "2.8.7"
-compose-plugin = "1.6.11"
+compose-plugin = "1.7.3"
+compose = "1.7.3"
 kotlin = "2.0.20"
 kotlinx-coroutines = "1.9.0"
 ksp = "2.0.20-1.0.25"
-room = "2.7.0-alpha11"
+room = "2.7.0-alpha12"
 koin = "3.3.2"
 koin_compose = "3.2.0"
 koin-kmp = "1.2.0-Beta4"
-android_sqlite = "2.5.0-alpha11"
-navigation = "2.8.0-alpha02"
+android_sqlite = "2.5.0-alpha12"
+navigation = "2.8.0-alpha10"
 androidx_test_junit = "1.2.1"
 androidx_test_runner = "1.6.2"
 junit = "5.11.4"
 uri_kmp = "0.0.18"
 mockk = "1.13.14"
+splash = "1.0.1"
+adaptive = "1.0.1"
+material_navigation = "1.7.0-beta02"
+serialization = "1.8.0-RC"
+ktor = "3.0.3"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
+lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+
+android-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }
 
 koin = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
@@ -28,15 +37,32 @@ koin-android-compose = { group = "io.insert-koin", name = "koin-androidx-compose
 koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin-kmp" }
 koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin-kmp" }
 
+compose-animation = { group = "org.jetbrains.compose.animation", name = "animation", version.ref = "compose" }
+compose-animation-graphics = { group = "org.jetbrains.compose.animation", name = "animation-graphics", version.ref = "compose" }
+compose-foundation = { group = "org.jetbrains.compose.foundation", name = "foundation", version.ref = "compose" }
+compose-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "compose" }
+compose-material3 = { group = "org.jetbrains.compose.material3", name = "material3", version.ref = "compose" }
+compose-material3-adaptive = { group = "org.jetbrains.compose.material3.adaptive", name = "adaptive", version.ref = "adaptive" }
+compose-material3-adaptive-layout = { group = "org.jetbrains.compose.material3.adaptive", name = "adaptive-layout", version.ref = "adaptive" }
+compose-material3-adaptive-navigation = { group = "org.jetbrains.compose.material3.adaptive", name = "adaptive-navigation", version.ref = "adaptive" }
+compose-material3-adaptive-navigation-suite = { group = "org.jetbrains.compose.material3", name = "material3-adaptive-navigation-suite", version.ref = "compose" }
+compose-material3-windowsizeclass = { group = "org.jetbrains.compose.material3", name = "material3-window-size-class", version.ref = "compose" }
+compose-material-navigation = { group = "org.jetbrains.compose.material", name = "material-navigation", version.ref = "material_navigation" }
+compose-material-icons = { group = "org.jetbrains.compose.material", name = "material-icons-extended", version.ref = "compose" }
+compose-runtime = { group = "org.jetbrains.compose.runtime", name = "runtime", version.ref = "compose" }
 compose-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+compose-resources = { group = "org.jetbrains.compose.components", name = "components-resources", version.ref = "compose" }
 
 uri = { group = "com.eygraber", name = "uri-kmp", version.ref = "uri_kmp" }
 
 coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
-kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 sqlite-driver = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "android_sqlite" }
+
+ktor-client = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
 
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx_test_runner" }
 androidx-test-junit = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidx_test_junit" }
@@ -44,6 +70,8 @@ coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 junit = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit" }
+
+kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
 
 
 google-guava-workaround = { group = "com.google.guava", name = "listenablefuture", version = "9999.0-empty-to-avoid-conflict-with-guava" }
@@ -56,6 +84,7 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 # Custom convention plugins
 mol-android-library = { id = "me.bumiller.mol.android.library", version = "1.0.0" }

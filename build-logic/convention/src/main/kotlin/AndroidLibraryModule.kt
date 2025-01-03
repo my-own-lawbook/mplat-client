@@ -1,11 +1,8 @@
 import me.bumiller.mol.androidConfig
-import me.bumiller.mol.androidDependencies
-import me.bumiller.mol.androidInstrumentedTestDependencies
-import me.bumiller.mol.androidLibraryPlugin
-import me.bumiller.mol.dependencies
-import me.bumiller.mol.junitConfig
+import me.bumiller.mol.androidPlugin
+import me.bumiller.mol.applyPlugin
+import me.bumiller.mol.baseDependencies
 import me.bumiller.mol.kotlinConfig
-import me.bumiller.mol.multiplatformPlugin
 import me.bumiller.mol.testDependencies
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -16,17 +13,15 @@ import org.gradle.api.Project
 class AndroidLibraryModule : Plugin<Project> {
 
     override fun apply(target: Project) = with(target) {
-        multiplatformPlugin()
-        androidLibraryPlugin()
+        applyPlugin("me.bumiller.mol.kotlin.library")
+
+        androidPlugin()
 
         kotlinConfig(isAndroid = true)
         androidConfig()
-        junitConfig()
 
-        dependencies()
+        baseDependencies()
         testDependencies()
-        androidDependencies()
-        androidInstrumentedTestDependencies()
     }
 
 }

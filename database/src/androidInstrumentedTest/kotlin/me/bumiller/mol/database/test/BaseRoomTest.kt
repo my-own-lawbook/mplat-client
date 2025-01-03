@@ -44,7 +44,8 @@ abstract class BaseRoomTest {
         id = key,
         backendUrl = "https://www.example.com/$key",
         colorMode = "system",
-        colorScheme = "light"
+        colorScheme = "light",
+        contrastLevel = "normal"
     )
 
 }

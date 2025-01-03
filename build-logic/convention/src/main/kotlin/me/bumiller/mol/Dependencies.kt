@@ -3,57 +3,167 @@ package me.bumiller.mol
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 
-private fun Project.dependencies(
-    sourceSetName: String,
-    configure: KotlinDependencyHandler.() -> Unit
-) = extension<KotlinMultiplatformExtension>().sourceSets[sourceSetName].dependencies(configure)
+enum class SourceSets {
 
-/**
- * Adds the normal dependencies to the 'commonMain' source set
- */
-fun Project.dependencies() = dependencies("commonMain")
+    Common,
 
-/**
- * Adds the normal Unit test dependencies to the 'commonTest' source set
- */
-fun Project.testDependencies() = testDependencies("commonTest")
+    Android,
 
-/**
- * Adds the android dependencies to the 'androidMain' source set
- */
-fun Project.androidDependencies() = androidDependencies("androidMain")
+    Jvm
 
-/**
- * Adds the android instrumentation test dependencies to the 'androidInstrumentedTest' source set
- */
-fun Project.androidInstrumentedTestDependencies() =
-    androidInstrumentedTestDependencies("androidInstrumentedTest")
-
-
-private fun Project.dependencies(sourceSetName: String) = dependencies(sourceSetName) {
-    implementation(lib("koin"))
-    implementation(lib("coroutines"))
-    implementation(lib("uri"))
-    implementation(lib("google.guava.workaround"))
 }
 
-private fun Project.testDependencies(sourceSetName: String) = dependencies(sourceSetName) {
-    implementation(lib("junit"))
-    implementation(lib("mockk"))
-    implementation(lib("coroutines.test"))
+/**
+ * Bundles dependencies for one specific purpose, with all source sets that may need different treatments.
+ */
+data class DependencyBundle(
+
+    /**
+     * Dependencies for the common source set
+     */
+    val common: List<String>,
+
+    /**
+     * Dependencies for the android source set
+     */
+    val android: List<String>,
+
+    /**
+     * Dependencies for the jvm source set
+     */
+    val jvm: List<String>
+
+)
+
+/**
+ * Tree of all dependencies used for specific purposes.
+ */
+object Dependencies {
+
+    /**
+     * Base dependencies needed for every single module.
+     */
+    val Base = DependencyBundle(
+        common = listOf(
+            "koin",
+            "coroutines",
+            "uri",
+            "kotlin.serialization.json"
+        ),
+        android = listOf(
+            "koin.android"
+        ),
+        jvm = emptyList()
+    )
+
+    /**
+     * Dependencies used for testing.
+     */
+    val Test = DependencyBundle(
+        common = listOf(
+            "junit",
+            "mockk",
+            "coroutines.test"
+        ),
+        android = listOf(
+            "androidx.test.junit",
+            "androidx.test.runner",
+            "coroutines.test"
+        ),
+        jvm = emptyList()
+    )
+
+    /**
+     * Dependencies used for compose
+     */
+    val Compose = DependencyBundle(
+        common = listOf(
+            "compose.runtime",
+            "compose.foundation",
+            "compose.material3",
+            "compose.material3.adaptive",
+            "compose.material3.adaptive.layout",
+            "compose.material3.adaptive.navigation",
+            "compose.material3.adaptive.navigation.suite",
+            "compose.material3.windowsizeclass",
+            "compose.material.navigation",
+            "compose.material.icons",
+            "compose.ui",
+            "compose.navigation",
+            "compose.animation",
+            "compose.animation.graphics",
+            "compose.resources",
+            "koin.compose",
+            "koin.compose.viewmodel",
+            "lifecycle.viewmodel",
+            "lifecycle.compose"
+        ),
+        android = listOf(
+            "androidx.activity.compose",
+            "koin.android.compose"
+        ),
+        jvm = listOf(
+            "coroutines.swing"
+        )
+    )
+
 }
 
-private fun Project.androidDependencies(sourceSetName: String) = dependencies(sourceSetName) {
-    dependencies(sourceSetName)
-    implementation(lib("koin.android"))
-    implementation(lib("google.guava.workaround"))
-}
+private fun Project.dependencyBundle(
+    bundle: DependencyBundle,
+    sourceSets: List<SourceSets> = SourceSets.values().asList(),
+    sourceSetType: String = "Main",
+    commonSourceSetType: String = sourceSetType,
+    androidSourceSetType: String = sourceSetType,
+    jvmSourceSetType: String = sourceSetType
+) {
+    val mplatExt = extension<KotlinMultiplatformExtension>()
 
-private fun Project.androidInstrumentedTestDependencies(sourceSetName: String) =
-    dependencies(sourceSetName) {
-        testDependencies(sourceSetName)
-        implementation(lib("androidx.test.junit"))
-        implementation(lib("androidx.test.runner"))
+    if (SourceSets.Common in sourceSets) {
+        val sourceSetCommon = mplatExt.sourceSets["common$commonSourceSetType"]
+        sourceSetCommon.dependencies {
+            bundle.common.map(::lib).forEach(::implementation)
+        }
     }
+
+    if (SourceSets.Android in sourceSets) {
+        val sourceSetAndroid = mplatExt.sourceSets["android$androidSourceSetType"]
+        sourceSetAndroid.dependencies {
+            bundle.android.map(::lib).forEach(::implementation)
+        }
+    }
+
+    if (SourceSets.Jvm in sourceSets) {
+        val sourceSetJvm = mplatExt.sourceSets["jvm$jvmSourceSetType"]
+        sourceSetJvm.dependencies {
+            bundle.jvm.map(::lib).forEach(::implementation)
+        }
+    }
+}
+
+/**
+ * Adds the base dependencies to each source set
+ */
+fun Project.baseDependencies(sourceSets: List<SourceSets> = SourceSets.values().asList()) {
+    dependencyBundle(Dependencies.Base, sourceSets)
+}
+
+/**
+ * Adds the test dependencies to each source set
+ */
+fun Project.testDependencies(sourceSets: List<SourceSets> = SourceSets.values().asList()) {
+    dependencyBundle(
+        Dependencies.Test,
+        sourceSets,
+        sourceSetType = "Test",
+        androidSourceSetType = "InstrumentedTest"
+    )
+}
+
+/**
+ * Adds the compose dependencies to each source set
+ */
+fun Project.composeDependencies(sourceSets: List<SourceSets> = SourceSets.values().asList()) {
+    dependencyBundle(Dependencies.Compose, sourceSets)
+}

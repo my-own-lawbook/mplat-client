@@ -1,9 +1,11 @@
 package me.bumiller.mol
 
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.findByType
+import org.jetbrains.compose.ComposeExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 /**
@@ -18,6 +20,16 @@ inline fun <reified T : Any> Project.extension(): T {
  * Gets the LibraryExtension
  */
 fun Project.libraryExtension() = extension<LibraryExtension>()
+
+/**
+ * Gets the ComposeExtension
+ */
+fun Project.composeExtension() = extension<ComposeExtension>()
+
+/**
+ * Gets the ApplicationExtension
+ */
+fun Project.applicationExtension() = extension<ApplicationExtension>()
 
 /**
  * Gets the KotlinMultiplatformExtension
