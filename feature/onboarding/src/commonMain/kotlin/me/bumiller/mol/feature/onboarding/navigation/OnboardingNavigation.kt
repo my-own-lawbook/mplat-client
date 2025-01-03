@@ -43,7 +43,10 @@ fun OnboardingLocation(
             navController = navController,
             startDestination = UrlScreen
         ) {
-            urlScreen()
+            urlScreen(
+                onUrlSet = { navController.navigate(DesignScreen) }
+            )
+
             designScreen()
         }
     }
@@ -60,9 +63,13 @@ internal fun NavGraphBuilder.designScreen() {
 
 /**
  * Builds the url-screen-destination inside a nav-graph-builder.
+ *
+ * @param onUrlSet The callback invoked when the url has been successfully set.
  */
-internal fun NavGraphBuilder.urlScreen() {
+internal fun NavGraphBuilder.urlScreen(
+    onUrlSet: () -> Unit
+) {
     composable<UrlScreen> {
-        UrlScreen()
+        UrlScreen(onUrlSet)
     }
 }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,6 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.flow.collectLatest
 import me.bumiller.mol.onboarding.Res
 import me.bumiller.mol.onboarding.cd_url_screen
 import me.bumiller.mol.onboarding.url_screen
@@ -33,11 +35,23 @@ import org.koin.core.annotation.KoinExperimentalAPI
 
 /**
  * The onboarding screen that allows the user to enter/change the url of the backend they are connecting to.
+ *
+ * @param onUrlSet The callback invoked when the url was successfully set.
  */
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-internal fun UrlScreen() {
+internal fun UrlScreen(
+    onUrlSet: () -> Unit
+) {
     val viewModel = koinViewModel<UrlViewModel>()
+
+    LaunchedEffect(Unit) {
+        viewModel.events.collectLatest { event ->
+            when (event) {
+                UrlEvent.Continue -> onUrlSet()
+            }
+        }
+    }
 
     val formState by viewModel.formState.collectAsStateWithLifecycle()
 
