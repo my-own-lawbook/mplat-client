@@ -3,6 +3,7 @@ package me.bumiller.mol.network.wrapper
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.request.patch
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
@@ -43,6 +44,22 @@ suspend inline fun <reified Body> HttpClient.performPost(
     body: Any
 ): NetworkResponse<Body> = performRequest {
     post(url) {
+        setBody(body)
+        contentType(ContentType.Application.Json)
+    }
+}
+
+/**
+ * Performs a patch request.
+ *
+ * @param url The url to which to send the request
+ * @param body The request body
+ */
+suspend inline fun <reified Body> HttpClient.performPatch(
+    url: String,
+    body: Any
+): NetworkResponse<Body> = performRequest {
+    patch(url) {
         setBody(body)
         contentType(ContentType.Application.Json)
     }
