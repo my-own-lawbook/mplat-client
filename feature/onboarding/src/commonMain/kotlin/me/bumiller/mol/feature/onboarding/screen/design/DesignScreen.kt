@@ -49,17 +49,23 @@ import org.koin.core.annotation.KoinExperimentalAPI
 
 /**
  * Screen that lets the user adjust several settings related to the design and visuals of the app.
+ *
+ * @param onFinish Callback when the user pressed the finish button
+ * @param onBack Callback when the user clicked the back button
  */
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-internal fun DesignScreen() {
+internal fun DesignScreen(
+    onFinish: () -> Unit,
+    onBack: () -> Unit
+) {
     val viewModel = koinViewModel<DesignViewModel>()
 
     LaunchedEffect(Unit) {
         viewModel.events.collectLatest { event ->
             when (event) {
-                DesignEvent.Continue -> TODO()
-                DesignEvent.Return -> TODO()
+                DesignEvent.Continue -> onFinish()
+                DesignEvent.Return -> onBack()
             }
         }
     }

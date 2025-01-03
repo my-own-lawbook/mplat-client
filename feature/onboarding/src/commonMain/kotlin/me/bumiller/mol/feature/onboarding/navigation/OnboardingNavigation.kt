@@ -47,17 +47,26 @@ fun OnboardingLocation(
                 onUrlSet = { navController.navigate(DesignScreen) }
             )
 
-            designScreen()
+            designScreen(
+                onFinish = onOnboardingFinished,
+                onBack = { navController.navigate(UrlScreen) }
+            )
         }
     }
 }
 
 /**
  * Builds the design-screen-destination inside a nav-graph-builder.
+ *
+ * @param onFinish Callback when the user pressed the finish button
+ * @param onBack Callback when the user clicked the back button
  */
-internal fun NavGraphBuilder.designScreen() {
+internal fun NavGraphBuilder.designScreen(
+    onFinish: () -> Unit,
+    onBack: () -> Unit
+) {
     composable<DesignScreen> {
-        DesignScreen()
+        DesignScreen(onFinish, onBack)
     }
 }
 
