@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
@@ -150,7 +153,6 @@ fun AppBarLayout(
     title: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
-    windowInsets: WindowInsets = WindowInsets(0, 0, 0, 0),
     firstContent: @Composable (CanonicalLayoutType) -> Unit,
     secondContent: @Composable (CanonicalLayoutType) -> Unit
 ) {
@@ -164,7 +166,6 @@ fun AppBarLayout(
                 title,
                 navigationIcon,
                 actions,
-                windowInsets,
                 firstContent,
                 secondContent
             )
@@ -179,7 +180,6 @@ fun AppBarLayout(
                 title,
                 navigationIcon,
                 actions,
-                windowInsets,
                 firstContent,
                 secondContent
             )
@@ -197,7 +197,6 @@ fun AppBarLayout(
                     title,
                     navigationIcon,
                     actions,
-                    windowInsets,
                     firstContent,
                     secondContent
                 )
@@ -210,7 +209,6 @@ fun AppBarLayout(
                     title,
                     navigationIcon,
                     actions,
-                    windowInsets,
                     firstContent,
                     secondContent
                 )
@@ -229,12 +227,12 @@ private fun ColumnAppBarLayout(
     title: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
-    windowInsets: WindowInsets = WindowInsets(0, 0, 0, 0),
     firstContent: @Composable (CanonicalLayoutType) -> Unit,
     secondContent: @Composable (CanonicalLayoutType) -> Unit
 ) {
     Column(
         modifier = modifier
+            .padding(WindowInsets.navigationBars.asPaddingValues())
     ) {
         MolAppBar(
             modifier = Modifier
@@ -243,7 +241,7 @@ private fun ColumnAppBarLayout(
             title = title,
             navigationIcon = navigationIcon,
             actions = actions,
-            windowInsets = windowInsets
+            windowInsets = WindowInsets.statusBars
         )
         BoxWithConstraints(
             modifier = Modifier
@@ -294,12 +292,12 @@ private fun RowAppBarLayout(
     title: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
-    windowInsets: WindowInsets = WindowInsets(0, 0, 0, 0),
     firstContent: @Composable (CanonicalLayoutType) -> Unit,
     secondContent: @Composable (CanonicalLayoutType) -> Unit
 ) {
     Column(
         modifier = modifier
+            .padding(WindowInsets.navigationBars.asPaddingValues())
     ) {
         MolAppBar(
             modifier = Modifier
@@ -308,7 +306,7 @@ private fun RowAppBarLayout(
             title = title,
             navigationIcon = navigationIcon,
             actions = actions,
-            windowInsets = windowInsets
+            windowInsets = WindowInsets.statusBars
         )
         BoxWithConstraints(
             modifier = Modifier
