@@ -1,7 +1,9 @@
 package me.bumiller.mol.feature.onboarding.screen.url
 
+import androidx.lifecycle.viewModelScope
 import com.eygraber.uri.Url
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import me.bumiller.mol.common.ui.input.validation.ValidationError
 import me.bumiller.mol.common.ui.input.validation.validate
 import me.bumiller.mol.common.ui.viewmodel.MolViewModel
@@ -18,6 +20,19 @@ class UrlViewModel(
 
     init {
         registerUiState(UrlState())
+
+        viewModelScope.launch {
+            val settings = settingsSource.settings.first()
+            val url = settings.backendUrl?.toString()
+
+            url?.let {
+                updateUiState<UrlState> {
+                    it.copy(
+                        url = it.url.update(url)
+                    )
+                }
+            }
+        }
     }
 
     /**
