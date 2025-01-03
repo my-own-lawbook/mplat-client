@@ -12,4 +12,12 @@
     <string name="validation_date_in_future">This date cannot be in the future.</string>
     <string name="validation_url">The value must be a valid url.</string>
     <string name="validation_url_reach">The server with this URL can\'t be reached.</string>
+    <string name="mode_light">Light</string>
+    <string name="mode_dark">Dark</string>
+    <string name="mode_system">System</string>
+    <string name="scheme_app">Default</string>
+    <string name="scheme_dynamic">Dynamic</string>
+    <string name="level_normal">Default</string>
+    <string name="level_medium">Medium</string>
+    <string name="level_high">High</string>
 </resources>
