@@ -1,5 +1,6 @@
 package me.bumiller.mol.network
 
+import kotlinx.serialization.Serializable
 import me.bumiller.mol.network.model.NetworkResponse
 import me.bumiller.mol.network.response.TokenResponse
 
@@ -11,6 +12,7 @@ interface AuthApi {
     /**
      * Request body for a request to POST /auth/login/.
      */
+    @Serializable
     data class LoginCredentialsRequest(val email: String, val password: String)
 
     /**
@@ -23,6 +25,7 @@ interface AuthApi {
     /**
      * Request body for a request to POST /auth/login/refresh/
      */
+    @Serializable
     data class LoginRefreshRequest(val token: String)
 
     /**

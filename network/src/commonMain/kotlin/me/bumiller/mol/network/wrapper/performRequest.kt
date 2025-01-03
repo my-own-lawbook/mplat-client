@@ -3,9 +3,13 @@ package me.bumiller.mol.network.wrapper
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.jsonObject
@@ -40,6 +44,7 @@ suspend inline fun <reified Body> HttpClient.performPost(
 ): NetworkResponse<Body> = performRequest {
     post(url) {
         setBody(body)
+        contentType(ContentType.Application.Json)
     }
 }
 
@@ -79,10 +84,14 @@ private const val ErrorTypeInternal = "internal"
 
 suspend fun HttpResponse.resolveErrorInfo(): ErrorInfo {
     val body = bodyAsText()
-    val json = Json.parseToJsonElement(body).jsonObject
+    val json = try {
+        Json.parseToJsonElement(body).jsonObject
+    } catch (e: SerializationException) {
+        null
+    }
 
-    val errorType = json[KeyErrorType]?.jsonPrimitive?.content
-    val errorInfo = json[KeyErrorInfo]?.jsonObject
+    val errorType = json?.get(KeyErrorType)?.jsonPrimitive?.content
+    val errorInfo = json?.get(KeyErrorInfo)?.jsonObject
 
     return when (errorType) {
         ErrorTypeBad,
