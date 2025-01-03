@@ -41,7 +41,7 @@ fun OnboardingLocation(
     ) {
         NavHost(
             navController = navController,
-            startDestination = DesignScreen
+            startDestination = UrlScreen
         ) {
             urlScreen(
                 onUrlSet = { navController.navigate(DesignScreen) }
