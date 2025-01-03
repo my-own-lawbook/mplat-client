@@ -2,8 +2,8 @@ package me.bumiller.mol.feature.onboarding.screen.design
 
 import kotlinx.coroutines.flow.map
 import me.bumiller.mol.common.ui.viewmodel.MolViewModel
-import me.bumiller.mol.data.UserSettingsSource
 import me.bumiller.mol.model.state.SimpleState
+import me.bumiller.mol.settings.UserSettingsSource
 
 /**
  * View model for the [DesignScreen]

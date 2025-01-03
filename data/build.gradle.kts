@@ -8,7 +8,6 @@ kotlin {
 
 kotlin {
     sourceSets.commonMain.dependencies {
-        implementation(project(":database"))
         implementation(project(":model"))
     }
 }

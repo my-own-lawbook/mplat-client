@@ -10,6 +10,7 @@ import org.koin.dsl.module
  * The koin module for the settings module.
  */
 val settingsModule = module {
+    single { instantiateSettings() }
     single<UserSettingsSource> { UserSettingsSourceImpl(get()) }
 }
 

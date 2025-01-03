@@ -31,7 +31,6 @@ dependencyResolutionManagement {
 
 include(":composeApp")
 include(":model")
-include(":database")
 include(":data")
 include(":ui")
 include(":feature:onboarding")

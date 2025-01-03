@@ -10,7 +10,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":model"))
-            implementation(project(":data"))
+            implementation(project(":settings"))
             implementation(project(":ui"))
             implementation(project(":common-ui"))
             implementation(project(":network"))
