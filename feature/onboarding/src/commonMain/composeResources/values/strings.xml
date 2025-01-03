@@ -4,4 +4,11 @@
     <string name="cd_url_screen">A minimalistic depiction of a smartphone being connected to a server via a URL.</string>
     <string name="url_screen_input_label">Server Address</string>
     <string name="url_screen_button_confirm_label">Continue</string>
+    <string name="design_screen_title">Display Preferences</string>
+    <string name="cd_design_screen">A minimalistic depiction of a circular object, whose one half is the one of a moon, and the other one of a sun, divided by dotted lines.</string>
+    <string name="design_screen_description">Customize the app’s visual appearance to match your preferences and surroundings. Choose your preferred theme and contrast settings to create a more comfortable and personalized experience, whether you're in bright or low-light environments.</string>
+    <string name="design_screen_input_mode_label">Color Mode</string>
+    <string name="design_screen_input_scheme_label">Color Scheme</string>
+    <string name="design_screen_input_contrastlevel_label">Contrast level</string>
+    <string name="design_screen_button_continue_label">Finish</string>
 </resources>
