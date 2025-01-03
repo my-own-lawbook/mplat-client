@@ -62,4 +62,9 @@ interface AuthApi {
      */
     suspend fun submitEmailToken(body: SubmitEmailTokenRequest): NetworkResponse<Unit>
 
+    /**
+     * Request to POST /auth/signup/email-verify/
+     */
+    suspend fun requestEmailToken(): NetworkResponse<Unit>
+
 }
