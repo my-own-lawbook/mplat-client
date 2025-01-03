@@ -16,6 +16,11 @@ enum class MolTopLevelLocation {
     Home,
 
     /**
+     * The auth route for logging in/ signing up.
+     */
+    Auth,
+
+    /**
      * The settings route.
      */
     Settings

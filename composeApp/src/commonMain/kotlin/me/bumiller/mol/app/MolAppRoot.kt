@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import me.bumiller.mol.feature.auth.navigation.AuthLocation
 import me.bumiller.mol.feature.onboarding.navigation.OnboardingLocation
 import me.bumiller.mol.ui.theme.MolTheme
 import org.koin.compose.KoinContext
@@ -53,6 +54,7 @@ fun MolAppRoot(
         ) {
             when (location) {
                 MolTopLevelLocation.Onboarding -> OnboardingLocation {}
+                MolTopLevelLocation.Auth -> AuthLocation()
                 else -> {}
             }
         }

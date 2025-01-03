@@ -12,6 +12,8 @@ import me.bumiller.mol.common.ui.event.ViewModelEvent
 import me.bumiller.mol.common.ui.viewmodel.MolViewModel
 import me.bumiller.mol.model.UserSettings
 import me.bumiller.mol.model.state.SimpleState
+import me.bumiller.mol.network.AuthApi
+import me.bumiller.mol.network.model.NetworkResponse
 import me.bumiller.mol.settings.UserSettingsSource
 
 /**
@@ -22,7 +24,12 @@ class MolAppViewModel(
     /**
      * The data source for the settings
      */
-    settingsSource: UserSettingsSource
+    settingsSource: UserSettingsSource,
+
+    /**
+     * The http api for authentication
+     */
+    authApi: AuthApi
 
 ) : MolViewModel<UiEvent, ViewModelEvent>() {
 
@@ -45,7 +52,11 @@ class MolAppViewModel(
                 it.isSuccess
             }.dataOrNull()!!
 
+            val refreshResponse =
+                authApi.loginCredentials(AuthApi.LoginRefreshRequest(settings.refreshToken ?: ""))
+
             val initialLocation = if (settings.backendUrl == null) MolTopLevelLocation.Onboarding
+            else if (refreshResponse !is NetworkResponse.Success) MolTopLevelLocation.Auth
             else MolTopLevelLocation.Home
 
             _topLevelLocation.emit(SimpleState.success(initialLocation))
