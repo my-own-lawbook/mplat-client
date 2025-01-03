@@ -33,6 +33,9 @@ internal class DatabaseUserSettingsSource(
 
 }
 
+private val DefaultSettings =
+    UserSettings(ColorMode.System, ColorScheme.App, ColorSchemeContrastLevel.Normal, null)
+
 private fun toModel(entity: UserSettingsEntity): UserSettings =
     UserSettings(
         colorMode = ColorMode.valueOf(entity.colorMode.replaceFirstChar {

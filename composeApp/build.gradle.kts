@@ -32,6 +32,7 @@ kotlin {
             implementation(project(":feature:onboarding"))
             implementation(project(":common-ui"))
             implementation(project(":network"))
+            implementation(project(":settings"))
         }
 
         jvmMain.dependencies {
