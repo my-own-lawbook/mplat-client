@@ -14,9 +14,18 @@ private const val KeyMode = "color_mode"
 private const val KeyScheme = "color_scheme"
 private const val KeyContrastLevel = "contrast_level"
 private const val KeyUrl = "backend_url"
+private const val KeyAccess = "access_token"
+private const val KeyRefresh = "refresh_token"
 
 private val DefaultSettings =
-    UserSettings(ColorMode.System, ColorScheme.App, ColorSchemeContrastLevel.Normal, null)
+    UserSettings(
+        ColorMode.System,
+        ColorScheme.App,
+        ColorSchemeContrastLevel.Normal,
+        null,
+        null,
+        null
+    )
 
 internal class UserSettingsSourceImpl(
     private val settingsSource: Settings
@@ -51,8 +60,17 @@ internal class UserSettingsSourceImpl(
             ?.let {
                 Url.parseOrNull(it) ?: return@with null
             }
+        val accessToken = getStringOrNull(KeyAccess)
+        val refreshToken = getStringOrNull(KeyRefresh)
 
-        return UserSettings(colorMode, colorScheme, contrastLevel, backendUrl)
+        return UserSettings(
+            colorMode,
+            colorScheme,
+            contrastLevel,
+            backendUrl,
+            accessToken,
+            refreshToken
+        )
     }
 
     private fun saveUserSettings(userSettings: UserSettings) = with(settingsSource) {
@@ -61,6 +79,8 @@ internal class UserSettingsSourceImpl(
         putString(KeyContrastLevel, userSettings.contrastLevel.name.lowercase())
 
         userSettings.backendUrl?.let { putString(KeyUrl, it.toString()) }
+        userSettings.accessToken?.let { putString(KeyAccess, it) }
+        userSettings.refreshToken?.let { putString(KeyRefresh, it) }
     }
 
 }
