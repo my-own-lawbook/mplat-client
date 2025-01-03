@@ -3,6 +3,7 @@ package me.bumiller.mol.feature.onboarding.screen.url
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
@@ -106,12 +107,16 @@ private fun UrlScreen(
                     label = { Text(stringResource(Res.string.url_screen_input_label)) }
                 )
 
-                Button(
+                Row(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    onClick = { onEvent(UrlUiEvent.Confirm) }
+                    horizontalArrangement = Arrangement.End
                 ) {
-                    Text(stringResource(Res.string.url_screen_button_confirm_label))
+                    Button(
+                        onClick = { onEvent(UrlUiEvent.Confirm) }
+                    ) {
+                        Text(stringResource(Res.string.url_screen_button_confirm_label))
+                    }
                 }
             }
         }

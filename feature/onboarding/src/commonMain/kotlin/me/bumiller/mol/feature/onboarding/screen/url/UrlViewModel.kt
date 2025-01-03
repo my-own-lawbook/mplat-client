@@ -23,7 +23,7 @@ class UrlViewModel(
 
         viewModelScope.launch {
             val settings = settingsSource.settings.first()
-            val url = settings.backendUrl?.toString()
+            val url = settings.backendUrl?.toString()?.removePrefix("https://")
 
             url?.let {
                 updateUiState<UrlState> {
