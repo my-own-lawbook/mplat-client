@@ -62,6 +62,7 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 sqlite-driver = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "android_sqlite" }
 
 ktor-client = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
 
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx_test_runner" }
 androidx-test-junit = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidx_test_junit" }
