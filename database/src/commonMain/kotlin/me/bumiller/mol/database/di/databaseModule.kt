@@ -20,10 +20,6 @@ val databaseModule = module {
     single {
         database(get())
     }
-
-    single {
-        get<MolDatabase>().userSettingsDao()
-    }
 }
 
 /**

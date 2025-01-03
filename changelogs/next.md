@@ -10,3 +10,8 @@ Release <semver> creates the following changes:
     - Sending user to onboarding if no url is set
 - Url screen to set backend url
 - Design screen to set design preferences
+
+- Set up http apis
+  - Authentication
+  - Dynamic url handling
+  - Auth endpoints

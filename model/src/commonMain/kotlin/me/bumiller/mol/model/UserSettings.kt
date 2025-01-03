@@ -25,6 +25,16 @@ data class UserSettings(
     /**
      * The url to the backend.
      */
-    val backendUrl: Url?
+    val backendUrl: Url?,
+
+    /**
+     * The access token for the backend.
+     */
+    val accessToken: String?,
+
+    /**
+     * The refresh token for the backend.
+     */
+    val refreshToken: String?
 
 )

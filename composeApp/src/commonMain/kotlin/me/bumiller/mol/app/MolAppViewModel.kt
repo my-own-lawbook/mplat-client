@@ -10,9 +10,9 @@ import kotlinx.coroutines.launch
 import me.bumiller.mol.common.ui.event.UiEvent
 import me.bumiller.mol.common.ui.event.ViewModelEvent
 import me.bumiller.mol.common.ui.viewmodel.MolViewModel
-import me.bumiller.mol.data.UserSettingsSource
 import me.bumiller.mol.model.UserSettings
 import me.bumiller.mol.model.state.SimpleState
+import me.bumiller.mol.settings.UserSettingsSource
 
 /**
  * Viewmodel that handles the top level app state, such as the user settings.
@@ -33,6 +33,9 @@ class MolAppViewModel(
         .map(SimpleState.Companion::success)
         .loadingStateIn()
 
+    private val _topLevelLocation =
+        MutableStateFlow<SimpleState<MolTopLevelLocation>>(SimpleState.loading())
+
     /**
      * Will wait for the first settings emission and set the initial value for the top-level-location accordingly.
      */
@@ -48,9 +51,6 @@ class MolAppViewModel(
             _topLevelLocation.emit(SimpleState.success(initialLocation))
         }
     }
-
-    private val _topLevelLocation =
-        MutableStateFlow<SimpleState<MolTopLevelLocation>>(SimpleState.loading())
 
     /**
      * A state flow containing the current top level location that should be displayed.

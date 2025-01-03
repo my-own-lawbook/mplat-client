@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import me.bumiller.mol.database.MolDatabase
-import me.bumiller.mol.database.daos.UserSettingsDao
-import me.bumiller.mol.database.entities.UserSettingsEntity
 import org.junit.Before
 
 /**

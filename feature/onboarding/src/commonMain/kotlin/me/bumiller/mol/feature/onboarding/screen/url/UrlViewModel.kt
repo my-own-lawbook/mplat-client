@@ -7,8 +7,8 @@ import kotlinx.coroutines.launch
 import me.bumiller.mol.common.ui.input.validation.ValidationError
 import me.bumiller.mol.common.ui.input.validation.validate
 import me.bumiller.mol.common.ui.viewmodel.MolViewModel
-import me.bumiller.mol.data.UserSettingsSource
 import me.bumiller.mol.network.ServerStatusChecker
+import me.bumiller.mol.settings.UserSettingsSource
 
 /**
  * Viewmodel for the screen allowing the user to adjust the url of the backend server.

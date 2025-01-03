@@ -1,4 +1,4 @@
-package me.bumiller.mol.data
+package me.bumiller.mol.settings
 
 import kotlinx.coroutines.flow.Flow
 import me.bumiller.mol.model.UserSettings
