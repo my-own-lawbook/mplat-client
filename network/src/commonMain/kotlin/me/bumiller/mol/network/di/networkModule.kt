@@ -55,16 +55,28 @@ private fun Scope.instantiateKtorClient(): HttpClient = HttpClient(CIO) {
             }
 
             refreshTokens {
+                val source = get<UserSettingsSource>()
+
                 val response = client.performPost<TokenResponse>(
                     "/auth/login/refresh/",
                     AuthApi.LoginRefreshRequest(oldTokens?.refreshToken ?: "")
                 )
 
                 when (response) {
-                    is NetworkResponse.Success -> BearerTokens(
-                        response.data.accessToken,
-                        response.data.refreshToken
-                    )
+                    is NetworkResponse.Success -> {
+                        val settings = source.settings.first()
+                        source.update(
+                            settings.copy(
+                                accessToken = response.data.accessToken,
+                                refreshToken = response.data.refreshToken
+                            )
+                        )
+
+                        BearerTokens(
+                            response.data.accessToken,
+                            response.data.refreshToken
+                        )
+                    }
 
                     else -> null
                 }
