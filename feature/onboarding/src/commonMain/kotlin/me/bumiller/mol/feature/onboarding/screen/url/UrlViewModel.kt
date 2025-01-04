@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import me.bumiller.mol.common.ui.input.validation.ValidationError
 import me.bumiller.mol.common.ui.input.validation.validate
 import me.bumiller.mol.common.ui.viewmodel.MolViewModel
-import me.bumiller.mol.network.ServerStatusChecker
+import me.bumiller.mol.data.ConnectionService
 import me.bumiller.mol.settings.UserSettingsSource
 
 /**
@@ -15,7 +15,7 @@ import me.bumiller.mol.settings.UserSettingsSource
  */
 class UrlViewModel(
     private val settingsSource: UserSettingsSource,
-    private val serverStatusChecker: ServerStatusChecker
+    private val connectionService: ConnectionService
 ) : MolViewModel<UrlUiEvent, UrlEvent>() {
 
     init {
@@ -64,11 +64,11 @@ class UrlViewModel(
 
         val urlWithScheme = "https://${formState.value.url.value}"
 
-        val canReachServer = withFetchState {
-            serverStatusChecker.checkServerConnection(urlWithScheme)
+        val connectionState = withFetchState {
+            connectionService.getConnectionState(urlWithScheme)
         }
 
-        if (!canReachServer) {
+        if (!connectionState.hasConnection) {
             updateUiState<UrlState> {
                 it.copy(
                     url = it.url.copy(error = ValidationError.CantReachUrl)

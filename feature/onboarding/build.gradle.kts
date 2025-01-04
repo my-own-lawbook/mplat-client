@@ -13,6 +13,7 @@ kotlin {
             implementation(project(":settings"))
             implementation(project(":ui"))
             implementation(project(":common-ui"))
+            implementation(project(":data"))
         }
     }
 }
