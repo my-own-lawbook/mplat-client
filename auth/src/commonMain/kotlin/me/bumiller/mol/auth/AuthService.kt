@@ -1,5 +1,7 @@
 package me.bumiller.mol.auth
 
+import me.bumiller.mol.network.model.NetworkResponse
+
 /**
  * Service to handle authentication to the backend.
  */
@@ -15,11 +17,9 @@ interface AuthService {
     suspend fun login(email: String, password: String): AuthResult<LoginError>
 
     /**
-     * Attempts to login with refresh token and saves the updated tokens to the local storage.
-     *
-     * @param token The refresh token
+     * Attempts to login with the stored refresh token and saves the updated tokens to the local storage.
      */
-    suspend fun login(token: String): AuthResult<LoginError>
+    suspend fun login(): AuthResult<LoginError>
 
     /**
      * Attempts to sign up.
@@ -45,5 +45,13 @@ interface AuthService {
      * Requests an email token to the email of the authentication.
      */
     suspend fun requestEmailToken(): AuthResult<RequestEmailTokenError>
+
+    /**
+     * Executes a network call, and retries it when the error response may be caused by unauthenticated.
+     *
+     * @param call The call
+     * @return The first of the two calls which results in a successful response, or the second error response
+     */
+    suspend fun <Data> safeAuthCall(call: suspend () -> NetworkResponse<Data>): NetworkResponse<Data>
 
 }

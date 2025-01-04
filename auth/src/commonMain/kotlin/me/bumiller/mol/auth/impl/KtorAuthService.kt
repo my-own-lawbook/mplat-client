@@ -65,7 +65,8 @@ internal class KtorAuthService(
     @Serializable
     data class TokenBody(val token: String)
 
-    override suspend fun login(token: String): AuthResult<LoginError> {
+    override suspend fun login(): AuthResult<LoginError> {
+        val token = settingsSource.settings.value.refreshToken ?: ""
         val body = TokenBody(token)
         val response = client.performPost<TokenResponse>("/auth/login/refresh/", body)
 
@@ -79,10 +80,13 @@ internal class KtorAuthService(
             )
         }
 
-        return response.asAuthResult { code, _ ->
+        return response.asAuthResult { code, info ->
             when (code) {
                 401 -> LoginError.BadToken
-                else -> null
+                else -> when (info) {
+                    is ErrorInfo.BadFormatInfo -> LoginError.BadToken
+                    else -> null
+                }
             }
         }
     }
@@ -124,7 +128,9 @@ internal class KtorAuthService(
     }
 
     override suspend fun requestEmailToken(): AuthResult<RequestEmailTokenError> {
-        val response = client.performPost<Unit>("/auth/signup/email-verify/", Unit)
+        val response = safeAuthCall {
+            client.performPost<Unit>("/auth/signup/email-verify/", Unit)
+        }
 
         return response.asAuthResult { code, _ ->
             when (code) {
@@ -132,6 +138,22 @@ internal class KtorAuthService(
                 else -> null
             }
         }
+    }
+
+    private val authorizationIndicatingCodes = listOf(401, 403, 403)
+
+    override suspend fun <Data> safeAuthCall(call: suspend () -> NetworkResponse<Data>): NetworkResponse<Data> {
+        val firstResponse = call()
+
+        val shouldRetry = firstResponse is NetworkResponse.HttpError &&
+                firstResponse.code in authorizationIndicatingCodes
+
+        if (shouldRetry) {
+            login()
+            return call()
+        }
+
+        return firstResponse
     }
 
 

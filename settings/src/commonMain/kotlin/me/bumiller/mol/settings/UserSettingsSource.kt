@@ -1,6 +1,6 @@
 package me.bumiller.mol.settings
 
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 import me.bumiller.mol.model.UserSettings
 
 /**
@@ -11,7 +11,7 @@ interface UserSettingsSource {
     /**
      * The current user settings.
      */
-    val settings: Flow<UserSettings>
+    val settings: StateFlow<UserSettings>
 
     /**
      * Updates the settings of the user

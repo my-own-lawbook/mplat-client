@@ -51,8 +51,7 @@ class MolAppViewModel(
                 it.isSuccess
             }.dataOrNull()!!
 
-            val refreshResponse =
-                authApi.login(token = settings.refreshToken ?: "")
+            val refreshResponse = authApi.login()
 
             val initialLocation = if (settings.backendUrl == null) MolTopLevelLocation.Onboarding
             else if (!refreshResponse.success) MolTopLevelLocation.Auth

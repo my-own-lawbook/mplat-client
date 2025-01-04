@@ -2,7 +2,6 @@ package me.bumiller.mol.settings.impl
 
 import com.eygraber.uri.Url
 import com.russhwolf.settings.Settings
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import me.bumiller.mol.model.ColorMode
 import me.bumiller.mol.model.ColorScheme
@@ -31,7 +30,7 @@ internal class UserSettingsSourceImpl(
     private val settingsSource: Settings
 ) : UserSettingsSource {
 
-    override val settings: MutableSharedFlow<UserSettings>
+    override val settings: MutableStateFlow<UserSettings>
 
     init {
         var initialSettings = getUserSettings()
