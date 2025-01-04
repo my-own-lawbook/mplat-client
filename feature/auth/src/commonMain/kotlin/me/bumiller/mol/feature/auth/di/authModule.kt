@@ -1,0 +1,12 @@
+package me.bumiller.mol.feature.auth.di
+
+import me.bumiller.mol.feature.auth.screen.welcome.WelcomeViewModel
+import org.koin.compose.viewmodel.dsl.viewModelOf
+import org.koin.dsl.module
+
+/**
+ * Koin module for the auth module
+ */
+val authModule = module {
+    viewModelOf(::WelcomeViewModel)
+}

@@ -1,5 +1,6 @@
 package me.bumiller.mol.di
 
+import me.bumiller.mol.auth.di.authModule
 import me.bumiller.mol.data.di.dataModule
 import me.bumiller.mol.feature.onboarding.di.onboardingModule
 import me.bumiller.mol.network.di.networkModule
@@ -21,7 +22,8 @@ fun initKoin(config: KoinAppDeclaration? = null) {
             appModule,
             onboardingModule,
             networkModule,
-            settingsModule
+            settingsModule,
+            authModule
         )
     }
 }

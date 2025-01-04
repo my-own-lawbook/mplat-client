@@ -31,6 +31,7 @@ kotlin {
             implementation(project(":feature:onboarding"))
             implementation(project(":feature:auth"))
             implementation(project(":common-ui"))
+            implementation(project(":auth"))
             implementation(project(":network"))
             implementation(project(":settings"))
         }

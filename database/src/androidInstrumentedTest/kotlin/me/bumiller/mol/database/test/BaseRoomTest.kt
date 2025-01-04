@@ -23,7 +23,6 @@ abstract class BaseRoomTest {
 
     @Before
     fun before() {
-        println("Inside before()")
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
             context, MolDatabase::class.java

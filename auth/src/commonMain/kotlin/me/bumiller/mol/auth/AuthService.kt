@@ -1,0 +1,49 @@
+package me.bumiller.mol.auth
+
+/**
+ * Service to handle authentication to the backend.
+ */
+interface AuthService {
+
+    /**
+     * Attempts to login with credentials and saves the updated tokens to the local storage.
+     *
+     * @param email The email
+     * @param password The password
+     * @return The [AuthResult]
+     */
+    suspend fun login(email: String, password: String): AuthResult<LoginError>
+
+    /**
+     * Attempts to login with refresh token and saves the updated tokens to the local storage.
+     *
+     * @param token The refresh token
+     */
+    suspend fun login(token: String): AuthResult<LoginError>
+
+    /**
+     * Attempts to sign up.
+     *
+     * @param email The users email
+     * @param username The users username
+     * @param password The users password
+     */
+    suspend fun createUser(
+        email: String,
+        username: String,
+        password: String
+    ): AuthResult<SignupError>
+
+    /**
+     * Submits a given email token.
+     *
+     * @param token The email token
+     */
+    suspend fun submitEmailToken(token: String): AuthResult<SubmitEmailTokenError>
+
+    /**
+     * Requests an email token to the email of the authentication.
+     */
+    suspend fun requestEmailToken(): AuthResult<RequestEmailTokenError>
+
+}

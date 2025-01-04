@@ -6,12 +6,11 @@ import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.first
-import me.bumiller.mol.network.AuthApi
 import me.bumiller.mol.network.ServerStatusChecker
-import me.bumiller.mol.network.impl.KtorAuthApi
 import me.bumiller.mol.network.impl.KtorServerStatusChecker
 import me.bumiller.mol.network.model.NetworkResponse
 import me.bumiller.mol.network.plugin.DynamicUrl
@@ -28,8 +27,6 @@ val networkModule = module {
     single<ServerStatusChecker> { KtorServerStatusChecker() }
 
     single { instantiateKtorClient() }
-
-    single<AuthApi> { KtorAuthApi(get()) }
 }
 
 private fun Scope.instantiateKtorClient(): HttpClient = HttpClient(CIO) {
@@ -37,7 +34,9 @@ private fun Scope.instantiateKtorClient(): HttpClient = HttpClient(CIO) {
         json()
     }
 
-    install(Logging)
+    install(Logging) {
+        level = LogLevel.ALL
+    }
 
     install(DynamicUrl(get()))
 
@@ -57,10 +56,9 @@ private fun Scope.instantiateKtorClient(): HttpClient = HttpClient(CIO) {
             refreshTokens {
                 val source = get<UserSettingsSource>()
 
-                val response = client.performPost<TokenResponse>(
-                    "/auth/login/refresh/",
-                    AuthApi.LoginRefreshRequest(oldTokens?.refreshToken ?: "")
-                )
+                val response = client.performPost<TokenResponse>("/auth/login/refresh/", object {
+                    val token = oldTokens?.refreshToken ?: ""
+                })
 
                 when (response) {
                     is NetworkResponse.Success -> {
@@ -73,8 +71,7 @@ private fun Scope.instantiateKtorClient(): HttpClient = HttpClient(CIO) {
                         )
 
                         BearerTokens(
-                            response.data.accessToken,
-                            response.data.refreshToken
+                            response.data.accessToken, response.data.refreshToken
                         )
                     }
 

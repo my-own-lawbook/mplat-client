@@ -7,13 +7,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import me.bumiller.mol.auth.AuthService
 import me.bumiller.mol.common.ui.event.UiEvent
 import me.bumiller.mol.common.ui.event.ViewModelEvent
 import me.bumiller.mol.common.ui.viewmodel.MolViewModel
 import me.bumiller.mol.model.UserSettings
 import me.bumiller.mol.model.state.SimpleState
-import me.bumiller.mol.network.AuthApi
-import me.bumiller.mol.network.model.NetworkResponse
 import me.bumiller.mol.settings.UserSettingsSource
 
 /**
@@ -29,7 +28,7 @@ class MolAppViewModel(
     /**
      * The http api for authentication
      */
-    authApi: AuthApi
+    authApi: AuthService
 
 ) : MolViewModel<UiEvent, ViewModelEvent>() {
 
@@ -53,10 +52,10 @@ class MolAppViewModel(
             }.dataOrNull()!!
 
             val refreshResponse =
-                authApi.loginCredentials(AuthApi.LoginRefreshRequest(settings.refreshToken ?: ""))
+                authApi.login(token = settings.refreshToken ?: "")
 
             val initialLocation = if (settings.backendUrl == null) MolTopLevelLocation.Onboarding
-            else if (refreshResponse !is NetworkResponse.Success) MolTopLevelLocation.Auth
+            else if (!refreshResponse.success) MolTopLevelLocation.Auth
             else MolTopLevelLocation.Home
 
             _topLevelLocation.emit(SimpleState.success(initialLocation))
