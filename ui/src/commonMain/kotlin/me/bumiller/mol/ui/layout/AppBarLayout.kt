@@ -180,8 +180,10 @@ fun AppBarLayoutWithDisplay(
 ) {
     val sizeClass = LocalWindowSizeClass.current
     val widthClass = sizeClass.widthSizeClass
+    val heightClass = sizeClass.heightSizeClass
 
-    val includeDisplay = widthClass >= WindowWidthSizeClass.Medium
+    val includeDisplay =
+        widthClass >= WindowWidthSizeClass.Medium && heightClass >= WindowHeightSizeClass.Medium
 
     val doRow = LocalWindowSizeClass.current.widthSizeClass > WindowWidthSizeClass.Medium
     val layoutType = if (doRow) CanonicalLayoutType.Row else CanonicalLayoutType.Column
@@ -347,7 +349,7 @@ fun AppBarLayout(
         }
 
         is AppBarLayoutType.SizeAware -> {
-            val doRow = LocalWindowSizeClass.current.widthSizeClass > WindowWidthSizeClass.Medium
+            val doRow = LocalWindowSizeClass.current.widthSizeClass >= WindowWidthSizeClass.Medium
 
             if (doRow) {
                 RowAppBarLayout(
@@ -436,6 +438,7 @@ private fun ColumnAppBarLayout(
                 }
                 Box(
                     modifier = Modifier
+                        .weight(1F)
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {

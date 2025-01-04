@@ -1,0 +1,8 @@
+<resources>
+    <string name="welcome_screen_title">Welcome</string>
+    <string name="welcome_screen_display">Choose your authentication method</string>
+    <string name="welcome_screen_description">Welcome! To get started, choose whether you'd like to log in to your existing account or sign up to create a new one. Your connection is secure, and we ensure a smooth, safe experience as you authenticate.</string>
+    <string name="welcome_screen_login_button_label">Login</string>
+    <string name="welcome_screen_signup_button_label">Signup</string>
+    <string name="welcome_screen_server_info">You're authenticating to: </string>
+</resources>
