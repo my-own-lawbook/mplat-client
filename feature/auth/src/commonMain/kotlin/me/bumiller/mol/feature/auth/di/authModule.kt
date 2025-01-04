@@ -7,6 +7,6 @@ import org.koin.dsl.module
 /**
  * Koin module for the auth module
  */
-val authModule = module {
+val authFeatureModule = module {
     viewModelOf(::WelcomeViewModel)
 }
