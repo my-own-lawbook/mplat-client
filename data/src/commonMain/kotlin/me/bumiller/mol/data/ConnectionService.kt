@@ -40,10 +40,18 @@ sealed class ConnectionState(
 interface ConnectionService {
 
     /**
-     * Gets the current connection state.
+     * Gets the current connection state to the saved url.
      *
      * @return The connection state
      */
     suspend fun getConnectionState(): ConnectionState
+
+    /**
+     * Gets the current connection status to a specific url.
+     *
+     * @param url The url to check
+     * @return The connection state.
+     */
+    suspend fun getConnectionState(url: String): ConnectionState
 
 }
