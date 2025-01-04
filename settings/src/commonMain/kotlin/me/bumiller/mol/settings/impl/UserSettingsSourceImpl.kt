@@ -36,7 +36,7 @@ internal class UserSettingsSourceImpl(
         var initialSettings = getUserSettings()
 
         if (initialSettings == null) {
-            saveUserSettings(DefaultSettings)
+            saveUserSettings(DefaultSettings, false)
             initialSettings = DefaultSettings
         }
 
@@ -72,7 +72,8 @@ internal class UserSettingsSourceImpl(
         )
     }
 
-    private fun saveUserSettings(userSettings: UserSettings) = with(settingsSource) {
+    private fun saveUserSettings(userSettings: UserSettings, updateFlow: Boolean = true) =
+        with(settingsSource) {
         putString(KeyMode, userSettings.colorMode.name.lowercase())
         putString(KeyScheme, userSettings.colorScheme.name.lowercase())
         putString(KeyContrastLevel, userSettings.contrastLevel.name.lowercase())
@@ -80,6 +81,10 @@ internal class UserSettingsSourceImpl(
         userSettings.backendUrl?.let { putString(KeyUrl, it.toString()) }
         userSettings.accessToken?.let { putString(KeyAccess, it) }
         userSettings.refreshToken?.let { putString(KeyRefresh, it) }
+
+            if (updateFlow) {
+                settings.value = userSettings
+            }
     }
 
 }
