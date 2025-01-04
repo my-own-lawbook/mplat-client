@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +25,7 @@ import me.bumiller.mol.auth.welcome_screen_signup_button_label
 import me.bumiller.mol.auth.welcome_screen_title
 import me.bumiller.mol.model.UserSettings
 import me.bumiller.mol.model.state.SimpleState
-import me.bumiller.mol.ui.components.MulticolorText
+import me.bumiller.mol.ui.components.MultiStyleText
 import me.bumiller.mol.ui.components.WideButton
 import me.bumiller.mol.ui.components.WideOutlinedButton
 import me.bumiller.mol.ui.layout.AppBarLayoutWithDisplay
@@ -79,6 +78,7 @@ private fun WelcomeScreen(
             Text(stringResource(Res.string.welcome_screen_description))
         }
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxSize(),
@@ -109,12 +109,14 @@ private fun WelcomeScreen(
                 }
             }
 
-            MulticolorText(
+            MultiStyleText(
                 modifier = Modifier
                     .widthIn(max = 400.dp),
                 style = MaterialTheme.typography.bodySmall,
-                stringResource(Res.string.welcome_screen_server_info) to LocalTextStyle.current.color,
-                settings.backendUrl.toString() to MaterialTheme.colorScheme.tertiary
+                stringResource(Res.string.welcome_screen_server_info) to MaterialTheme.typography.bodySmall,
+                settings.backendUrl.toString() to MaterialTheme.typography.bodySmall.copy(
+                    color = MaterialTheme.colorScheme.tertiary
+                )
             )
         }
     }

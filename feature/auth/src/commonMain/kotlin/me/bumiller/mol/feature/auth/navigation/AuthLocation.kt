@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.serialization.Serializable
+import me.bumiller.mol.feature.auth.screen.login.LoginScreen
 import me.bumiller.mol.feature.auth.screen.welcome.WelcomeScreen
 
 /**
@@ -16,6 +17,12 @@ import me.bumiller.mol.feature.auth.screen.welcome.WelcomeScreen
  */
 @Serializable
 data object WelcomeScreen
+
+/**
+ * Navigation destination for the login screen.
+ */
+@Serializable
+data object LoginScreen
 
 /**
  * Root composable for the auth location.
@@ -35,7 +42,12 @@ fun AuthLocation(
             startDestination = WelcomeScreen
         ) {
             welcomeScreen(
-                onLogin = {},
+                onLogin = { navController.navigate(LoginScreen) },
+                onSignup = {}
+            )
+            loginScreen(
+                onBack = { navController.popBackStack() },
+                onAuthenticate = {},
                 onSignup = {}
             )
         }
@@ -54,5 +66,22 @@ internal fun NavGraphBuilder.welcomeScreen(
 ) {
     composable<WelcomeScreen> {
         WelcomeScreen(onLogin, onSignup)
+    }
+}
+
+/**
+ * Builds the login-screen-destination inside a nav-graph-builder.
+ *
+ * @param onBack The callback invoked when the back button is clicked.
+ * @param onSignup The callback invoked when the link to the signup screen is clicked.
+ * @param onAuthenticate The callback invoked when the user successfully authenticated.
+ */
+internal fun NavGraphBuilder.loginScreen(
+    onBack: () -> Unit,
+    onSignup: () -> Unit,
+    onAuthenticate: () -> Unit
+) {
+    composable<LoginScreen> {
+        LoginScreen(onBack, onSignup, onAuthenticate)
     }
 }
