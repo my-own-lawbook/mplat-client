@@ -21,6 +21,8 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -54,6 +56,31 @@ private fun calculatePadding(): PaddingValues {
     val top = 8.dp
 
     return PaddingValues(horizontal, top, horizontal, bottom)
+}
+
+@Composable
+private fun calculateSpacing(layoutType: CanonicalLayoutType) = when (layoutType) {
+    CanonicalLayoutType.Column -> {
+        val heightSizeClass = LocalWindowSizeClass.current.heightSizeClass
+
+        when (heightSizeClass) {
+            WindowHeightSizeClass.Compact -> 8.dp
+            WindowHeightSizeClass.Medium -> 16.dp
+            WindowHeightSizeClass.Expanded -> 16.dp
+            else -> throw IllegalStateException("Invalid window width size class.")
+        }
+    }
+
+    CanonicalLayoutType.Row -> {
+        val widthSizeClass = LocalWindowSizeClass.current.widthSizeClass
+
+        when (widthSizeClass) {
+            WindowWidthSizeClass.Compact -> 16.dp
+            WindowWidthSizeClass.Medium -> 32.dp
+            WindowWidthSizeClass.Expanded -> 64.dp
+            else -> throw IllegalStateException("Invalid window width size class.")
+        }
+    }
 }
 
 /**
@@ -136,6 +163,60 @@ sealed class AppBarLayoutType(
 }
 
 /**
+ * Wrapper for the [AppBarLayout] that handles a specific type od layout where the first content is a text with an additional title above.
+ */
+@Composable
+fun AppBarLayoutWithDisplay(
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = calculatePadding(),
+    appBarStyle: TopAppBarStyles = TopAppBarStyles.Centered,
+    verticalScrollable: Boolean = true,
+    title: @Composable () -> Unit,
+    navigationIcon: @Composable () -> Unit = {},
+    actions: @Composable RowScope.() -> Unit = {},
+    display: @Composable () -> Unit,
+    description: @Composable () -> Unit,
+    content: @Composable (CanonicalLayoutType) -> Unit
+) {
+    val sizeClass = LocalWindowSizeClass.current
+    val widthClass = sizeClass.widthSizeClass
+
+    val includeDisplay = widthClass >= WindowWidthSizeClass.Medium
+
+    val doRow = LocalWindowSizeClass.current.widthSizeClass > WindowWidthSizeClass.Medium
+    val layoutType = if (doRow) CanonicalLayoutType.Row else CanonicalLayoutType.Column
+
+    AppBarLayout(
+        modifier = modifier,
+        layoutType = AppBarLayoutType.SizeAware(
+            spacing = calculateSpacing(layoutType),
+            verticalFirstWeightRange = 0.0F..0.4F,
+            horizontalFirstWeightRange = 0.0F..0.4F
+        ),
+        verticalScrollable = verticalScrollable,
+        contentPadding = contentPadding,
+        appBarStyle = appBarStyle,
+        title = title,
+        navigationIcon = navigationIcon,
+        actions = actions,
+        firstContent = {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                if (includeDisplay) {
+                    ProvideTextStyle(MaterialTheme.typography.headlineLarge) {
+                        display()
+                    }
+                }
+
+                description()
+            }
+        },
+        secondContent = content
+    )
+}
+
+/**
  * Wrapper for the [AppBarLayout] that handles a specific type of layout where the first content is an image and a descriptive text.
  */
 @Composable
@@ -158,6 +239,9 @@ fun AppBarLayoutWithImage(
     val includeImageVertical = heightClass >= WindowHeightSizeClass.Expanded
     val includeImageHorizontal = heightClass >= WindowHeightSizeClass.Medium
 
+    val doRow = LocalWindowSizeClass.current.widthSizeClass > WindowWidthSizeClass.Medium
+    val layoutType = if (doRow) CanonicalLayoutType.Row else CanonicalLayoutType.Column
+
     // When the image is included in vertical mode, we want to allocate more maximum space.
     val verticalRange = if (includeImageVertical) 0F..0.3F
     else 0F..0.4F
@@ -165,7 +249,7 @@ fun AppBarLayoutWithImage(
     AppBarLayout(
         modifier = modifier,
         layoutType = AppBarLayoutType.SizeAware(
-            spacing = 32.dp,
+            spacing = calculateSpacing(layoutType),
             verticalFirstWeightRange = verticalRange,
             horizontalFirstWeightRange = 0.0F..0.4F
         ),
@@ -175,15 +259,15 @@ fun AppBarLayoutWithImage(
         title = title,
         navigationIcon = navigationIcon,
         actions = actions,
-        firstContent = { layoutType ->
-            val includeImage = when (layoutType) {
+        firstContent = {
+            val includeImage = when (it) {
                 CanonicalLayoutType.Column -> includeImageVertical
                 CanonicalLayoutType.Row -> includeImageHorizontal
             }
 
             Column {
                 if (includeImage) {
-                    val imageModifier = if (layoutType.isVertical)
+                    val imageModifier = if (it.isVertical)
                         Modifier
                             .weight(1F)
                     else
@@ -327,7 +411,7 @@ private fun ColumnAppBarLayout(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            val height = maxHeight
+            val height = maxHeight - layoutType.spacing
 
             Column(
                 modifier = Modifier
@@ -392,7 +476,7 @@ private fun RowAppBarLayout(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            val width = maxWidth
+            val width = maxWidth - layoutType.spacing
 
             Row(
                 modifier = Modifier
