@@ -1,5 +1,7 @@
 package me.bumiller.mol.data.impl
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import me.bumiller.mol.data.ConnectionService
 import me.bumiller.mol.data.ConnectionState
 import me.bumiller.mol.network.ServerStatusChecker
@@ -19,13 +21,14 @@ internal class ConnectionServiceImpl(
         return getConnectionState(serverUrl.toString())
     }
 
-    override suspend fun getConnectionState(url: String): ConnectionState {
-        if (!isConnectedToInternet()) return ConnectionState.NoInternet
+    override suspend fun getConnectionState(url: String): ConnectionState =
+        withContext(Dispatchers.IO) {
+            if (!isConnectedToInternet()) return@withContext ConnectionState.NoInternet
 
-        return if (serverStatusChecker.checkServerConnection(url))
-            ConnectionState.Connected
-        else ConnectionState.CantReachServer
-    }
+            return@withContext if (serverStatusChecker.checkServerConnection(url))
+                ConnectionState.Connected
+            else ConnectionState.CantReachServer
+        }
 
 }
 
