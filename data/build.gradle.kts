@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.mol.kotlin.library)
+    alias(libs.plugins.mol.android.library)
 }
 
 kotlin {
@@ -9,5 +9,7 @@ kotlin {
 kotlin {
     sourceSets.commonMain.dependencies {
         implementation(project(":model"))
+        implementation(project(":network"))
+        implementation(project(":settings"))
     }
 }
