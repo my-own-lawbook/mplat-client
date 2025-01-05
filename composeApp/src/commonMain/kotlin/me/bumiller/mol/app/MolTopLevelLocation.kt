@@ -12,7 +12,14 @@ sealed interface MolTopLevelLocation {
      * The onboarding route.
      */
     @Serializable
-    data object Onboarding : MolTopLevelLocation
+    data class Onboarding(
+
+        /**
+         * Whether the design screen should be shown
+         */
+        val showDesignScreen: Boolean = true
+
+    ) : MolTopLevelLocation
 
     /**
      * The home route, main part of the app.

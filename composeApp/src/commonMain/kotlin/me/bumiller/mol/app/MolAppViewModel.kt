@@ -57,7 +57,8 @@ class MolAppViewModel(
 
             val refreshResponse = authApi.login()
 
-            val initialLocation = if (settings.backendUrl == null) MolTopLevelLocation.Onboarding
+            val initialLocation =
+                if (settings.backendUrl == null) MolTopLevelLocation.Onboarding(true)
             else if (!refreshResponse.success) MolTopLevelLocation.Auth
             else MolTopLevelLocation.Home
 
