@@ -59,7 +59,7 @@ private fun Scope.instantiateKtorClient(): HttpClient = HttpClient(CIO) {
             refreshTokens {
                 val source = get<UserSettingsSource>()
 
-                val response = client.performPost<TokenResponse>("/auth/login/refresh/", object {
+                val response = client.performPost<TokenResponse>("auth/login/refresh/", object {
                     val token = oldTokens?.refreshToken ?: ""
                 })
 

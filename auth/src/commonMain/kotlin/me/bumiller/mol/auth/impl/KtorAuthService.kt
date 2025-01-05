@@ -42,7 +42,7 @@ internal class KtorAuthService(
 
     override suspend fun login(email: String, password: String): AuthResult<LoginError> {
         val body = CredentialsBody(email, password)
-        val response = client.performPost<TokenResponse>("/auth/login/", body)
+        val response = client.performPost<TokenResponse>("auth/login/", body)
 
         if (response is NetworkResponse.Success) {
             val settings = settingsSource.settings.first()
@@ -68,7 +68,7 @@ internal class KtorAuthService(
     override suspend fun login(): AuthResult<LoginError> {
         val token = settingsSource.settings.value.refreshToken ?: ""
         val body = TokenBody(token)
-        val response = client.performPost<TokenResponse>("/auth/login/refresh/", body)
+        val response = client.performPost<TokenResponse>("auth/login/refresh/", body)
 
         if (response is NetworkResponse.Success) {
             val settings = settingsSource.settings.first()
@@ -101,7 +101,7 @@ internal class KtorAuthService(
     ): AuthResult<SignupError> {
         val body = CreateUserBody(email, username, password)
 
-        val response = client.performPost<AuthUserWithoutProfileResponse>("/auth/signup/", body)
+        val response = client.performPost<AuthUserWithoutProfileResponse>("auth/signup/", body)
 
         return response.asAuthResult { _, info ->
             if (info is ErrorInfo.ConflictUniqueInfo) {
@@ -117,7 +117,7 @@ internal class KtorAuthService(
     override suspend fun submitEmailToken(token: String): AuthResult<SubmitEmailTokenError> {
         val body = TokenBody(token)
 
-        val response = client.performPatch<Unit>("/auth/signup/email-verify", body)
+        val response = client.performPatch<Unit>("auth/signup/email-verify", body)
 
         return response.asAuthResult { code, _ ->
             when (code) {
@@ -129,7 +129,7 @@ internal class KtorAuthService(
 
     override suspend fun requestEmailToken(): AuthResult<RequestEmailTokenError> {
         val response = safeAuthCall {
-            client.performPost<Unit>("/auth/signup/email-verify/", Unit)
+            client.performPost<Unit>("auth/signup/email-verify/", Unit)
         }
 
         return response.asAuthResult { code, _ ->
