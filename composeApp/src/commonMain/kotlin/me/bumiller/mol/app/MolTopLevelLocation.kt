@@ -1,28 +1,35 @@
 package me.bumiller.mol.app
 
+import kotlinx.serialization.Serializable
+
 /**
  * Locations that the app root may directly embed.
  */
-enum class MolTopLevelLocation {
+@Serializable
+sealed interface MolTopLevelLocation {
 
     /**
      * The onboarding route.
      */
-    Onboarding,
+    @Serializable
+    data object Onboarding : MolTopLevelLocation
 
     /**
      * The home route, main part of the app.
      */
-    Home,
+    @Serializable
+    data object Home : MolTopLevelLocation
 
     /**
      * The auth route for logging in/ signing up.
      */
-    Auth,
+    @Serializable
+    data object Auth : MolTopLevelLocation
 
     /**
      * The settings route.
      */
-    Settings
+    @Serializable
+    data object Setting : MolTopLevelLocation
 
 }

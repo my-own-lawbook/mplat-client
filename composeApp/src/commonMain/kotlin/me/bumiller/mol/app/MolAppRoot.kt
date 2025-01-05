@@ -5,6 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import me.bumiller.mol.feature.auth.navigation.AuthLocation
@@ -26,6 +30,7 @@ fun MolAppRoot(
     onScreenReady: () -> Unit = {}
 ) = KoinContext {
     val viewModel = koinViewModel<MolAppViewModel>()
+    val navController = rememberNavController()
 
     // Notify the parent when this screen is ready.
     // May be used for a loading screen or the like.
@@ -40,10 +45,10 @@ fun MolAppRoot(
     }
 
     val settingsState by viewModel.settings.collectAsStateWithLifecycle()
-    val locationState by viewModel.topLevelLocation.collectAsStateWithLifecycle()
+    val initialLocationState by viewModel.topLevelLocation.collectAsStateWithLifecycle()
 
     val settings = settingsState.dataOrNull()
-    val location = locationState.dataOrNull()
+    val location = initialLocationState.dataOrNull()
 
     if (settings != null && location != null) {
         MolTheme(
@@ -52,11 +57,30 @@ fun MolAppRoot(
             colorScheme = settings.colorScheme,
             contrastLevel = settings.contrastLevel
         ) {
-            when (location) {
-                MolTopLevelLocation.Onboarding -> OnboardingLocation {}
-                MolTopLevelLocation.Auth -> AuthLocation()
-                else -> {}
-            }
+            MolAppRootNavHost(
+                navController = navController,
+                initialLocation = location
+            )
+        }
+    }
+}
+
+@Composable
+private fun MolAppRootNavHost(
+    navController: NavHostController,
+    initialLocation: MolTopLevelLocation
+) {
+    NavHost(
+        navController = navController,
+        startDestination = initialLocation
+    ) {
+        composable<MolTopLevelLocation.Onboarding> {
+            OnboardingLocation(
+                onOnboardingFinished = { navController.navigate(MolTopLevelLocation.Auth) }
+            )
+        }
+        composable<MolTopLevelLocation.Auth> {
+            AuthLocation()
         }
     }
 }
