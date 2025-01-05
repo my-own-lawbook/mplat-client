@@ -19,6 +19,7 @@ fun <Type> validateValue(inputValue: InputValue<Type>): InputValue<Type> {
             InputSemantic.Name -> validateName(inputValue.value)
             InputSemantic.NonEmpty -> validateNonEmpty(inputValue.value)
             InputSemantic.Url -> validateUrl(inputValue.value)
+            InputSemantic.Username -> validateUsername(inputValue.value)
             else -> null
         }
 
@@ -56,6 +57,13 @@ const val HTTPS_URL =
 
 private fun validateUrl(string: String): ValidationError? =
     if (!Regex(HTTPS_URL).matches("https://$string")) ValidationError.BadUrl
+    else null
+
+const val USERNAME =
+    "^[a-zA-Z0-9-_]{8,16}\$"
+
+private fun validateUsername(string: String): ValidationError? =
+    if (!Regex(USERNAME).matches(string)) ValidationError.UsernameFormat
     else null
 
 

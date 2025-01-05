@@ -16,6 +16,7 @@ import me.bumiller.mol.common_ui.validation_secret_invalid
 import me.bumiller.mol.common_ui.validation_signup_token_invalid
 import me.bumiller.mol.common_ui.validation_url
 import me.bumiller.mol.common_ui.validation_url_reach
+import me.bumiller.mol.common_ui.validation_username
 import org.jetbrains.compose.resources.stringResource
 
 /**
@@ -39,5 +40,6 @@ fun ValidationError.localizedDescription() = stringResource(
         ValidationError.DateInFuture -> Res.string.validation_date_in_future
         ValidationError.BadUrl -> Res.string.validation_url
         ValidationError.CantReachUrl -> Res.string.validation_url_reach
+        ValidationError.UsernameFormat -> Res.string.validation_username
     }
 )
