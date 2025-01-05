@@ -31,8 +31,14 @@ internal data object LoginScreen
 
 /**
  * Root composable for the auth location.
+ *
+ * @param onUrlChange Callback for when the user wants to change the url.
+ * @param onAuthenticate Callback for when the user authenticated successfully.
  */
-fun NavGraphBuilder.authLocation() = composable<AuthLocation> {
+fun NavGraphBuilder.authLocation(
+    onUrlChange: () -> Unit,
+    onAuthenticate: () -> Unit
+) = composable<AuthLocation> {
     val navController = rememberNavController()
 
     Surface(
@@ -45,11 +51,12 @@ fun NavGraphBuilder.authLocation() = composable<AuthLocation> {
         ) {
             welcomeScreen(
                 onLogin = { navController.navigate(LoginScreen) },
+                onUrlClick = onUrlChange,
                 onSignup = {}
             )
             loginScreen(
                 onBack = { navController.popBackStack() },
-                onAuthenticate = {},
+                onAuthenticate = onAuthenticate,
                 onSignup = {}
             )
         }
@@ -61,13 +68,15 @@ fun NavGraphBuilder.authLocation() = composable<AuthLocation> {
  *
  * @param onLogin Callback when the user chose to login
  * @param onSignup Callback when the user chose to signup
+ * @param onUrlClick Callback when the wants to change the url.
  */
 internal fun NavGraphBuilder.welcomeScreen(
     onLogin: () -> Unit,
-    onSignup: () -> Unit
+    onSignup: () -> Unit,
+    onUrlClick: () -> Unit
 ) {
     composable<WelcomeScreen> {
-        WelcomeScreen(onLogin, onSignup)
+        WelcomeScreen(onLogin, onSignup, onUrlClick)
     }
 }
 

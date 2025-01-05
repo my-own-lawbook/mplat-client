@@ -9,14 +9,19 @@ import me.bumiller.mol.common.ui.event.ViewModelEvent
 sealed interface WelcomeUiEvent : UiEvent {
 
     /**
-     * User proceeds by logging in
+     * User proceeds by logging in.
      */
     data object ContinueLogin : WelcomeUiEvent
 
     /**
-     * User proceeds by signing up
+     * User proceeds by signing up.
      */
     data object ContinueSignup : WelcomeUiEvent
+
+    /**
+     * User clicks on the url.
+     */
+    data object ChangeUrl : WelcomeUiEvent
 
 }
 
@@ -34,5 +39,10 @@ sealed interface WelcomeEvent : ViewModelEvent {
      * User proceeds by signing up
      */
     data object ContinueSignup : WelcomeEvent
+
+    /**
+     * Will navigate back to the url screen.
+     */
+    data object ChangeUrl : WelcomeEvent
 
 }

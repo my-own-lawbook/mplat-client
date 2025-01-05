@@ -27,6 +27,7 @@ class WelcomeViewModel(
     override suspend fun handleEvent(event: WelcomeUiEvent) = when (event) {
         WelcomeUiEvent.ContinueLogin -> fireEvent(WelcomeEvent.ContinueLogin)
         WelcomeUiEvent.ContinueSignup -> fireEvent(WelcomeEvent.ContinueSignup)
+        WelcomeUiEvent.ChangeUrl -> fireEvent(WelcomeEvent.ChangeUrl)
     }
 
 }

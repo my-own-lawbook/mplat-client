@@ -32,17 +32,23 @@ import org.jetbrains.compose.resources.stringResource
 
 /**
  * Screen on which the user can choose their authentication method.
+ *
+ * @param onLogin Callback when user chooses to login.
+ * @param onSignup Callback when user chooses to signup.
+ * @param onUrlClick Callback when user clocks on the server url.
  */
 @Composable
 internal fun WelcomeScreen(
     onLogin: () -> Unit,
-    onSignup: () -> Unit
+    onSignup: () -> Unit,
+    onUrlClick: () -> Unit
 ) {
     ViewModelScope<WelcomeUiEvent, WelcomeEvent, WelcomeViewModel>(
         onViewModelEvent = { event ->
             when (event) {
                 WelcomeEvent.ContinueLogin -> onLogin()
                 WelcomeEvent.ContinueSignup -> onSignup()
+                WelcomeEvent.ChangeUrl -> onUrlClick()
             }
         }
     ) { vm ->

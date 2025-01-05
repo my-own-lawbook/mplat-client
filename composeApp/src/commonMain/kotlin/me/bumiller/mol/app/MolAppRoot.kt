@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import me.bumiller.mol.feature.auth.navigation.AuthLocation
 import me.bumiller.mol.feature.auth.navigation.authLocation
+import me.bumiller.mol.feature.onboarding.navigation.OnboardingLocation
 import me.bumiller.mol.feature.onboarding.navigation.onboardingLocation
 import me.bumiller.mol.ui.theme.MolTheme
 import org.koin.compose.KoinContext
@@ -77,6 +78,13 @@ private fun MolAppRootNavHost(
         onboardingLocation(
             onOnboardingFinished = { navController.navigate(AuthLocation) }
         )
-        authLocation()
+        authLocation(
+            onUrlChange = {
+                navController.navigate(OnboardingLocation(false))
+            },
+            onAuthenticate = {
+                println("User authenticated successfully!")
+            }
+        )
     }
 }
