@@ -11,12 +11,12 @@ data class LoginState(
     /**
      * The input for the email field.
      */
-    val email: InputValue<String> = InputValue("", InputSemantic.Email),
+    val email: InputValue<String> = InputValue("", InputSemantic.NonEmpty),
 
     /**
      * The input value for the password field.
      */
-    val password: InputValue<String> = InputValue("", InputSemantic.Password),
+    val password: InputValue<String> = InputValue("", InputSemantic.NonEmpty),
 
     /**
      * Whether the password is currently hidden.
