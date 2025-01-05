@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.serialization.Serializable
 import me.bumiller.mol.feature.auth.screen.login.LoginScreen
+import me.bumiller.mol.feature.auth.screen.signup.SignupScreen
 import me.bumiller.mol.feature.auth.screen.welcome.WelcomeScreen
 
 /**
@@ -28,6 +29,12 @@ internal data object WelcomeScreen
  */
 @Serializable
 internal data object LoginScreen
+
+/**
+ * Navigation destination for the signup screen.
+ */
+@Serializable
+internal data object SignupScreen
 
 /**
  * Root composable for the auth location.
@@ -52,12 +59,22 @@ fun NavGraphBuilder.authLocation(
             welcomeScreen(
                 onLogin = { navController.navigate(LoginScreen) },
                 onUrlClick = onUrlChange,
-                onSignup = {}
+                onSignup = { navController.navigate(SignupScreen) }
             )
             loginScreen(
                 onBack = { navController.popBackStack() },
                 onAuthenticate = onAuthenticate,
-                onSignup = {}
+                onSignup = {
+                    navController.navigate(SignupScreen) {
+                        popUpTo(WelcomeScreen) {
+                            inclusive = false
+                        }
+                    }
+                }
+            )
+            signupScreen(
+                onBack = { navController.popBackStack() },
+                onFinished = {}
             )
         }
     }
@@ -94,5 +111,20 @@ internal fun NavGraphBuilder.loginScreen(
 ) {
     composable<LoginScreen> {
         LoginScreen(onBack, onSignup, onAuthenticate)
+    }
+}
+
+/**
+ * Builds the signup-screen-destination inside a nav-graph-builder.
+ *
+ * @param onBack The callback for when the user wants to return to the recent screen.
+ * @param onFinished The callback for when the signup process finished.
+ */
+internal fun NavGraphBuilder.signupScreen(
+    onBack: () -> Unit,
+    onFinished: () -> Unit
+) {
+    composable<SignupScreen> {
+        SignupScreen(onBack, onFinished)
     }
 }

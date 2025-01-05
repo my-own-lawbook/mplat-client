@@ -12,7 +12,19 @@
     <string name="login_screen_login_button_label">Continue</string>
     <string name="login_screen_input_email_label">Email</string>
     <string name="login_screen_input_password_label">Password</string>
-    <string name="login_screen_signup_link_prefix">Already have an account? </string>
+    <string name="login_screen_signup_link_prefix">Don't have an account yet? </string>
     <string name="login_screen_signup_link">Signup instead.</string>
     <string name="login_screen_signup_link_suffix" />
+
+    <string name="signup_screen_title">Signup</string>
+    <string name="signup_screen_display">Create your account</string>
+    <string name="signup_screen_description">Sign up to get started with your account. It only takes a few moments to complete. Enjoy access to all features and services. Enter your details below to begin.</string>
+    <string name="signup_screen_input_email_label">Email</string>
+    <string name="signup_screen_input_username_label">Username</string>
+    <string name="signup_screen_input_password_label">Password</string>
+    <string name="signup_screen_input_password_confirm_label">Confirm password</string>
+    <string name="signup_screen_login_link_prefix">Already have an account? </string>
+    <string name="signup_screen_login_link">Login instead.</string>
+    <string name="signup_screen_login_link_suffix" />
+    <string name="signup_screen_signup_button_label">Continue</string>
 </resources>
