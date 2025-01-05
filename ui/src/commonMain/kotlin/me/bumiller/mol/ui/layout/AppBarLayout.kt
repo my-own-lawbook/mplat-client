@@ -33,6 +33,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import me.bumiller.mol.common.ui.viewmodel.LocalViewModelScope
 import me.bumiller.mol.ui.components.MolAppBar
 import me.bumiller.mol.ui.components.TopAppBarStyles
 import me.bumiller.mol.ui.locals.LocalWindowSizeClass
@@ -318,6 +319,8 @@ fun AppBarLayout(
     firstContent: @Composable (CanonicalLayoutType) -> Unit,
     secondContent: @Composable (CanonicalLayoutType) -> Unit
 ) {
+    val isFetching = LocalViewModelScope.current.isFetching
+
     when (layoutType) {
         is AppBarLayoutType.Column -> {
             ColumnAppBarLayout(
@@ -326,6 +329,7 @@ fun AppBarLayout(
                 verticalScrollable,
                 contentPadding,
                 appBarStyle,
+                isFetching,
                 title,
                 navigationIcon,
                 actions,
@@ -342,6 +346,7 @@ fun AppBarLayout(
                 appBarStyle,
                 title,
                 navigationIcon,
+                isFetching,
                 actions,
                 firstContent,
                 secondContent
@@ -359,6 +364,7 @@ fun AppBarLayout(
                     appBarStyle,
                     title,
                     navigationIcon,
+                    isFetching,
                     actions,
                     firstContent,
                     secondContent
@@ -370,6 +376,7 @@ fun AppBarLayout(
                     verticalScrollable,
                     contentPadding,
                     appBarStyle,
+                    isFetching,
                     title,
                     navigationIcon,
                     actions,
@@ -389,6 +396,7 @@ private fun ColumnAppBarLayout(
     verticalScrollable: Boolean,
     paddingValues: PaddingValues,
     appBarStyle: TopAppBarStyles = TopAppBarStyles.Centered,
+    isFetching: Boolean = false,
     title: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
@@ -405,6 +413,7 @@ private fun ColumnAppBarLayout(
             style = appBarStyle,
             title = title,
             navigationIcon = navigationIcon,
+            isFetching = isFetching,
             actions = actions,
             windowInsets = WindowInsets.statusBars
         )
@@ -458,6 +467,7 @@ private fun RowAppBarLayout(
     appBarStyle: TopAppBarStyles = TopAppBarStyles.Centered,
     title: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit = {},
+    isFetching: Boolean = false,
     actions: @Composable RowScope.() -> Unit = {},
     firstContent: @Composable (CanonicalLayoutType) -> Unit,
     secondContent: @Composable (CanonicalLayoutType) -> Unit
@@ -471,6 +481,7 @@ private fun RowAppBarLayout(
                 .fillMaxWidth(),
             style = appBarStyle,
             title = title,
+            isFetching = isFetching,
             navigationIcon = navigationIcon,
             actions = actions,
             windowInsets = WindowInsets.statusBars
