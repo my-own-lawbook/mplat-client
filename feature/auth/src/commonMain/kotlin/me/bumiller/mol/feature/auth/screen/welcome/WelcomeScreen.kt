@@ -25,6 +25,7 @@ import me.bumiller.mol.common.ui.viewmodel.ViewModelScope
 import me.bumiller.mol.model.UserSettings
 import me.bumiller.mol.model.state.SimpleState
 import me.bumiller.mol.ui.components.MultiStyleText
+import me.bumiller.mol.ui.components.TextStyleWithCallback
 import me.bumiller.mol.ui.components.WideButton
 import me.bumiller.mol.ui.components.WideOutlinedButton
 import me.bumiller.mol.ui.layout.AppBarLayoutWithDisplay
@@ -113,10 +114,17 @@ private fun WelcomeScreen(
                 modifier = Modifier
                     .widthIn(max = 400.dp),
                 style = MaterialTheme.typography.bodySmall,
-                stringResource(Res.string.welcome_screen_server_info) to MaterialTheme.typography.bodySmall,
+                stringResource(Res.string.welcome_screen_server_info) to TextStyleWithCallback(
+                    MaterialTheme.typography.bodySmall
+                ),
                 settings.backendUrl.toString() to MaterialTheme.typography.bodySmall.copy(
                     color = MaterialTheme.colorScheme.tertiary
-                )
+                ).let {
+                    TextStyleWithCallback(
+                        style = it,
+                        callback = { onEvent(WelcomeUiEvent.ChangeUrl) }
+                    )
+                }
             )
         }
     }

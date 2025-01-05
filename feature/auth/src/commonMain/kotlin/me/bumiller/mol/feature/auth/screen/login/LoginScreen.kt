@@ -33,6 +33,7 @@ import me.bumiller.mol.ui.components.MolTextField
 import me.bumiller.mol.ui.components.MultiStyleText
 import me.bumiller.mol.ui.components.PasswordTextField
 import me.bumiller.mol.ui.components.TextFieldStyle
+import me.bumiller.mol.ui.components.TextStyleWithCallback
 import me.bumiller.mol.ui.components.WideButton
 import me.bumiller.mol.ui.layout.AppBarLayoutWithDisplay
 import org.jetbrains.compose.resources.stringResource
@@ -128,12 +129,16 @@ private fun LoginScreen(
                 modifier = Modifier
                     .widthIn(max = 400.dp),
                 style = MaterialTheme.typography.bodySmall,
-                stringResource(Res.string.login_screen_signup_link_prefix) to MaterialTheme.typography.bodySmall,
+                stringResource(Res.string.login_screen_signup_link_prefix) to TextStyleWithCallback(
+                    MaterialTheme.typography.bodySmall
+                ),
                 stringResource(Res.string.login_screen_signup_link) to MaterialTheme.typography.bodySmall.copy(
                     color = MaterialTheme.colorScheme.primary,
                     textDecoration = TextDecoration.Underline
+                ).let { TextStyleWithCallback(it) },
+                stringResource(Res.string.login_screen_signup_link_suffix) to TextStyleWithCallback(
+                    MaterialTheme.typography.bodySmall
                 ),
-                stringResource(Res.string.login_screen_signup_link_suffix) to MaterialTheme.typography.bodySmall,
             )
         }
     }
