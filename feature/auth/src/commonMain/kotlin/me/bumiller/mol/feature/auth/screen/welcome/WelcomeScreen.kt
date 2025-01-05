@@ -9,13 +9,11 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.flow.collectLatest
 import me.bumiller.mol.auth.Res
 import me.bumiller.mol.auth.welcome_screen_description
 import me.bumiller.mol.auth.welcome_screen_display
@@ -23,6 +21,7 @@ import me.bumiller.mol.auth.welcome_screen_login_button_label
 import me.bumiller.mol.auth.welcome_screen_server_info
 import me.bumiller.mol.auth.welcome_screen_signup_button_label
 import me.bumiller.mol.auth.welcome_screen_title
+import me.bumiller.mol.common.ui.viewmodel.ViewModelScope
 import me.bumiller.mol.model.UserSettings
 import me.bumiller.mol.model.state.SimpleState
 import me.bumiller.mol.ui.components.MultiStyleText
@@ -30,33 +29,28 @@ import me.bumiller.mol.ui.components.WideButton
 import me.bumiller.mol.ui.components.WideOutlinedButton
 import me.bumiller.mol.ui.layout.AppBarLayoutWithDisplay
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.annotation.KoinExperimentalAPI
 
 /**
  * Screen on which the user can choose their authentication method.
  */
-@OptIn(KoinExperimentalAPI::class)
 @Composable
 internal fun WelcomeScreen(
     onLogin: () -> Unit,
     onSignup: () -> Unit
 ) {
-    val viewModel = koinViewModel<WelcomeViewModel>()
-
-    LaunchedEffect(Unit) {
-        viewModel.events.collectLatest { event ->
+    ViewModelScope<WelcomeUiEvent, WelcomeEvent, WelcomeViewModel>(
+        onViewModelEvent = { event ->
             when (event) {
                 WelcomeEvent.ContinueLogin -> onLogin()
                 WelcomeEvent.ContinueSignup -> onSignup()
             }
         }
-    }
+    ) { vm ->
+        val settings by vm.settings.collectAsStateWithLifecycle()
 
-    val settings by viewModel.settings.collectAsStateWithLifecycle()
-
-    if (settings is SimpleState.Success<*>) {
-        WelcomeScreen(viewModel::onEvent, settings.dataOrNull()!!)
+        if (settings is SimpleState.Success<*>) {
+            WelcomeScreen(vm::onEvent, settings.dataOrNull()!!)
+        }
     }
 }
 
