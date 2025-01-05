@@ -1,6 +1,8 @@
 package me.bumiller.mol.app
 
 import kotlinx.serialization.Serializable
+import me.bumiller.mol.feature.auth.navigation.AuthLocation
+import me.bumiller.mol.feature.onboarding.navigation.OnboardingLocation
 
 /**
  * Locations that the app root may directly embed.
@@ -38,5 +40,16 @@ sealed interface MolTopLevelLocation {
      */
     @Serializable
     data object Setting : MolTopLevelLocation
+
+    /**
+     * Converts this [MolTopLevelLocation] to the associated nav route.
+     */
+    val asNavRoute: Any
+        get() = when (this) {
+            Auth -> AuthLocation
+            is Onboarding -> OnboardingLocation(showDesignScreen)
+            Home -> TODO()
+            Setting -> TODO()
+        }
 
 }

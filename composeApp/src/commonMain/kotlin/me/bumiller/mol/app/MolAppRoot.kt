@@ -7,12 +7,12 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import me.bumiller.mol.feature.auth.navigation.AuthLocation
-import me.bumiller.mol.feature.onboarding.navigation.OnboardingLocation
+import me.bumiller.mol.feature.auth.navigation.authLocation
+import me.bumiller.mol.feature.onboarding.navigation.onboardingLocation
 import me.bumiller.mol.ui.theme.MolTheme
 import org.koin.compose.KoinContext
 import org.koin.compose.viewmodel.koinViewModel
@@ -72,15 +72,11 @@ private fun MolAppRootNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = initialLocation
+        startDestination = initialLocation.asNavRoute
     ) {
-        composable<MolTopLevelLocation.Onboarding> {
-            OnboardingLocation(
-                onOnboardingFinished = { navController.navigate(MolTopLevelLocation.Auth) }
-            )
-        }
-        composable<MolTopLevelLocation.Auth> {
-            AuthLocation()
-        }
+        onboardingLocation(
+            onOnboardingFinished = { navController.navigate(AuthLocation) }
+        )
+        authLocation()
     }
 }

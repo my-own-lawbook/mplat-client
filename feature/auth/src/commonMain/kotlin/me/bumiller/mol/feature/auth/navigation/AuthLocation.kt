@@ -2,7 +2,6 @@ package me.bumiller.mol.feature.auth.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
@@ -13,24 +12,27 @@ import me.bumiller.mol.feature.auth.screen.login.LoginScreen
 import me.bumiller.mol.feature.auth.screen.welcome.WelcomeScreen
 
 /**
+ * Navigation destination for the auth location.
+ */
+@Serializable
+data object AuthLocation
+
+/**
  * Navigation destination for the welcome screen.
  */
 @Serializable
-data object WelcomeScreen
+internal data object WelcomeScreen
 
 /**
  * Navigation destination for the login screen.
  */
 @Serializable
-data object LoginScreen
+internal data object LoginScreen
 
 /**
  * Root composable for the auth location.
  */
-@Composable
-fun AuthLocation(
-
-) {
+fun NavGraphBuilder.authLocation() = composable<AuthLocation> {
     val navController = rememberNavController()
 
     Surface(
