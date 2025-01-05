@@ -117,7 +117,7 @@ internal class KtorAuthService(
     override suspend fun submitEmailToken(token: String): AuthResult<SubmitEmailTokenError> {
         val body = TokenBody(token)
 
-        val response = client.performPatch<Unit>("auth/signup/email-verify", body)
+        val response = client.performPatch<Unit>("auth/signup/email-verify/", body)
 
         return response.asAuthResult { code, _ ->
             when (code) {

@@ -46,7 +46,7 @@ private fun Scope.instantiateKtorClient(): HttpClient = HttpClient(CIO) {
     install(Auth) {
         bearer {
             loadTokens {
-                val settings = get<UserSettingsSource>().settings.first()
+                val settings = get<UserSettingsSource>().settings.value
 
                 val access = settings.accessToken
                 val refresh = settings.refreshToken
