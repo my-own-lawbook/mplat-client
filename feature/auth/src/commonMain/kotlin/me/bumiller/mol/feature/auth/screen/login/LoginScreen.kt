@@ -132,10 +132,13 @@ private fun LoginScreen(
                 stringResource(Res.string.login_screen_signup_link_prefix) to TextStyleWithCallback(
                     MaterialTheme.typography.bodySmall
                 ),
-                stringResource(Res.string.login_screen_signup_link) to MaterialTheme.typography.bodySmall.copy(
-                    color = MaterialTheme.colorScheme.primary,
-                    textDecoration = TextDecoration.Underline
-                ).let { TextStyleWithCallback(it) },
+                stringResource(Res.string.login_screen_signup_link) to TextStyleWithCallback(
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        color = MaterialTheme.colorScheme.primary,
+                        textDecoration = TextDecoration.Underline
+                    ),
+                    callback = { onEvent(LoginUiEvent.Signup) }
+                ),
                 stringResource(Res.string.login_screen_signup_link_suffix) to TextStyleWithCallback(
                     MaterialTheme.typography.bodySmall
                 ),

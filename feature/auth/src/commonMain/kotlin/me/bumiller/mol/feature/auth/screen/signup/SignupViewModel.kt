@@ -46,6 +46,7 @@ class SignupViewModel(
             }
 
             SignupUiEvent.Back -> fireEvent(SignupEvent.Back)
+            SignupUiEvent.Login -> fireEvent(SignupEvent.Login)
             is SignupUiEvent.Confirm -> handle()
         }
     }

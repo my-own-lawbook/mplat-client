@@ -34,6 +34,11 @@ sealed interface SignupUiEvent : UiEvent {
     data object Back : SignupUiEvent
 
     /**
+     * User clicked the login link.
+     */
+    data object Login : SignupUiEvent
+
+    /**
      * User confirmed the credentials.
      */
     data object Confirm : SignupUiEvent
@@ -54,5 +59,10 @@ sealed interface SignupEvent : ViewModelEvent {
      * Finished the signup process.
      */
     data object Finished : SignupEvent
+
+    /**
+     * Proceeding to the login screen.
+     */
+    data object Login : SignupEvent
 
 }
