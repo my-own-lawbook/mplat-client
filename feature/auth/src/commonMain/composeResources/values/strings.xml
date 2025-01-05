@@ -27,4 +27,11 @@
     <string name="signup_screen_login_link">Login instead.</string>
     <string name="signup_screen_login_link_suffix" />
     <string name="signup_screen_signup_button_label">Continue</string>
+
+    <string name="email_screen_title">Verify email</string>
+    <string name="email_screen_description">Enter the code we sent to your email to verify your account. Didn’t receive it? Check your spam folder or request a new code below.</string>
+    <string name="email_screen_input_token_label">Code</string>
+    <string name="email_screen_verify_button_label">Continue</string>
+    <string name="email_screen_resend_button_label">Resend email</string>
+    <string name="cd_email_screen">Minimalistic visualization of a smartphone receiving a notification.</string>
 </resources>

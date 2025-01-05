@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.serialization.Serializable
+import me.bumiller.mol.feature.auth.screen.email.EmailScreen
 import me.bumiller.mol.feature.auth.screen.login.LoginScreen
 import me.bumiller.mol.feature.auth.screen.signup.SignupScreen
 import me.bumiller.mol.feature.auth.screen.welcome.WelcomeScreen
@@ -17,6 +18,12 @@ import me.bumiller.mol.feature.auth.screen.welcome.WelcomeScreen
  */
 @Serializable
 data object AuthLocation
+
+/**
+ * Navigation destination for the email screen.
+ */
+@Serializable
+internal data object EmailScreen
 
 /**
  * Navigation destination for the welcome screen.
@@ -74,6 +81,22 @@ fun NavGraphBuilder.authLocation(
             )
             signupScreen(
                 onBack = { navController.popBackStack() },
+                onFinished = {
+                    navController.navigate(EmailScreen) {
+                        popUpTo(SignupScreen) {
+                            inclusive = true
+                        }
+                    }
+                },
+                onLogin = {
+                    navController.navigate(LoginScreen) {
+                        popUpTo(SignupScreen) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
+            emailScreen(
                 onFinished = {}
             )
         }
@@ -119,12 +142,27 @@ internal fun NavGraphBuilder.loginScreen(
  *
  * @param onBack The callback for when the user wants to return to the recent screen.
  * @param onFinished The callback for when the signup process finished.
+ * @param onLogin The callback for when the user navigates to the login screen.
  */
 internal fun NavGraphBuilder.signupScreen(
     onBack: () -> Unit,
-    onFinished: () -> Unit
+    onFinished: () -> Unit,
+    onLogin: () -> Unit
 ) {
     composable<SignupScreen> {
-        SignupScreen(onBack, onFinished)
+        SignupScreen(onBack, onFinished, onLogin)
+    }
+}
+
+/**
+ * Builds the email-screen-destination inside a nav-graph-builder.
+ *
+ * @param onFinished The callback for when the email process finished.
+ */
+internal fun NavGraphBuilder.emailScreen(
+    onFinished: () -> Unit
+) {
+    composable<EmailScreen> {
+        EmailScreen(onFinished)
     }
 }

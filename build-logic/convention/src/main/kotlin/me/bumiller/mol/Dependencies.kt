@@ -49,7 +49,8 @@ object Dependencies {
             "koin",
             "coroutines",
             "uri",
-            "kotlin.serialization.json"
+            "kotlin.serialization.json",
+            "kotlin.datetime"
         ),
         android = listOf(
             "koin.android"
