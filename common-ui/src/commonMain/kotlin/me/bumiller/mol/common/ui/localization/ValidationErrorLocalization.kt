@@ -17,6 +17,7 @@ import me.bumiller.mol.common_ui.validation_signup_token_invalid
 import me.bumiller.mol.common_ui.validation_url
 import me.bumiller.mol.common_ui.validation_url_reach
 import me.bumiller.mol.common_ui.validation_username
+import me.bumiller.mol.common_ui.validation_username_taken
 import org.jetbrains.compose.resources.stringResource
 
 /**
@@ -41,5 +42,6 @@ fun ValidationError.localizedDescription() = stringResource(
         ValidationError.BadUrl -> Res.string.validation_url
         ValidationError.CantReachUrl -> Res.string.validation_url_reach
         ValidationError.UsernameFormat -> Res.string.validation_username
+        ValidationError.UsernameTaken -> Res.string.validation_username_taken
     }
 )

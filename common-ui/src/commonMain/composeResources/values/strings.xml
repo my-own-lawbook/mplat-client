@@ -1,6 +1,7 @@
 <resources>
     <string name="validation_email">The value must be a valid email address.</string>
     <string name="validation_username">The value must be between 8 and 20 characters and can contain alphanumerical chars, dashes and underscores.</string>
+    <string name="validation_username_taken">The username is already used.</string>
     <string name="validation_empty">The value not must be empty.</string>
     <string name="validation_name">The value must be at least 2 letters long.</string>
     <string name="validation_password">The value must be at least 8 digits long, and contain lowercase, uppercase and number letters. letters</string>

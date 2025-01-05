@@ -16,6 +16,11 @@ sealed interface ValidationError {
     data object UsernameFormat : ValidationError
 
     /**
+     * The username is already taken.
+     */
+    data object UsernameTaken : ValidationError
+
+    /**
      * The field is not strong enough.
      */
     data object PasswordFormat : ValidationError
