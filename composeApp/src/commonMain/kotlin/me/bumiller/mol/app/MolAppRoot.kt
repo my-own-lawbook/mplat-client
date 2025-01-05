@@ -76,11 +76,21 @@ private fun MolAppRootNavHost(
         startDestination = initialLocation.asNavRoute
     ) {
         onboardingLocation(
-            onOnboardingFinished = { navController.navigate(AuthLocation) }
+            onOnboardingFinished = {
+                navController.navigate(AuthLocation) {
+                    popUpTo(OnboardingLocation::class) {
+                        inclusive = true
+                    }
+                }
+            }
         )
         authLocation(
             onUrlChange = {
-                navController.navigate(OnboardingLocation(false))
+                navController.navigate(OnboardingLocation(false)) {
+                    popUpTo(AuthLocation) {
+                        inclusive = true
+                    }
+                }
             },
             onAuthenticate = {
                 println("User authenticated successfully!")
