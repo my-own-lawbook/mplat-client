@@ -25,12 +25,9 @@ import me.bumiller.mol.network.model.NetworkResponse
  * @param body The request body
  */
 suspend inline fun <reified Body> HttpClient.performGet(
-    url: String,
-    body: Any
+    url: String
 ): NetworkResponse<Body> = performRequest {
-    get(url) {
-        setBody(body)
-    }
+    get(url)
 }
 
 /**
@@ -41,10 +38,12 @@ suspend inline fun <reified Body> HttpClient.performGet(
  */
 suspend inline fun <reified Body> HttpClient.performPost(
     url: String,
-    body: Any
+    body: Any? = null
 ): NetworkResponse<Body> = performRequest {
     post(url) {
-        setBody(body)
+        if (body != null) {
+            setBody(body)
+        }
         contentType(ContentType.Application.Json)
     }
 }
@@ -57,10 +56,12 @@ suspend inline fun <reified Body> HttpClient.performPost(
  */
 suspend inline fun <reified Body> HttpClient.performPatch(
     url: String,
-    body: Any
+    body: Any? = null
 ): NetworkResponse<Body> = performRequest {
     patch(url) {
-        setBody(body)
+        if (body != null) {
+            setBody(body)
+        }
         contentType(ContentType.Application.Json)
     }
 }

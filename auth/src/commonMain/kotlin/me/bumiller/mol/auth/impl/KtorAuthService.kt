@@ -66,7 +66,7 @@ internal class KtorAuthService(
             )
         }
 
-        val userResponse = client.performGet<AuthUserWithoutProfileResponse>("user/", Unit)
+        val userResponse = client.performGet<AuthUserWithoutProfileResponse>("user/")
             .map(AuthUserWithoutProfileResponse::toModel)
 
         return loginResponse.asAuthResult(userResponse) { code, _ ->
@@ -95,7 +95,7 @@ internal class KtorAuthService(
             )
         }
 
-        val userResponse = client.performGet<AuthUserWithoutProfileResponse>("user/", Unit)
+        val userResponse = client.performGet<AuthUserWithoutProfileResponse>("user/")
             .map(AuthUserWithoutProfileResponse::toModel)
 
         return loginResponse.asAuthResult(userResponse) { code, info ->
@@ -161,7 +161,7 @@ internal class KtorAuthService(
         }
     }
 
-    private val authorizationIndicatingCodes = listOf(401, 403, 403)
+    private val authorizationIndicatingCodes = listOf(401, 403, 404)
 
     override suspend fun <Data> safeAuthCall(call: suspend () -> NetworkResponse<Data>): NetworkResponse<Data> {
         val firstResponse = call()
