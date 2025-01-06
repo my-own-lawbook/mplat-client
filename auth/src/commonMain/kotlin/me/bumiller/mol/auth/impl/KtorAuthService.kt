@@ -9,10 +9,13 @@ import me.bumiller.mol.auth.LoginError
 import me.bumiller.mol.auth.RequestEmailTokenError
 import me.bumiller.mol.auth.SignupError
 import me.bumiller.mol.auth.SubmitEmailTokenError
+import me.bumiller.mol.auth.mapping.toModel
+import me.bumiller.mol.model.user.AuthUser
 import me.bumiller.mol.network.model.ErrorInfo
 import me.bumiller.mol.network.model.NetworkResponse
 import me.bumiller.mol.network.response.AuthUserWithoutProfileResponse
 import me.bumiller.mol.network.response.TokenResponse
+import me.bumiller.mol.network.wrapper.performGet
 import me.bumiller.mol.network.wrapper.performPatch
 import me.bumiller.mol.network.wrapper.performPost
 import me.bumiller.mol.settings.UserSettingsSource
@@ -22,39 +25,51 @@ internal class KtorAuthService(
     private val settingsSource: UserSettingsSource
 ) : AuthService {
 
-    private inline fun <reified Body, ErrorType> NetworkResponse<Body>.asAuthResult(
+    private inline fun <reified ErrorBody, Body, ErrorType> NetworkResponse<ErrorBody>.asAuthResult(
+        data: NetworkResponse<Body>,
         getSpecificError: (Int, ErrorInfo) -> ErrorType?
-    ): AuthResult<ErrorType> {
+    ): AuthResult<Body, ErrorType> {
         return when (this) {
             is NetworkResponse.HttpError -> getSpecificError(
                 code,
                 info
             )?.let { AuthResult.Error(it) }
-                ?: AuthResult.UnknownError()
+                ?: AuthResult.UnknownError(code = code, errorInfo = info)
 
             is NetworkResponse.NetworkError -> AuthResult.NetworkError()
-            is NetworkResponse.Success -> AuthResult.Success()
+            is NetworkResponse.Success -> when (data) {
+                is NetworkResponse.Success -> AuthResult.Success(data.data)
+                is NetworkResponse.HttpError -> AuthResult.UnknownError(
+                    code = data.code,
+                    errorInfo = data.info
+                )
+
+                is NetworkResponse.NetworkError -> AuthResult.NetworkError()
+            }
         }
     }
 
     @Serializable
     data class CredentialsBody(val email: String, val password: String)
 
-    override suspend fun login(email: String, password: String): AuthResult<LoginError> {
+    override suspend fun login(email: String, password: String): AuthResult<AuthUser, LoginError> {
         val body = CredentialsBody(email, password)
-        val response = client.performPost<TokenResponse>("auth/login/", body)
+        val loginResponse = client.performPost<TokenResponse>("auth/login/", body)
 
-        if (response is NetworkResponse.Success) {
+        if (loginResponse is NetworkResponse.Success) {
             val settings = settingsSource.settings.first()
             settingsSource.update(
                 settings.copy(
-                    accessToken = response.data.accessToken,
-                    refreshToken = response.data.refreshToken
+                    accessToken = loginResponse.data.accessToken,
+                    refreshToken = loginResponse.data.refreshToken
                 )
             )
         }
 
-        return response.asAuthResult { code, _ ->
+        val userResponse = client.performGet<AuthUserWithoutProfileResponse>("user/", Unit)
+            .map(AuthUserWithoutProfileResponse::toModel)
+
+        return loginResponse.asAuthResult(userResponse) { code, _ ->
             when (code) {
                 401 -> LoginError.BadCredentials
                 else -> null
@@ -65,22 +80,25 @@ internal class KtorAuthService(
     @Serializable
     data class TokenBody(val token: String)
 
-    override suspend fun login(): AuthResult<LoginError> {
+    override suspend fun login(): AuthResult<AuthUser, LoginError> {
         val token = settingsSource.settings.value.refreshToken ?: ""
         val body = TokenBody(token)
-        val response = client.performPost<TokenResponse>("auth/login/refresh/", body)
+        val loginResponse = client.performPost<TokenResponse>("auth/login/refresh/", body)
 
-        if (response is NetworkResponse.Success) {
+        if (loginResponse is NetworkResponse.Success) {
             val settings = settingsSource.settings.first()
             settingsSource.update(
                 settings.copy(
-                    accessToken = response.data.accessToken,
-                    refreshToken = response.data.refreshToken
+                    accessToken = loginResponse.data.accessToken,
+                    refreshToken = loginResponse.data.refreshToken
                 )
             )
         }
 
-        return response.asAuthResult { code, info ->
+        val userResponse = client.performGet<AuthUserWithoutProfileResponse>("user/", Unit)
+            .map(AuthUserWithoutProfileResponse::toModel)
+
+        return loginResponse.asAuthResult(userResponse) { code, info ->
             when (code) {
                 401 -> LoginError.BadToken
                 else -> when (info) {
@@ -98,12 +116,15 @@ internal class KtorAuthService(
         email: String,
         username: String,
         password: String
-    ): AuthResult<SignupError> {
+    ): AuthResult<AuthUser, SignupError> {
         val body = CreateUserBody(email, username, password)
 
-        val response = client.performPost<AuthUserWithoutProfileResponse>("auth/signup/", body)
+        val signupResponse =
+            client.performPost<AuthUserWithoutProfileResponse>("auth/signup/", body)
+                .map(AuthUserWithoutProfileResponse::toModel)
+        login(email, password)
 
-        return response.asAuthResult { _, info ->
+        return signupResponse.asAuthResult(signupResponse) { _, info ->
             if (info is ErrorInfo.ConflictUniqueInfo) {
                 when (info.field) {
                     "email" -> SignupError.EmailNotUnique
@@ -114,12 +135,12 @@ internal class KtorAuthService(
         }
     }
 
-    override suspend fun submitEmailToken(token: String): AuthResult<SubmitEmailTokenError> {
+    override suspend fun submitEmailToken(token: String): AuthResult<Unit, SubmitEmailTokenError> {
         val body = TokenBody(token)
 
         val response = client.performPatch<Unit>("auth/signup/email-verify/", body)
 
-        return response.asAuthResult { code, _ ->
+        return response.asAuthResult(NetworkResponse.Success(Unit)) { code, _ ->
             when (code) {
                 404 -> SubmitEmailTokenError.InvalidToken
                 else -> null
@@ -127,12 +148,12 @@ internal class KtorAuthService(
         }
     }
 
-    override suspend fun requestEmailToken(): AuthResult<RequestEmailTokenError> {
+    override suspend fun requestEmailToken(): AuthResult<Unit, RequestEmailTokenError> {
         val response = safeAuthCall {
             client.performPost<Unit>("auth/signup/email-verify/", Unit)
         }
 
-        return response.asAuthResult { code, _ ->
+        return response.asAuthResult(NetworkResponse.Success(Unit)) { code, _ ->
             when (code) {
                 404 -> RequestEmailTokenError.NotAuthenticated
                 else -> null

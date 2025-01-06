@@ -1,5 +1,7 @@
 package me.bumiller.mol.auth
 
+import me.bumiller.mol.network.model.ErrorInfo
+
 /**
  * Errors that can occur when trying to login.
  */
@@ -61,7 +63,7 @@ enum class RequestEmailTokenError {
 /**
  * Class that encapsulates states an authentication request can have.
  */
-sealed class AuthResult<Error>(
+sealed class AuthResult<Data, Error>(
 
     /**
      * Whether the call successfully authenticated the client.
@@ -73,23 +75,27 @@ sealed class AuthResult<Error>(
     /**
      * The request was successful.
      */
-    class Success<ErrorType> : AuthResult<ErrorType>(true)
+    data class Success<Data, ErrorType>(val data: Data) : AuthResult<Data, ErrorType>(true)
 
     /**
      * A network error caused the request to not be sent.
      */
-    class NetworkError<ErrorType> : AuthResult<ErrorType>(false)
+    class NetworkError<Data, ErrorType> : AuthResult<Data, ErrorType>(false)
 
     /**
      * An unknown error occurred.
      */
-    class UnknownError<ErrorType> : AuthResult<ErrorType>(false)
+    data class UnknownError<Data, ErrorType>(
+        val code: Int? = null,
+        val errorInfo: ErrorInfo? = null,
+        val message: String? = null
+    ) : AuthResult<Data, ErrorType>(false)
 
     /**
      * A specific error occurred.
      *
      * @param errorType The error that occurred.
      */
-    data class Error<ErrorType>(val errorType: ErrorType) : AuthResult<ErrorType>(false)
+    data class Error<Data, ErrorType>(val errorType: ErrorType) : AuthResult<Data, ErrorType>(false)
 
 }

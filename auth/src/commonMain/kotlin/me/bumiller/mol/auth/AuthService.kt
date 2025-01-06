@@ -1,5 +1,6 @@
 package me.bumiller.mol.auth
 
+import me.bumiller.mol.model.user.AuthUser
 import me.bumiller.mol.network.model.NetworkResponse
 
 /**
@@ -14,12 +15,12 @@ interface AuthService {
      * @param password The password
      * @return The [AuthResult]
      */
-    suspend fun login(email: String, password: String): AuthResult<LoginError>
+    suspend fun login(email: String, password: String): AuthResult<AuthUser, LoginError>
 
     /**
      * Attempts to login with the stored refresh token and saves the updated tokens to the local storage.
      */
-    suspend fun login(): AuthResult<LoginError>
+    suspend fun login(): AuthResult<AuthUser, LoginError>
 
     /**
      * Attempts to sign up.
@@ -32,19 +33,19 @@ interface AuthService {
         email: String,
         username: String,
         password: String
-    ): AuthResult<SignupError>
+    ): AuthResult<AuthUser, SignupError>
 
     /**
      * Submits a given email token.
      *
      * @param token The email token
      */
-    suspend fun submitEmailToken(token: String): AuthResult<SubmitEmailTokenError>
+    suspend fun submitEmailToken(token: String): AuthResult<Unit, SubmitEmailTokenError>
 
     /**
      * Requests an email token to the email of the authentication.
      */
-    suspend fun requestEmailToken(): AuthResult<RequestEmailTokenError>
+    suspend fun requestEmailToken(): AuthResult<Unit, RequestEmailTokenError>
 
     /**
      * Executes a network call, and retries it when the error response may be caused by unauthenticated.
