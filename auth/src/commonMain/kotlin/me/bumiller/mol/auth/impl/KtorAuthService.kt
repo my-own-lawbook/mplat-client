@@ -183,6 +183,7 @@ internal class KtorAuthService(
         }
     }
 
+    @Serializable
     data class SetProfileBody(
         val firstName: String,
         val lastName: String,
