@@ -69,7 +69,8 @@ private fun ProfileScreen(
         },
         display = {
             Text(stringResource(Res.string.profile_screen_display))
-        }
+        },
+        verticalScrollable = true
     ) {
         Column(
             modifier = Modifier

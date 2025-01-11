@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.serialization.Serializable
 import me.bumiller.mol.feature.auth.screen.email.EmailScreen
 import me.bumiller.mol.feature.auth.screen.login.LoginScreen
+import me.bumiller.mol.feature.auth.screen.profile.ProfileScreen
 import me.bumiller.mol.feature.auth.screen.signup.SignupScreen
 import me.bumiller.mol.feature.auth.screen.welcome.WelcomeScreen
 
@@ -109,8 +110,15 @@ fun NavGraphBuilder.authLocation(
                     }
                 }
             )
+            profileScreen(
+                onFinished = {
+
+                }
+            )
             emailScreen(
-                onFinished = {}
+                onFinished = {
+                    navController.navigate(ProfileScreen)
+                }
             )
         }
     }
@@ -177,5 +185,18 @@ internal fun NavGraphBuilder.emailScreen(
 ) {
     composable<EmailScreen> {
         EmailScreen(onFinished)
+    }
+}
+
+/**
+ * Builds the profile-screen-destination inside a nav-graph-builder.
+ *
+ * @param onFinished The callback for when the profile process finished.
+ */
+internal fun NavGraphBuilder.profileScreen(
+    onFinished: () -> Unit
+) {
+    composable<ProfileScreen> {
+        ProfileScreen(onFinished)
     }
 }

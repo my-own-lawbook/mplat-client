@@ -2,6 +2,7 @@ package me.bumiller.mol.feature.auth.screen.profile
 
 import kotlinx.datetime.LocalDate
 import me.bumiller.mol.common.ui.input.InputValue
+import me.bumiller.mol.common.ui.input.inputValue
 import me.bumiller.mol.common.ui.input.validation.InputSemantic
 import me.bumiller.mol.model.Gender
 
@@ -13,21 +14,25 @@ internal data class ProfileUiState(
     /**
      * The input value for the first name.
      */
-    val firstName: InputValue<String> = InputValue("", InputSemantic.Name),
+    val firstName: InputValue<String> = inputValue("", InputSemantic.Name),
 
     /**
      * The input value for the last name.
      */
-    val lastName: InputValue<String> = InputValue("", InputSemantic.Name),
+    val lastName: InputValue<String> = inputValue("", InputSemantic.Name),
 
     /**
      * The input value for the gender.
      */
-    val gender: InputValue<Gender?> = InputValue(null, InputSemantic.NotNull),
+    val gender: InputValue<Gender?> = inputValue(
+        null,
+        InputSemantic.NotNull,
+        InputSemantic.NotInFuture
+    ),
 
     /**
      * The input value for the birthday.
      */
-    val birthday: InputValue<LocalDate?> = InputValue(null, InputSemantic.NotNull)
+    val birthday: InputValue<LocalDate?> = inputValue(null, InputSemantic.NotNull)
 
 )

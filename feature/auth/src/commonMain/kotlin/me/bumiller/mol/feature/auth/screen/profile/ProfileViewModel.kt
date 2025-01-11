@@ -51,6 +51,7 @@ internal class ProfileViewModel(
     }
 
     private suspend fun ProfileUiEvent.Confirm.handle() {
+        clearErrors()
         formState.update {
             it.copy(
                 firstName = it.firstName.validate(),
