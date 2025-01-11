@@ -1,6 +1,7 @@
 package me.bumiller.mol.auth
 
 import me.bumiller.mol.model.user.AuthUser
+import me.bumiller.mol.model.user.Profile
 import me.bumiller.mol.network.model.NetworkResponse
 
 /**
@@ -46,6 +47,11 @@ interface AuthService {
      * Requests an email token to the email of the authentication.
      */
     suspend fun requestEmailToken(): AuthResult<Unit, RequestEmailTokenError>
+
+    /**
+     * Gets the profile of the authenticated user.
+     */
+    suspend fun getProfile(): AuthResult<Profile, GetProfileError>
 
     /**
      * Executes a network call, and retries it when the error response may be caused by unauthenticated.

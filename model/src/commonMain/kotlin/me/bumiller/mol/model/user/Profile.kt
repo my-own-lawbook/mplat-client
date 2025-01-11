@@ -1,6 +1,7 @@
-package me.bumiller.mol.model
+package me.bumiller.mol.model.user
 
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalDate
+import me.bumiller.mol.model.Gender
 
 /**
  * Profile of a user.
@@ -25,6 +26,6 @@ data class Profile(
     /**
      * The birthday.
      */
-    val birthday: LocalDateTime
+    val birthday: LocalDate
 
 )

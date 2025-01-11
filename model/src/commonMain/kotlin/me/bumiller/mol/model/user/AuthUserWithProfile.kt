@@ -1,7 +1,5 @@
 package me.bumiller.mol.model.user
 
-import me.bumiller.mol.model.Profile
-
 /**
  * Special type of an [AuthUser] where the profile is also available.
  */

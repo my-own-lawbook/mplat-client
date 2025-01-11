@@ -61,6 +61,23 @@ enum class RequestEmailTokenError {
 }
 
 /**
+ * Errors that can occur when trying to get the profile of a user.
+ */
+enum class GetProfileError {
+
+    /**
+     * The profile has not been set.
+     */
+    NotSet,
+
+    /**
+     * No authentication was presented.
+     */
+    NotAuthenticated
+
+}
+
+/**
  * Class that encapsulates states an authentication request can have.
  */
 sealed class AuthResult<Data, Error>(

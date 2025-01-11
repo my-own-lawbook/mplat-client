@@ -5,16 +5,19 @@ import kotlinx.coroutines.flow.first
 import kotlinx.serialization.Serializable
 import me.bumiller.mol.auth.AuthResult
 import me.bumiller.mol.auth.AuthService
+import me.bumiller.mol.auth.GetProfileError
 import me.bumiller.mol.auth.LoginError
 import me.bumiller.mol.auth.RequestEmailTokenError
 import me.bumiller.mol.auth.SignupError
 import me.bumiller.mol.auth.SubmitEmailTokenError
 import me.bumiller.mol.auth.mapping.toModel
 import me.bumiller.mol.model.user.AuthUser
+import me.bumiller.mol.model.user.Profile
 import me.bumiller.mol.network.model.ErrorInfo
 import me.bumiller.mol.network.model.NetworkResponse
 import me.bumiller.mol.network.response.AuthUserWithoutProfileResponse
 import me.bumiller.mol.network.response.TokenResponse
+import me.bumiller.mol.network.response.UserProfileResponse
 import me.bumiller.mol.network.wrapper.performGet
 import me.bumiller.mol.network.wrapper.performPatch
 import me.bumiller.mol.network.wrapper.performPost
@@ -156,6 +159,21 @@ internal class KtorAuthService(
         return response.asAuthResult(NetworkResponse.Success(Unit)) { code, _ ->
             when (code) {
                 404 -> RequestEmailTokenError.NotAuthenticated
+                else -> null
+            }
+        }
+    }
+
+    override suspend fun getProfile(): AuthResult<Profile, GetProfileError> {
+        val response = safeAuthCall {
+            client.performGet<UserProfileResponse>("user/profile/")
+                .map(UserProfileResponse::toModel)
+        }
+
+        return response.asAuthResult(response) { code, _ ->
+            when (code) {
+                404 -> GetProfileError.NotSet
+                401 -> GetProfileError.NotAuthenticated
                 else -> null
             }
         }
