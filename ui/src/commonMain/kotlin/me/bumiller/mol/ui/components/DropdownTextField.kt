@@ -18,8 +18,9 @@ import me.bumiller.mol.common.ui.input.InputValue
 @Composable
 fun <Item> DropdownTextField(
     modifier: Modifier = Modifier,
-    value: InputValue<Item>,
+    value: InputValue<Item?>,
     label: (@Composable () -> Unit)? = null,
+    noSelectionLabel: String? = null,
     values: List<Item>,
     formatValue: @Composable (Item) -> String,
     onSelect: (Item) -> Unit
@@ -38,7 +39,7 @@ fun <Item> DropdownTextField(
         MolTextField(
             modifier = Modifier
                 .menuAnchor(MenuAnchorType.PrimaryEditable),
-            value = value.map { nameMap[it]!! },
+            value = value.map { if (it == null) noSelectionLabel ?: "" else nameMap[it]!! },
             onValueChange = { },
             label = label,
             readOnly = true,
