@@ -23,6 +23,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
 import me.bumiller.mol.common.ui.input.InputValue
+import me.bumiller.mol.common.ui.input.inputValue
 import me.bumiller.mol.ui.Res
 import me.bumiller.mol.ui.cd_date_input_button
 import me.bumiller.mol.ui.date_input_dialog_cancel
@@ -50,7 +51,7 @@ internal expect fun LocalDate.formatDateTextField(): String
 fun DateTextField(
     modifier: Modifier = Modifier,
     style: TextFieldStyle = TextFieldStyle.Filled,
-    value: InputValue<LocalDate?> = InputValue(null),
+    value: InputValue<LocalDate?> = inputValue(null),
     label: @Composable () -> Unit,
     onDateChanged: (LocalDate?) -> Unit
 ) {

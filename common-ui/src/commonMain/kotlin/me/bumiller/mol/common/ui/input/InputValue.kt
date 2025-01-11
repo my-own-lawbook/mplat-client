@@ -4,6 +4,15 @@ import me.bumiller.mol.common.ui.input.validation.InputSemantic
 import me.bumiller.mol.common.ui.input.validation.ValidationError
 
 /**
+ * Creates an input value.
+ *
+ * @param initialValue The initial value
+ * @param semantic The input semantics
+ */
+fun <T> inputValue(initialValue: T, vararg semantic: InputSemantic) =
+    InputValue(initialValue, semantic.asList(), null, true)
+
+/**
  * A box type which wraps a type [Type] for easier handling in input forms
  */
 data class InputValue<Type>(
@@ -16,7 +25,7 @@ data class InputValue<Type>(
     /**
      * The [InputSemantic] of this field, used for validating
      */
-    val semantic: InputSemantic? = null,
+    val semantics: List<InputSemantic> = emptyList(),
 
     /**
      * The error of this field, or null if there is no error
@@ -43,6 +52,6 @@ data class InputValue<Type>(
     /**
      * Maps the field to another type. Returns a new [InputValue]
      */
-    fun <Type2> map(mapper: (Type) -> Type2) = InputValue(mapper(value), semantic, error, canEdit)
+    fun <Type2> map(mapper: (Type) -> Type2) = InputValue(mapper(value), semantics, error, canEdit)
 
 }

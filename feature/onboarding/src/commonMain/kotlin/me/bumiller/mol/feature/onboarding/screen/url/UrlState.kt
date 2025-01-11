@@ -1,6 +1,7 @@
 package me.bumiller.mol.feature.onboarding.screen.url
 
 import me.bumiller.mol.common.ui.input.InputValue
+import me.bumiller.mol.common.ui.input.inputValue
 import me.bumiller.mol.common.ui.input.validation.InputSemantic
 
 /**
@@ -11,6 +12,6 @@ data class UrlState(
     /**
      * The url field input
      */
-    val url: InputValue<String> = InputValue("", InputSemantic.Url)
+    val url: InputValue<String> = inputValue("", InputSemantic.Url)
 
 )

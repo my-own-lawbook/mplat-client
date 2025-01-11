@@ -12,39 +12,44 @@ import java.time.LocalTime
  * @return The updated value with the error added, or no error if none occurred
  */
 fun <Type> validateValue(inputValue: InputValue<Type>): InputValue<Type> {
-    val error = when (inputValue.value) {
-        is String -> when (inputValue.semantic) {
-            InputSemantic.Password -> validatePassword(inputValue.value)
-            InputSemantic.Email -> validateEmail(inputValue.value)
-            InputSemantic.Name -> validateName(inputValue.value)
-            InputSemantic.NonEmpty -> validateNonEmpty(inputValue.value)
-            InputSemantic.Url -> validateUrl(inputValue.value)
-            InputSemantic.Username -> validateUsername(inputValue.value)
-            else -> null
-        }
+    val error = inputValue.semantics.firstNotNullOfOrNull { getError(inputValue.value, it) }
 
-        is LocalDate -> when (inputValue.semantic) {
-            InputSemantic.NotInFuture -> validateNotInFuture(inputValue.value)
-            else -> null
-        }
 
-        is LocalDateTime -> when (inputValue.semantic) {
-            InputSemantic.NotInFuture -> validateNotInFuture(inputValue.value)
-            else -> null
-        }
+    return inputValue.copy(error = error)
+}
 
-        is LocalTime -> when (inputValue.semantic) {
-            InputSemantic.NotInFuture -> validateNotInFuture(inputValue.value)
-            else -> null
-        }
-
+private fun <T> getError(value: T, semantic: InputSemantic) = when (value) {
+    is String -> when (semantic) {
+        InputSemantic.Password -> validatePassword(value)
+        InputSemantic.Email -> validateEmail(value)
+        InputSemantic.Name -> validateName(value)
+        InputSemantic.NonEmpty -> validateNonEmpty(value)
+        InputSemantic.Url -> validateUrl(value)
+        InputSemantic.Username -> validateUsername(value)
         else -> null
     }
 
+    is LocalDate -> when (semantic) {
+        InputSemantic.NotInFuture -> validateNotInFuture(value)
+        else -> null
+    }
 
-    return inputValue.copy(
-        error = error
-    )
+    is LocalDateTime -> when (semantic) {
+        InputSemantic.NotInFuture -> validateNotInFuture(value)
+        else -> null
+    }
+
+    is LocalTime -> when (semantic) {
+        InputSemantic.NotInFuture -> validateNotInFuture(value)
+        else -> null
+    }
+
+    null -> when (semantic) {
+        InputSemantic.NotNull -> validateNotNull(null)
+        else -> null
+    }
+
+    else -> null
 }
 
 /**

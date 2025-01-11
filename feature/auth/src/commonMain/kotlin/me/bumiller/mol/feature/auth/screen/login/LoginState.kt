@@ -1,6 +1,7 @@
 package me.bumiller.mol.feature.auth.screen.login
 
 import me.bumiller.mol.common.ui.input.InputValue
+import me.bumiller.mol.common.ui.input.inputValue
 import me.bumiller.mol.common.ui.input.validation.InputSemantic
 
 /**
@@ -11,12 +12,12 @@ data class LoginState(
     /**
      * The input for the email field.
      */
-    val email: InputValue<String> = InputValue("", InputSemantic.NonEmpty),
+    val email: InputValue<String> = inputValue("", InputSemantic.NonEmpty),
 
     /**
      * The input value for the password field.
      */
-    val password: InputValue<String> = InputValue("", InputSemantic.NonEmpty),
+    val password: InputValue<String> = inputValue("", InputSemantic.NonEmpty),
 
     /**
      * Whether the password is currently hidden.

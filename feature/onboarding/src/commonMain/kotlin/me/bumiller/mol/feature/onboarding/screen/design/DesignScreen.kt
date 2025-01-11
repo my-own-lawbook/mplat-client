@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import me.bumiller.mol.common.ui.input.InputValue
+import me.bumiller.mol.common.ui.input.inputValue
 import me.bumiller.mol.common.ui.localization.localizedName
 import me.bumiller.mol.common.ui.viewmodel.ViewModelScope
 import me.bumiller.mol.model.ColorMode
@@ -99,7 +99,7 @@ private fun DesignScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             DropdownTextField(
-                value = InputValue(settings.colorMode),
+                value = inputValue(settings.colorMode),
                 label = {
                     Text(stringResource(Res.string.design_screen_input_mode_label))
                 },
@@ -109,7 +109,7 @@ private fun DesignScreen(
             )
 
             DropdownTextField(
-                value = InputValue(settings.colorScheme),
+                value = inputValue(settings.colorScheme),
                 label = {
                     Text(stringResource(Res.string.design_screen_input_scheme_label))
                 },
