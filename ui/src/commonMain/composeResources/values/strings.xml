@@ -1,5 +1,9 @@
 <resources>
     <string name="url_textfield_prefix">https://</string>
+    <string name="gender_input_label">Gender</string>
+    <string name="date_input_dialog_cancel">Close</string>
+    <string name="date_input_dialog_confirm">OK</string>
+    <string name="cd_date_input_button">Open date dialog</string>
     <string name="cd_back_button">Back</string>
     <string name="cd_password_textfield_visible">Hide password</string>
     <string name="cd_password_textfield_invisible">Show password</string>

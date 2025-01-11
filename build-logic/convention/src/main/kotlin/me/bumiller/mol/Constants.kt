@@ -6,7 +6,7 @@ const val NamespacePrefix = "$Namespace."
 
 const val CompileSdk = 34
 const val TargetSdk = CompileSdk
-const val MinSdk = 24
+const val MinSdk = 26
 
 const val VersionCode = 2
 const val VersionName = "0.0.2"
