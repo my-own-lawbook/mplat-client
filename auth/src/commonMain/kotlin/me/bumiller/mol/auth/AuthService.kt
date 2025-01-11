@@ -1,6 +1,7 @@
 package me.bumiller.mol.auth
 
 import me.bumiller.mol.model.user.AuthUser
+import me.bumiller.mol.model.user.AuthUserWithProfile
 import me.bumiller.mol.model.user.Profile
 import me.bumiller.mol.network.model.NetworkResponse
 
@@ -52,6 +53,13 @@ interface AuthService {
      * Gets the profile of the authenticated user.
      */
     suspend fun getProfile(): AuthResult<Profile, GetProfileError>
+
+    /**
+     * Updates the profile of the authenticated user.
+     *
+     * @param profile The profile to upload.
+     */
+    suspend fun setProfile(profile: Profile): AuthResult<AuthUserWithProfile, Unit>
 
     /**
      * Executes a network call, and retries it when the error response may be caused by unauthenticated.

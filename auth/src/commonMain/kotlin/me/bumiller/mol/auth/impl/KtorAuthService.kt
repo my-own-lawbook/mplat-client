@@ -2,6 +2,7 @@ package me.bumiller.mol.auth.impl
 
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.flow.first
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import me.bumiller.mol.auth.AuthResult
 import me.bumiller.mol.auth.AuthService
@@ -11,10 +12,13 @@ import me.bumiller.mol.auth.RequestEmailTokenError
 import me.bumiller.mol.auth.SignupError
 import me.bumiller.mol.auth.SubmitEmailTokenError
 import me.bumiller.mol.auth.mapping.toModel
+import me.bumiller.mol.auth.mapping.toRequestString
 import me.bumiller.mol.model.user.AuthUser
+import me.bumiller.mol.model.user.AuthUserWithProfile
 import me.bumiller.mol.model.user.Profile
 import me.bumiller.mol.network.model.ErrorInfo
 import me.bumiller.mol.network.model.NetworkResponse
+import me.bumiller.mol.network.response.AuthUserWithProfileResponse
 import me.bumiller.mol.network.response.AuthUserWithoutProfileResponse
 import me.bumiller.mol.network.response.TokenResponse
 import me.bumiller.mol.network.response.UserProfileResponse
@@ -177,6 +181,29 @@ internal class KtorAuthService(
                 else -> null
             }
         }
+    }
+
+    data class SetProfileBody(
+        val firstName: String,
+        val lastName: String,
+        val birthday: LocalDate,
+        val gender: String
+    )
+
+    override suspend fun setProfile(profile: Profile): AuthResult<AuthUserWithProfile, Unit> {
+        val body = SetProfileBody(
+            profile.firstName,
+            profile.lastName,
+            profile.birthday,
+            profile.gender.toRequestString()
+        )
+
+        val response = safeAuthCall {
+            client.performPost<AuthUserWithProfileResponse>("user/profile/", body)
+                .map(AuthUserWithProfileResponse::toModel)
+        }
+
+        return response.asAuthResult(response) { _, _ -> }
     }
 
     private val authorizationIndicatingCodes = listOf(401, 403, 404)
