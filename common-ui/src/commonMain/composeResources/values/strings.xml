@@ -22,4 +22,8 @@
     <string name="level_normal">Default</string>
     <string name="level_medium">Medium</string>
     <string name="level_high">High</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="gender_other">Other</string>
+    <string name="gender_disclosed">Rather not say</string>
 </resources>

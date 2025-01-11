@@ -29,4 +29,13 @@ sealed interface Gender {
      */
     data object NotSay : Gender
 
+    companion object {
+
+        /**
+         * All genders.
+         */
+        fun values() = listOf(Male, Female, Other, NotSay)
+
+    }
+
 }
