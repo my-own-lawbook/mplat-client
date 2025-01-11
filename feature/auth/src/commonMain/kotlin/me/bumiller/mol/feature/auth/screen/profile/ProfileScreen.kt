@@ -4,11 +4,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.bumiller.mol.auth.Res
@@ -82,14 +84,20 @@ private fun ProfileScreen(
                 value = formState.firstName,
                 onValueChange = { onEvent(ProfileUiEvent.ChangeFirstName(it)) },
                 style = TextFieldStyle.Outlined,
-                label = { Text(stringResource(Res.string.profile_screen_input_first_name_label)) }
+                label = { Text(stringResource(Res.string.profile_screen_input_first_name_label)) },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Next
+                )
             )
 
             MolTextField(
                 value = formState.lastName,
                 onValueChange = { onEvent(ProfileUiEvent.ChangeLastName(it)) },
                 style = TextFieldStyle.Outlined,
-                label = { Text(stringResource(Res.string.profile_screen_input_last_name_label)) }
+                label = { Text(stringResource(Res.string.profile_screen_input_last_name_label)) },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Next
+                )
             )
 
             DateTextField(

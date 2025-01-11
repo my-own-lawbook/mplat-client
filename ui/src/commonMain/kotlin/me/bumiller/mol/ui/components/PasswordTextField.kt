@@ -46,6 +46,7 @@ fun PasswordTextField(
     suffix: @Composable (() -> Unit)? = null,
     supportingText: @Composable (() -> Unit)? = null,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     minLines: Int = 1,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shape: Shape = OutlinedTextFieldDefaults.shape,
@@ -80,7 +81,7 @@ fun PasswordTextField(
         suffix,
         supportingText,
         visualTransformation = if (passwordShown) VisualTransformation.None else PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(
+        keyboardOptions = keyboardOptions.copy(
             keyboardType = KeyboardType.Password
         ),
         keyboardActions,

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -110,14 +112,22 @@ private fun LoginScreen(
                     onValueChange = { onEvent(LoginUiEvent.ChangeEmail(it)) },
                     style = TextFieldStyle.Outlined,
                     label = { Text(stringResource(Res.string.login_screen_input_email_label)) },
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email)
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Email,
+                        imeAction = ImeAction.Next
+                    )
                 )
 
                 PasswordTextField(
                     value = formState.password,
                     onValueChange = { onEvent(LoginUiEvent.ChangePassword(it)) },
                     style = TextFieldStyle.Outlined,
-                    label = { Text(stringResource(Res.string.login_screen_input_password_label)) }
+                    label = { Text(stringResource(Res.string.login_screen_input_password_label)) },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions { onEvent(LoginUiEvent.Confirm) }
                 )
 
                 WideButton(
