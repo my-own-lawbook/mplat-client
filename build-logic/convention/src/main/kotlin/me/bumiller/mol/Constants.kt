@@ -4,7 +4,7 @@ const val ApplicationId = "me.bumiller.mol"
 const val Namespace = ApplicationId
 const val NamespacePrefix = "$Namespace."
 
-const val CompileSdk = 34
+const val CompileSdk = 35
 const val TargetSdk = CompileSdk
 const val MinSdk = 26
 
