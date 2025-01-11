@@ -2,10 +2,12 @@ package me.bumiller.mol.feature.auth.screen.login
 
 import me.bumiller.mol.auth.AuthResult
 import me.bumiller.mol.auth.AuthService
+import me.bumiller.mol.auth.GetProfileError
 import me.bumiller.mol.auth.LoginError
 import me.bumiller.mol.common.ui.input.validation.ValidationError
 import me.bumiller.mol.common.ui.input.validation.validate
 import me.bumiller.mol.common.ui.viewmodel.MolViewModel
+import me.bumiller.mol.model.user.Profile
 
 /**
  * View model for the login screen.
@@ -68,13 +70,16 @@ class LoginViewModel(
         val (email, password) = formState.value.run { email.value to password.value }
 
         clearErrors()
-        val loginResponse = withFetchState {
-            authService.login(email, password)
+        val (loginResponse, profileResponse) = withFetchState {
+            authService.login(email, password) to authService.getProfile()
         }
 
         when (loginResponse) {
             // Successfully authentication
-            is AuthResult.Success -> fireEvent(LoginEvent.LoggedIn)
+            is AuthResult.Success -> handleLoginSuccess(
+                loginResponse.data.isEmailVerified,
+                profileResponse
+            )
 
             // Bad credentials
             is AuthResult.Error -> when (loginResponse.errorType) {
@@ -93,6 +98,27 @@ class LoginViewModel(
             is AuthResult.NetworkError -> hasNetworkError.emit(true)
             is AuthResult.UnknownError -> hasUnknownError.emit(true)
         }
+    }
+
+    private suspend fun handleLoginSuccess(
+        isEmailVerified: Boolean,
+        profileResponse: AuthResult<Profile, GetProfileError>
+    ) {
+        val event = when (profileResponse) {
+            is AuthResult.Success -> LoginEvent.LoggedIn(isEmailVerified, true)
+            is AuthResult.Error -> LoginEvent.LoggedIn(isEmailVerified, false)
+            else -> null
+        }
+
+        val isUnknownError = (profileResponse is AuthResult.Error &&
+                profileResponse.errorType == GetProfileError.NotAuthenticated) ||
+                profileResponse is AuthResult.UnknownError
+
+        val isNetworkError = profileResponse is AuthResult.NetworkError
+
+        event?.let { fireEvent(it) }
+        hasNetworkError.emit(isNetworkError)
+        hasUnknownError.emit(isUnknownError)
     }
 
 }

@@ -44,6 +44,12 @@ internal data object LoginScreen
 internal data object SignupScreen
 
 /**
+ * Navigation destination for the profile screen.
+ */
+@Serializable
+internal data object ProfileScreen
+
+/**
  * Root composable for the auth location.
  *
  * @param onUrlChange Callback for when the user wants to change the url.
@@ -70,7 +76,14 @@ fun NavGraphBuilder.authLocation(
             )
             loginScreen(
                 onBack = { navController.popBackStack() },
-                onAuthenticate = onAuthenticate,
+                onAuthenticate = { isEmailVerified, isProfileSet ->
+                    if (isEmailVerified && isProfileSet)
+                        onAuthenticate()
+                    else if (!isEmailVerified)
+                        navController.navigate(EmailScreen)
+                    else
+                        navController.navigate(ProfileScreen)
+                },
                 onSignup = {
                     navController.navigate(SignupScreen) {
                         popUpTo(WelcomeScreen) {
@@ -125,12 +138,12 @@ internal fun NavGraphBuilder.welcomeScreen(
  *
  * @param onBack The callback invoked when the back button is clicked.
  * @param onSignup The callback invoked when the link to the signup screen is clicked.
- * @param onAuthenticate The callback invoked when the user successfully authenticated.
+ * @param onAuthenticate The callback invoked when the user successfully authenticated with information about the auth state of the user.
  */
 internal fun NavGraphBuilder.loginScreen(
     onBack: () -> Unit,
     onSignup: () -> Unit,
-    onAuthenticate: () -> Unit
+    onAuthenticate: (isEmailVerified: Boolean, isProfileSet: Boolean) -> Unit
 ) {
     composable<LoginScreen> {
         LoginScreen(onBack, onSignup, onAuthenticate)

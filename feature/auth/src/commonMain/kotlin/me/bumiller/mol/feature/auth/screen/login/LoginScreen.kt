@@ -43,19 +43,21 @@ import org.jetbrains.compose.resources.stringResource
  *
  * @param onBack The callback invoked when the back button is clicked.
  * @param onSignup The callback invoked when the link to the signup screen is clicked.
- * @param onAuthenticate The callback invoked when the user successfully authenticated.
+ * @param onAuthenticate The callback invoked when the user successfully authenticated with information about the auth state of the user.
  */
 @Composable
 internal fun LoginScreen(
     onBack: () -> Unit,
     onSignup: () -> Unit,
-    onAuthenticate: () -> Unit
+    onAuthenticate: (isEmailVerified: Boolean, isProfileSet: Boolean) -> Unit
 ) {
     ViewModelScope<LoginUiEvent, LoginEvent, LoginViewModel>(
         onViewModelEvent = { event ->
             when (event) {
+                is LoginEvent.LoggedIn -> {
+                    onAuthenticate(event.isEmailVerified, event.hasProfileSet)
+                }
                 LoginEvent.Back -> onBack()
-                LoginEvent.LoggedIn -> onAuthenticate()
                 LoginEvent.Signup -> onSignup()
             }
         }

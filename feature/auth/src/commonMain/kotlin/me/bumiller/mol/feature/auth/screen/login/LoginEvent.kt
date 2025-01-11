@@ -57,7 +57,19 @@ sealed interface LoginEvent : ViewModelEvent {
     /**
      * Logged the user in.
      */
-    data object LoggedIn : LoginEvent
+    data class LoggedIn(
+
+        /**
+         * Whether the email of the logged in used is verified.
+         */
+        val isEmailVerified: Boolean,
+
+        /**
+         * Whether the profile of the logged in user is set.
+         */
+        val hasProfileSet: Boolean
+
+    ) : LoginEvent
 
     /**
      * Will navigate to the signup screen.

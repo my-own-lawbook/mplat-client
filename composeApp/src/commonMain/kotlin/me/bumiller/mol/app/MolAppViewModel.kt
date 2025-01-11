@@ -55,11 +55,11 @@ class MolAppViewModel(
                 it.isSuccess
             }.dataOrNull()!!
 
-            val refreshResponse = authApi.login()
+            val profileResponse = authApi.getProfile()
 
             val initialLocation =
                 if (settings.backendUrl == null) MolTopLevelLocation.Onboarding(true)
-            else if (!refreshResponse.success) MolTopLevelLocation.Auth
+                else if (!profileResponse.success) MolTopLevelLocation.Auth
             else MolTopLevelLocation.Home
 
             updateUiState<SimpleState<MolTopLevelLocation>> { SimpleState.success(initialLocation) }
