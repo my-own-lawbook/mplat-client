@@ -34,4 +34,13 @@
     <string name="email_screen_verify_button_label">Continue</string>
     <string name="email_screen_resend_button_label">Resend email</string>
     <string name="cd_email_screen">Minimalistic visualization of a smartphone receiving a notification.</string>
+
+    <string name="profile_screen_title">Set profile</string>
+    <string name="profile_screen_description">Set up your profile by adding your name, birthday, and gender. This helps personalize your experience and keeps your account uniquely yours. You can update these details anytime.</string>
+    <string name="profile_screen_display">Customize your experience</string>
+    <string name="profile_screen_input_first_name_label">First name</string>
+    <string name="profile_screen_input_last_name_label">Last name</string>
+    <string name="profile_screen_input_birthday_label">Birthday</string>
+    <string name="profile_screen_input_gender_label">Gender</string>
+    <string name="profile_screen_confirm_button_label">Continue</string>
 </resources>
