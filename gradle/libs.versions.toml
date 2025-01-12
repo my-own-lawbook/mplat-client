@@ -27,6 +27,8 @@ settings = "1.2.0"
 android_crypto = "1.1.0-alpha06"
 napier = "2.7.1"
 datetime = "0.6.1"
+errorprone = "2.36.0"
+spotbugs = "4.8.6"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -79,6 +81,9 @@ ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = 
 ktor-auth = { group = "io.ktor", name = "ktor-client-auth", version.ref = "ktor" }
 
 napier = { group = "io.github.aakira", name = "napier", version.ref = "napier" }
+
+errorprone = { group = "com.google.errorprone", name = "error_prone_annotations", version.ref = "errorprone" }
+spotbugs = { group = "com.github.spotbugs", name = "spotbugs-annotations", version.ref = "spotbugs" }
 
 kotlin-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "datetime" }
 

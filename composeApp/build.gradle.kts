@@ -34,6 +34,10 @@ kotlin {
             implementation(project(":auth"))
             implementation(project(":network"))
             implementation(project(":settings"))
+
+            // Workaround, see https://github.com/juliansteenbakker/flutter_secure_storage/issues/748#issuecomment-2505862197
+            implementation(libs.spotbugs)
+            implementation(libs.errorprone)
         }
 
         jvmMain.dependencies {
