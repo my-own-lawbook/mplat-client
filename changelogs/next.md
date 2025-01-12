@@ -15,3 +15,6 @@ Release <semver> creates the following changes:
   - Authentication
   - Dynamic url handling
   - Auth endpoints
+
+- Set up auth screens
+  - Welcome, login, signup, email verify, profile config
