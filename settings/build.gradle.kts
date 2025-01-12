@@ -13,6 +13,9 @@ kotlin {
 
             implementation(libs.settings)
             implementation(libs.settings.observable)
+        }
+
+        androidMain.dependencies {
             implementation(libs.android.crypto)
         }
     }

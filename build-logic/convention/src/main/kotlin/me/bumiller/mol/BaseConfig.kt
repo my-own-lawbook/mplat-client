@@ -86,7 +86,7 @@ fun Project.androidApplicationConfig() = with(applicationExtension()) {
 
     buildTypes {
         getByName(BuildTypeReleaseName) {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             signingConfig = signingConfigs.getByName(SigningConfigReleaseName)
         }
     }
