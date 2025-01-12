@@ -6,24 +6,26 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.flow.collectLatest
-import me.bumiller.mol.common.ui.input.InputValue
+import me.bumiller.mol.common.ui.input.inputValue
 import me.bumiller.mol.common.ui.localization.localizedName
+import me.bumiller.mol.common.ui.viewmodel.ViewModelScope
 import me.bumiller.mol.model.ColorMode
 import me.bumiller.mol.model.ColorScheme
 import me.bumiller.mol.model.ColorSchemeContrastLevel
 import me.bumiller.mol.model.UserSettings
+import me.bumiller.mol.model.state.SimpleState
 import me.bumiller.mol.onboarding.Res
 import me.bumiller.mol.onboarding.cd_design_screen
 import me.bumiller.mol.onboarding.design_screen
@@ -38,8 +40,6 @@ import me.bumiller.mol.ui.components.DropdownTextField
 import me.bumiller.mol.ui.layout.AppBarLayoutWithImage
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.annotation.KoinExperimentalAPI
 
 /**
  * Screen that lets the user adjust several settings related to the design and visuals of the app.
@@ -47,27 +47,24 @@ import org.koin.core.annotation.KoinExperimentalAPI
  * @param onFinish Callback when the user pressed the finish button
  * @param onBack Callback when the user clicked the back button
  */
-@OptIn(KoinExperimentalAPI::class)
 @Composable
 internal fun DesignScreen(
     onFinish: () -> Unit,
     onBack: () -> Unit
 ) {
-    val viewModel = koinViewModel<DesignViewModel>()
-
-    LaunchedEffect(Unit) {
-        viewModel.events.collectLatest { event ->
+    ViewModelScope<DesignUiEvent, DesignEvent, DesignViewModel>(
+        onViewModelEvent = { event ->
             when (event) {
                 DesignEvent.Continue -> onFinish()
                 DesignEvent.Return -> onBack()
             }
         }
-    }
+    ) { vm ->
+        val settings by vm.settings.collectAsStateWithLifecycle()
 
-    val settings by viewModel.settings.collectAsStateWithLifecycle()
-
-    if (settings.isSuccess) {
-        DesignScreen(settings.dataOrNull()!!, viewModel::onEvent)
+        if (settings is SimpleState.Success) {
+            DesignScreen(settings.dataOrNull()!!, vm::onEvent)
+        }
     }
 }
 
@@ -95,7 +92,8 @@ private fun DesignScreen(
     ) { layoutType ->
         Column(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(
                 space = 32.dp,
                 alignment = if (layoutType.isVertical) Alignment.Top
@@ -104,7 +102,7 @@ private fun DesignScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             DropdownTextField(
-                value = InputValue(settings.colorMode),
+                value = inputValue(settings.colorMode),
                 label = {
                     Text(stringResource(Res.string.design_screen_input_mode_label))
                 },
@@ -114,7 +112,7 @@ private fun DesignScreen(
             )
 
             DropdownTextField(
-                value = InputValue(settings.colorScheme),
+                value = inputValue(settings.colorScheme),
                 label = {
                     Text(stringResource(Res.string.design_screen_input_scheme_label))
                 },

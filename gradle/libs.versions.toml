@@ -1,5 +1,5 @@
 [versions]
-agp = "8.2.2"
+agp = "8.8.0"
 androidx-activityCompose = "1.9.3"
 androidx-lifecycle = "2.8.7"
 compose-plugin = "1.7.3"
@@ -26,6 +26,7 @@ ktor = "3.0.3"
 settings = "1.2.0"
 android_crypto = "1.1.0-alpha06"
 napier = "2.7.1"
+datetime = "0.6.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -78,6 +79,8 @@ ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = 
 ktor-auth = { group = "io.ktor", name = "ktor-client-auth", version.ref = "ktor" }
 
 napier = { group = "io.github.aakira", name = "napier", version.ref = "napier" }
+
+kotlin-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "datetime" }
 
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx_test_runner" }
 androidx-test-junit = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidx_test_junit" }

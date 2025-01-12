@@ -1,0 +1,46 @@
+<resources>
+    <string name="welcome_screen_title">Welcome</string>
+    <string name="welcome_screen_display">Choose your authentication method</string>
+    <string name="welcome_screen_description">Welcome! To get started, choose whether you'd like to log in to your existing account or sign up to create a new one. Your connection is secure, and we ensure a smooth, safe experience as you authenticate.</string>
+    <string name="welcome_screen_login_button_label">Login</string>
+    <string name="welcome_screen_signup_button_label">Signup</string>
+    <string name="welcome_screen_server_info">You're authenticating to: </string>
+
+    <string name="login_screen_title">Login</string>
+    <string name="login_screen_display">Enter your credentials</string>
+    <string name="login_screen_description">Please log in to continue and access your account securely. Your information is protected, and logging in ensures a personalized experience every time you use the app.</string>
+    <string name="login_screen_login_button_label">Continue</string>
+    <string name="login_screen_input_email_label">Email</string>
+    <string name="login_screen_input_password_label">Password</string>
+    <string name="login_screen_signup_link_prefix">Don't have an account yet? </string>
+    <string name="login_screen_signup_link">Signup instead.</string>
+    <string name="login_screen_signup_link_suffix" />
+
+    <string name="signup_screen_title">Signup</string>
+    <string name="signup_screen_display">Create your account</string>
+    <string name="signup_screen_description">Sign up to get started with your account. It only takes a few moments to complete. Enjoy access to all features and services. Enter your details below to begin.</string>
+    <string name="signup_screen_input_email_label">Email</string>
+    <string name="signup_screen_input_username_label">Username</string>
+    <string name="signup_screen_input_password_label">Password</string>
+    <string name="signup_screen_input_password_confirm_label">Confirm password</string>
+    <string name="signup_screen_login_link_prefix">Already have an account? </string>
+    <string name="signup_screen_login_link">Login instead.</string>
+    <string name="signup_screen_login_link_suffix" />
+    <string name="signup_screen_signup_button_label">Continue</string>
+
+    <string name="email_screen_title">Verify email</string>
+    <string name="email_screen_description">Enter the code we sent to your email to verify your account. Didn’t receive it? Check your spam folder or request a new code below.</string>
+    <string name="email_screen_input_token_label">Code</string>
+    <string name="email_screen_verify_button_label">Continue</string>
+    <string name="email_screen_resend_button_label">Resend email</string>
+    <string name="cd_email_screen">Minimalistic visualization of a smartphone receiving a notification.</string>
+
+    <string name="profile_screen_title">Set profile</string>
+    <string name="profile_screen_description">Set up your profile by adding your name, birthday, and gender. This helps personalize your experience and keeps your account uniquely yours. You can update these details anytime.</string>
+    <string name="profile_screen_display">Customize your experience</string>
+    <string name="profile_screen_input_first_name_label">First name</string>
+    <string name="profile_screen_input_last_name_label">Last name</string>
+    <string name="profile_screen_input_birthday_label">Birthday</string>
+    <string name="profile_screen_input_gender_label">Gender</string>
+    <string name="profile_screen_confirm_button_label">Continue</string>
+</resources>

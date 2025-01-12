@@ -18,6 +18,11 @@ sealed interface InputSemantic {
     data object Email : InputSemantic
 
     /**
+     * A username field.
+     */
+    data object Username : InputSemantic
+
+    /**
      * A normal field for names
      */
     data object Name : InputSemantic

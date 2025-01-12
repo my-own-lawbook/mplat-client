@@ -2,7 +2,6 @@ package me.bumiller.mol.settings.impl
 
 import com.eygraber.uri.Url
 import com.russhwolf.settings.Settings
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import me.bumiller.mol.model.ColorMode
 import me.bumiller.mol.model.ColorScheme
@@ -31,13 +30,13 @@ internal class UserSettingsSourceImpl(
     private val settingsSource: Settings
 ) : UserSettingsSource {
 
-    override val settings: MutableSharedFlow<UserSettings>
+    override val settings: MutableStateFlow<UserSettings>
 
     init {
         var initialSettings = getUserSettings()
 
         if (initialSettings == null) {
-            saveUserSettings(DefaultSettings)
+            saveUserSettings(DefaultSettings, false)
             initialSettings = DefaultSettings
         }
 
@@ -73,7 +72,8 @@ internal class UserSettingsSourceImpl(
         )
     }
 
-    private fun saveUserSettings(userSettings: UserSettings) = with(settingsSource) {
+    private fun saveUserSettings(userSettings: UserSettings, updateFlow: Boolean = true) =
+        with(settingsSource) {
         putString(KeyMode, userSettings.colorMode.name.lowercase())
         putString(KeyScheme, userSettings.colorScheme.name.lowercase())
         putString(KeyContrastLevel, userSettings.contrastLevel.name.lowercase())
@@ -81,6 +81,10 @@ internal class UserSettingsSourceImpl(
         userSettings.backendUrl?.let { putString(KeyUrl, it.toString()) }
         userSettings.accessToken?.let { putString(KeyAccess, it) }
         userSettings.refreshToken?.let { putString(KeyRefresh, it) }
+
+            if (updateFlow) {
+                settings.value = userSettings
+            }
     }
 
 }

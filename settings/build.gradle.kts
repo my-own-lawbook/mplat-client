@@ -9,7 +9,7 @@ kotlin {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":model"))
+            api(project(":model"))
 
             implementation(libs.settings)
             implementation(libs.settings.observable)

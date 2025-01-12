@@ -1,12 +1,11 @@
 package me.bumiller.mol.app
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import me.bumiller.mol.auth.AuthService
 import me.bumiller.mol.common.ui.event.UiEvent
 import me.bumiller.mol.common.ui.event.ViewModelEvent
 import me.bumiller.mol.common.ui.viewmodel.MolViewModel
@@ -22,7 +21,12 @@ class MolAppViewModel(
     /**
      * The data source for the settings
      */
-    settingsSource: UserSettingsSource
+    settingsSource: UserSettingsSource,
+
+    /**
+     * The http api for authentication
+     */
+    authApi: AuthService
 
 ) : MolViewModel<UiEvent, ViewModelEvent>() {
 
@@ -33,8 +37,14 @@ class MolAppViewModel(
         .map(SimpleState.Companion::success)
         .loadingStateIn()
 
-    private val _topLevelLocation =
-        MutableStateFlow<SimpleState<MolTopLevelLocation>>(SimpleState.loading())
+    init {
+        registerUiState<SimpleState<MolTopLevelLocation>>(SimpleState.loading())
+    }
+
+    /**
+     * A state flow containing the initial top level location.
+     */
+    val topLevelLocation = uiState<SimpleState<MolTopLevelLocation>>()
 
     /**
      * Will wait for the first settings emission and set the initial value for the top-level-location accordingly.
@@ -45,17 +55,16 @@ class MolAppViewModel(
                 it.isSuccess
             }.dataOrNull()!!
 
-            val initialLocation = if (settings.backendUrl == null) MolTopLevelLocation.Onboarding
+            val profileResponse = authApi.getProfile()
+
+            val initialLocation =
+                if (settings.backendUrl == null) MolTopLevelLocation.Onboarding(true)
+                else if (!profileResponse.success) MolTopLevelLocation.Auth
             else MolTopLevelLocation.Home
 
-            _topLevelLocation.emit(SimpleState.success(initialLocation))
+            updateUiState<SimpleState<MolTopLevelLocation>> { SimpleState.success(initialLocation) }
         }
     }
-
-    /**
-     * A state flow containing the current top level location that should be displayed.
-     */
-    val topLevelLocation = _topLevelLocation.asStateFlow()
 
     override suspend fun handleEvent(event: UiEvent): Nothing =
         throw Error("No ui event should be fired.")

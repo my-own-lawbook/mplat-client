@@ -11,6 +11,16 @@ sealed interface ValidationError {
     data object EmailFormat : ValidationError
 
     /**
+     * The field does not match the necessary username format.
+     */
+    data object UsernameFormat : ValidationError
+
+    /**
+     * The username is already taken.
+     */
+    data object UsernameTaken : ValidationError
+
+    /**
      * The field is not strong enough.
      */
     data object PasswordFormat : ValidationError

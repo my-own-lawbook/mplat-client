@@ -1,10 +1,13 @@
 package me.bumiller.mol.ui.components
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.TopAppBar
@@ -50,6 +53,7 @@ fun MolAppBar(
     title: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
+    isFetching: Boolean = false,
     collapsedHeight: Dp = TopAppBarDefaults.MediumAppBarCollapsedHeight,
     expandedHeight: Dp = TopAppBarDefaults.TopAppBarExpandedHeight,
     windowInsets: WindowInsets = WindowInsets(0, 0, 0, 0),
@@ -58,58 +62,75 @@ fun MolAppBar(
     ),
     scrollBehavior: TopAppBarScrollBehavior? = null
 ) {
-    when (style) {
-        TopAppBarStyles.Normal -> {
-            TopAppBar(
-                title,
-                modifier,
-                navigationIcon,
-                actions,
-                expandedHeight,
-                windowInsets,
-                colors,
-                scrollBehavior
-            )
+    val appBarModifier = Modifier
+        .fillMaxWidth()
+
+    Column(
+        modifier = modifier
+    ) {
+        when (style) {
+            TopAppBarStyles.Normal -> {
+                TopAppBar(
+                    title,
+                    appBarModifier,
+                    navigationIcon,
+                    actions,
+                    expandedHeight,
+                    windowInsets,
+                    colors,
+                    scrollBehavior
+                )
+            }
+
+            TopAppBarStyles.Medium -> {
+                MediumTopAppBar(
+                    title,
+                    appBarModifier,
+                    navigationIcon,
+                    actions,
+                    expandedHeight,
+                    collapsedHeight,
+                    windowInsets,
+                    colors,
+                    scrollBehavior
+                )
+            }
+
+            TopAppBarStyles.Large -> {
+                LargeTopAppBar(
+                    title,
+                    appBarModifier,
+                    navigationIcon,
+                    actions,
+                    expandedHeight,
+                    collapsedHeight,
+                    windowInsets,
+                    colors,
+                    scrollBehavior
+                )
+            }
+
+            TopAppBarStyles.Centered -> {
+                CenterAlignedTopAppBar(
+                    title,
+                    appBarModifier,
+                    navigationIcon,
+                    actions,
+                    expandedHeight,
+                    windowInsets,
+                    colors,
+                    scrollBehavior
+                )
+            }
         }
 
-        TopAppBarStyles.Medium -> {
-            MediumTopAppBar(
-                title,
-                modifier,
-                navigationIcon,
-                actions,
-                expandedHeight,
-                collapsedHeight,
-                windowInsets,
-                colors,
-                scrollBehavior
-            )
-        }
-
-        TopAppBarStyles.Large -> {
-            LargeTopAppBar(
-                title,
-                modifier,
-                navigationIcon,
-                actions,
-                expandedHeight,
-                collapsedHeight,
-                windowInsets,
-                colors,
-                scrollBehavior
-            )
-        }
-
-        TopAppBarStyles.Centered -> {
-            CenterAlignedTopAppBar(
-                title,
-                modifier,
-                navigationIcon,
-                actions,
-                expandedHeight,
-                windowInsets,
-                colors,
-                scrollBehavior
+        UnshiftingVisibility(
+            visible = isFetching,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            LinearProgressIndicator(
+                modifier = Modifier
+                    .fillMaxWidth()
             )
         }
     }

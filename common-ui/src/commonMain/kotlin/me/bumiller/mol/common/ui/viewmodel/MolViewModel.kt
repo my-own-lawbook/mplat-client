@@ -7,11 +7,9 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import me.bumiller.mol.common.ui.event.UiEvent
 import me.bumiller.mol.common.ui.event.ViewModelEvent
 import me.bumiller.mol.model.state.SimpleState
 import kotlin.reflect.KClass
@@ -108,7 +106,6 @@ abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, E
     /**
      * Retrieves the ui state of the specified type.
      */
-    @Suppress("UNCHECKED_CAST")
     protected inline fun <reified Data : Any> uiState(): MutableStateFlow<Data> =
         uiState<Data>(Unit)
 
@@ -128,23 +125,32 @@ abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, E
     // Shared state for all view models
     //
 
-    private val _isFetching = MutableStateFlow(false)
+    private data object Fetching
+
+    private data object NetworkError
+
+    private data object UnknownError
+
+    init {
+        registerUiState<Boolean>(false, Fetching)
+        registerUiState<Boolean>(false, NetworkError)
+        registerUiState<Boolean>(false, UnknownError)
+    }
 
     /**
      * Whether the viewmodel was set into a fetching state, i.e. some processing work is being made in the background.
      */
-    val isFetching = _isFetching.asStateFlow()
+    val isFetching = uiState<Boolean>(Fetching)
 
     /**
-     * Emits a new value to the [isFetching] flow.
-     *
-     * @param isFetching The to be emitted value
+     * Whether a request failed because the server could not be reached.
      */
-    protected fun setIsFetching(isFetching: Boolean) {
-        viewModelScope.launch {
-            _isFetching.emit(isFetching)
-        }
-    }
+    val hasNetworkError = uiState<Boolean>(NetworkError)
+
+    /**
+     * Whether a request failed because of an unknown error.
+     */
+    val hasUnknownError = uiState<Boolean>(UnknownError)
 
     /**
      * Sets the [isFetching] value to true while a suspend block is executed.
@@ -153,11 +159,19 @@ abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, E
      * @return The result value of the block
      */
     protected suspend fun <T> withFetchState(block: suspend () -> T): T {
-        setIsFetching(true)
+        isFetching.emit(true)
         val result = block()
-        setIsFetching(false)
+        isFetching.emit(false)
 
         return result
+    }
+
+    /**
+     * Clears [hasNetworkError] and [hasUnknownError] by setting them to false.
+     */
+    protected suspend fun clearErrors() {
+        hasNetworkError.emit(false)
+        hasUnknownError.emit(false)
     }
 
     //

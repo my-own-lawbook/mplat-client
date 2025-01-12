@@ -5,17 +5,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.flow.collectLatest
+import me.bumiller.mol.common.ui.viewmodel.ViewModelScope
 import me.bumiller.mol.onboarding.Res
 import me.bumiller.mol.onboarding.cd_url_screen
 import me.bumiller.mol.onboarding.url_screen
@@ -28,32 +30,27 @@ import me.bumiller.mol.ui.components.UrlTextField
 import me.bumiller.mol.ui.layout.AppBarLayoutWithImage
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.annotation.KoinExperimentalAPI
 
 /**
  * The onboarding screen that allows the user to enter/change the url of the backend they are connecting to.
  *
  * @param onUrlSet The callback invoked when the url was successfully set.
  */
-@OptIn(KoinExperimentalAPI::class)
 @Composable
 internal fun UrlScreen(
     onUrlSet: () -> Unit
 ) {
-    val viewModel = koinViewModel<UrlViewModel>()
-
-    LaunchedEffect(Unit) {
-        viewModel.events.collectLatest { event ->
+    ViewModelScope<UrlUiEvent, UrlEvent, UrlViewModel>(
+        onViewModelEvent = { event ->
             when (event) {
                 UrlEvent.Continue -> onUrlSet()
             }
         }
+    ) { vm ->
+        val formState by vm.formState.collectAsStateWithLifecycle()
+
+        UrlScreen(formState, vm::onEvent)
     }
-
-    val formState by viewModel.formState.collectAsStateWithLifecycle()
-
-    UrlScreen(formState, viewModel::onEvent)
 }
 
 @Composable
@@ -90,7 +87,11 @@ private fun UrlScreen(
                 value = formState.url,
                 onValueChange = { onEvent(UrlUiEvent.ChangeUrl(it)) },
                 style = TextFieldStyle.Outlined,
-                label = { Text(stringResource(Res.string.url_screen_input_label)) }
+                label = { Text(stringResource(Res.string.url_screen_input_label)) },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions { onEvent(UrlUiEvent.Confirm) }
             )
 
             Row(
