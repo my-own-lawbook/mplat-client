@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.widthIn
@@ -30,9 +30,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import me.bumiller.mol.common.ui.operator.plus
 import me.bumiller.mol.common.ui.viewmodel.LocalViewModelScope
 import me.bumiller.mol.ui.components.MolAppBar
 import me.bumiller.mol.ui.components.TopAppBarStyles
@@ -40,6 +42,8 @@ import me.bumiller.mol.ui.locals.LocalWindowSizeClass
 
 @Composable
 private fun calculatePadding(): PaddingValues {
+    val imeShown = WindowInsets.ime.getBottom(LocalDensity.current) > 0
+
     val horizontal = when (LocalWindowSizeClass.current.widthSizeClass) {
         WindowWidthSizeClass.Compact -> 16.dp
         WindowWidthSizeClass.Medium -> 32.dp
@@ -48,10 +52,10 @@ private fun calculatePadding(): PaddingValues {
     }
 
     val bottom = when (LocalWindowSizeClass.current.heightSizeClass) {
-        WindowHeightSizeClass.Compact -> 8.dp
-        WindowHeightSizeClass.Medium -> 32.dp
-        WindowHeightSizeClass.Expanded -> 64.dp
-        else -> throw IllegalStateException("Invalid window width size class.")
+        WindowHeightSizeClass.Compact -> if (imeShown) 4.dp else 8.dp
+        WindowHeightSizeClass.Medium -> if (imeShown) 8.dp else 32.dp
+        WindowHeightSizeClass.Expanded -> if (imeShown) 16.dp else 64.dp
+        else -> throw IllegalStateException("Invalid window height size class.")
     }
 
     val top = 8.dp
@@ -405,7 +409,6 @@ private fun ColumnAppBarLayout(
 ) {
     Column(
         modifier = modifier
-            .padding(WindowInsets.navigationBars.asPaddingValues())
     ) {
         MolAppBar(
             modifier = Modifier
@@ -417,10 +420,11 @@ private fun ColumnAppBarLayout(
             actions = actions,
             windowInsets = WindowInsets.statusBars
         )
+
         BoxWithConstraints(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(paddingValues + WindowInsets.ime.asPaddingValues())
         ) {
             val height = maxHeight - layoutType.spacing
 
@@ -474,7 +478,6 @@ private fun RowAppBarLayout(
 ) {
     Column(
         modifier = modifier
-            .padding(WindowInsets.navigationBars.asPaddingValues())
     ) {
         MolAppBar(
             modifier = Modifier
@@ -489,13 +492,13 @@ private fun RowAppBarLayout(
         BoxWithConstraints(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues + WindowInsets.ime.asPaddingValues())
         ) {
             val width = maxWidth - layoutType.spacing
 
             Row(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
+                    .fillMaxSize(),
                 horizontalArrangement = Arrangement.spacedBy(layoutType.spacing)
             ) {
                 Box(

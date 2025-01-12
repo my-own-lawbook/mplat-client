@@ -24,7 +24,7 @@ class EmailViewModel(
         registerUiState(EmailState())
 
         viewModelScope.launch {
-            requestEmailToken()
+            requestEmailToken(false)
         }
     }
 
@@ -43,7 +43,7 @@ class EmailViewModel(
     }
 
     private suspend fun EmailUiEvent.Resend.handle() {
-        requestEmailToken()
+        requestEmailToken(true)
 
         val timeInDuration = formState.value.nextResendAt + 60.seconds
         updateUiState<EmailState> {
@@ -51,10 +51,14 @@ class EmailViewModel(
         }
     }
 
-    private suspend fun requestEmailToken() {
+    private suspend fun requestEmailToken(doFetchState: Boolean) {
         clearErrors()
 
-        val response = authService.requestEmailToken()
+        val response = if (doFetchState) {
+            withFetchState {
+                authService.requestEmailToken()
+            }
+        } else authService.requestEmailToken()
         when (response) {
             is AuthResult.NetworkError -> hasNetworkError.emit(true)
             is AuthResult.Error, is AuthResult.UnknownError -> hasUnknownError.emit(true)
