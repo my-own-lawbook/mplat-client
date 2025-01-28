@@ -2,6 +2,7 @@ package me.bumiller.mol.app
 
 import kotlinx.serialization.Serializable
 import me.bumiller.mol.feature.auth.navigation.AuthLocation
+import me.bumiller.mol.feature.home.navigation.HomeLocation
 import me.bumiller.mol.feature.onboarding.navigation.OnboardingLocation
 
 /**
@@ -48,7 +49,7 @@ sealed interface MolTopLevelLocation {
         get() = when (this) {
             Auth -> AuthLocation
             is Onboarding -> OnboardingLocation(showDesignScreen)
-            Home -> TODO()
+            Home -> HomeLocation
             Setting -> TODO()
         }
 

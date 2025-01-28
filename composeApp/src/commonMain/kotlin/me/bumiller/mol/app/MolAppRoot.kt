@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import me.bumiller.mol.feature.auth.navigation.AuthLocation
 import me.bumiller.mol.feature.auth.navigation.authLocation
+import me.bumiller.mol.feature.home.navigation.HomeLocation
+import me.bumiller.mol.feature.home.navigation.homeLocation
 import me.bumiller.mol.feature.onboarding.navigation.OnboardingLocation
 import me.bumiller.mol.feature.onboarding.navigation.onboardingLocation
 import me.bumiller.mol.ui.theme.MolTheme
@@ -75,6 +77,7 @@ private fun MolAppRootNavHost(
         navController = navController,
         startDestination = initialLocation.asNavRoute
     ) {
+        homeLocation()
         onboardingLocation(
             onOnboardingFinished = {
                 navController.navigate(AuthLocation) {
@@ -93,7 +96,7 @@ private fun MolAppRootNavHost(
                 }
             },
             onAuthenticate = {
-                println("User authenticated successfully!")
+                navController.navigate(HomeLocation)
             }
         )
     }

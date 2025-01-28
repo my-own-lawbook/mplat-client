@@ -1,0 +1,4 @@
+<resources>
+    <string name="section_home_label">Home</string>
+    <string name="section_profile_label">Profile</string>
+</resources>
