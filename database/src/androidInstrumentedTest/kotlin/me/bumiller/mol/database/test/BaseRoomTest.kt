@@ -16,33 +16,12 @@ abstract class BaseRoomTest {
      */
     private lateinit var db: MolDatabase
 
-    /**
-     * The dao for the user settings entity
-     */
-    lateinit var userSettingsDao: UserSettingsDao
-
     @Before
     fun before() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
             context, MolDatabase::class.java
         ).build()
-
-        userSettingsDao = db.userSettingsDao()
     }
-
-    /**
-     * Creates a [UserSettingsEntity]
-     *
-     * @param key The key to customize the entity
-     * @return The entity
-     */
-    fun userSetting(key: Long) = UserSettingsEntity(
-        id = key,
-        backendUrl = "https://www.example.com/$key",
-        colorMode = "system",
-        colorScheme = "light",
-        contrastLevel = "normal"
-    )
 
 }
