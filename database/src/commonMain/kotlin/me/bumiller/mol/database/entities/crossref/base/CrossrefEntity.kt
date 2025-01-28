@@ -1,0 +1,18 @@
+package me.bumiller.mol.database.entities.crossref.base
+
+/**
+ * Base class for any entity that symbolizes a row in a crossref sql table.
+ */
+interface CrossrefEntity {
+
+    /**
+     * The id of the parent entity.
+     */
+    val parentId: Long
+
+    /**
+     * The id of the child entity.
+     */
+    val childId: Long
+
+}
