@@ -40,7 +40,7 @@ interface SimpleDao<Entity : SimpleEntity> {
      * @param id The id of the entity
      * @return The deleted entity
      */
-    suspend fun delete(id: Long): Entity?
+    suspend fun delete(id: Long)
 
     /**
      * Gets a specific entity by the id.

@@ -18,7 +18,7 @@ interface BookDao : SimpleDao<BookEntity> {
     override fun getAll(): Flow<List<BookEntity>>
 
     @Query("DELETE FROM books WHERE books.id = :id")
-    override suspend fun delete(id: Long): BookEntity?
+    override suspend fun delete(id: Long)
 
     @Insert
     override suspend fun insert(entity: BookEntity): Long

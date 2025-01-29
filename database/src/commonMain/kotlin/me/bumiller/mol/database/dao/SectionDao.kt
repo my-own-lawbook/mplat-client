@@ -18,7 +18,7 @@ interface SectionDao : SimpleDao<SectionEntity> {
     override fun getAll(): Flow<List<SectionEntity>>
 
     @Query("DELETE FROM sections WHERE sections.id = :id")
-    override suspend fun delete(id: Long): SectionEntity?
+    override suspend fun delete(id: Long)
 
     @Insert
     override suspend fun insert(entity: SectionEntity): Long

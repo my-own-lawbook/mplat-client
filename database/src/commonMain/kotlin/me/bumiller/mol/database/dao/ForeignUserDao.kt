@@ -18,7 +18,7 @@ interface ForeignUserDao : SimpleDao<ForeignUserEntity> {
     override fun getAll(): Flow<List<ForeignUserEntity>>
 
     @Query("DELETE FROM foreign_users WHERE foreign_users.id = :id")
-    override suspend fun delete(id: Long): ForeignUserEntity?
+    override suspend fun delete(id: Long)
 
     @Insert
     override suspend fun insert(entity: ForeignUserEntity): Long
