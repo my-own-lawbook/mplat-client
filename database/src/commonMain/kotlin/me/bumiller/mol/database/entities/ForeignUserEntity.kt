@@ -2,7 +2,7 @@ package me.bumiller.mol.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalDate
 import me.bumiller.mol.database.entities.base.SimpleEntity
 
 /**
@@ -43,6 +43,6 @@ data class ForeignUserEntity(
     /**
      * The birthday of the user
      */
-    val birthday: LocalDateTime
+    val birthday: LocalDate
 
 ) : SimpleEntity
