@@ -1,8 +1,8 @@
-package me.bumiller.mol.database.entities.crossref
+package me.bumiller.mol.database.entities
 
 import androidx.room.Entity
 import androidx.room.Ignore
-import me.bumiller.mol.database.entities.crossref.base.CrossrefEntity
+import me.bumiller.mol.database.entities.base.CrossrefEntity
 
 /**
  * Entity that represents a record in the 'books_x_foreign_users' table.

@@ -1,9 +1,9 @@
-package me.bumiller.mol.database.entities.crossref.base
+package me.bumiller.mol.database.entities.base
 
 /**
  * Base class for any entity that symbolizes a row in a crossref sql table.
  */
-interface CrossrefEntity {
+interface CrossrefEntity : BaseEntity {
 
     /**
      * The id of the parent entity.

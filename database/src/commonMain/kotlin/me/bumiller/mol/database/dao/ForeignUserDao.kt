@@ -1,6 +1,7 @@
 package me.bumiller.mol.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -17,12 +18,12 @@ interface ForeignUserDao : SimpleDao<ForeignUserEntity> {
     @Query("SELECT * FROM foreign_users")
     override fun getAll(): Flow<List<ForeignUserEntity>>
 
-    @Query("DELETE FROM foreign_users WHERE foreign_users.id = :id")
-    override suspend fun delete(id: Long)
+    @Delete
+    override suspend fun delete(vararg entity: ForeignUserEntity)
 
     @Insert
-    override suspend fun insert(entity: ForeignUserEntity): Long
+    override suspend fun insert(vararg entity: ForeignUserEntity): Long
 
     @Update
-    override suspend fun update(entity: ForeignUserEntity): Int
+    override suspend fun update(vararg entity: ForeignUserEntity): Int
 }

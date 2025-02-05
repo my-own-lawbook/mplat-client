@@ -3,7 +3,7 @@ package me.bumiller.mol.database.entities.base
 /**
  * Base class for any class that models one record in an sql table.
  */
-interface SimpleEntity {
+interface SimpleEntity : BaseEntity {
 
     /**
      * The id of the entity.

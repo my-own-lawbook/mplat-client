@@ -1,6 +1,7 @@
 package me.bumiller.mol.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -17,12 +18,12 @@ interface InvitationDao : SimpleDao<InvitationEntity> {
     @Query("SELECT * FROM invitations")
     override fun getAll(): Flow<List<InvitationEntity>>
 
-    @Query("DELETE FROM invitations WHERE invitations.id = :id")
-    override suspend fun delete(id: Long)
+    @Delete
+    override suspend fun delete(vararg entity: InvitationEntity)
 
     @Insert
-    override suspend fun insert(entity: InvitationEntity): Long
+    override suspend fun insert(vararg entity: InvitationEntity): Long
 
     @Update
-    override suspend fun update(entity: InvitationEntity): Int
+    override suspend fun update(vararg entity: InvitationEntity): Int
 }
