@@ -3,6 +3,9 @@ package me.bumiller.mol.database
 import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import me.bumiller.mol.database.converter.InstantConverter
+import me.bumiller.mol.database.converter.LocalDateConverter
 import me.bumiller.mol.database.entities.BookEntity
 import me.bumiller.mol.database.entities.EntryEntity
 import me.bumiller.mol.database.entities.ForeignUserEntity
@@ -17,6 +20,9 @@ import me.bumiller.mol.database.entities.SectionEntity
     version = MolDatabase.DB_VERSION
 )
 @ConstructedBy(MolDatabaseConstructor::class)
+@TypeConverters(
+    value = [LocalDateConverter::class, InstantConverter::class]
+)
 abstract class MolDatabase : RoomDatabase() {
 
     companion object {
