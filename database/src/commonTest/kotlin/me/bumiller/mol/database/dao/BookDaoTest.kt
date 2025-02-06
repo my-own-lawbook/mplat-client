@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test
  */
 class BookDaoTest : SimpleDaoTest<BookEntity, BookDao>() {
 
-    override val dao: BookDao = bookDao
+    override val dao: BookDao
+        get() = bookDao
 
     override fun createEntity(key: Long) = bookEntity(key)
 

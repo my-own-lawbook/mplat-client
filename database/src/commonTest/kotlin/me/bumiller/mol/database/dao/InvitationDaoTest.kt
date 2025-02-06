@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test
  */
 class InvitationDaoTest : SimpleDaoTest<InvitationEntity, InvitationDao>() {
 
-    override val dao: InvitationDao = invitationDao
+    override val dao: InvitationDao
+        get() = invitationDao
 
     override fun createEntity(key: Long) = invitationEntity(key)
 

@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test
  */
 class SectionDaoTest : SimpleDaoTest<SectionEntity, SectionDao>() {
 
-    override val dao: SectionDao = sectionDao
+    override val dao: SectionDao
+        get() = sectionDao
 
     override fun createEntity(key: Long) = sectionEntity(key)
 

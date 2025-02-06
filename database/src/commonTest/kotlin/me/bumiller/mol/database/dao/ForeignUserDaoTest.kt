@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test
  */
 class ForeignUserDaoTest : SimpleDaoTest<ForeignUserEntity, ForeignUserDao>() {
 
-    override val dao: ForeignUserDao = foreignUserDao
+    override val dao: ForeignUserDao
+        get() = foreignUserDao
 
     override fun createEntity(key: Long) = foreignUserEntity(key)
 

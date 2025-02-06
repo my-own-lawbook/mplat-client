@@ -15,6 +15,7 @@ import me.bumiller.mol.database.entities.EntryEntity
 import me.bumiller.mol.database.entities.ForeignUserEntity
 import me.bumiller.mol.database.entities.InvitationEntity
 import me.bumiller.mol.database.entities.SectionEntity
+import org.junit.jupiter.api.BeforeEach
 
 /**
  * Sets up the database and daos
@@ -24,9 +25,14 @@ abstract class BaseRoomTest {
     /**
      * The in-memory database
      */
-    private val db: MolDatabase = Room.inMemoryDatabaseBuilder<MolDatabase>()
-        .setDriver(BundledSQLiteDriver())
-        .build()
+    lateinit var db: MolDatabase
+
+    @BeforeEach
+    fun setup() {
+        db = Room.inMemoryDatabaseBuilder<MolDatabase>()
+            .setDriver(BundledSQLiteDriver())
+            .build()
+    }
 
     internal val bookDao: BookDao
         get() = db.bookDao()
