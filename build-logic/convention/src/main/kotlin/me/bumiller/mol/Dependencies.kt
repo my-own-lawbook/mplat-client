@@ -70,7 +70,8 @@ object Dependencies {
         android = listOf(
             "androidx.test.junit",
             "androidx.test.runner",
-            "coroutines.test"
+            "coroutines.test",
+            "junit"
         ),
         jvm = emptyList()
     )
