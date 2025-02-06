@@ -4,8 +4,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import me.bumiller.mol.database.dao.base.SimpleDao
 import me.bumiller.mol.database.entities.base.SimpleEntity
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 
 /**
  * Base class for any dao that tests an instance of a [SimpleDao] for a specific [SimpleEntity].
@@ -44,6 +45,7 @@ abstract class SimpleDaoTest<Entity : SimpleEntity, Dao : SimpleDao<Entity>> : B
      * Tests whether the [SimpleDao.insert] implementation works.
      */
     @Test
+    @DisplayName("Inserting an entity allows retrieving that entity.")
     fun insertWorks() = runTest {
         (1..10).map { it * 250L }
             .map(::createEntity)
@@ -51,13 +53,14 @@ abstract class SimpleDaoTest<Entity : SimpleEntity, Dao : SimpleDao<Entity>> : B
 
         val entities = dao.getAll().first()
 
-        Assert.assertEquals(10, entities.size)
+        Assertions.assertEquals(10, entities.size)
     }
 
     /**
      * Tests whether the [SimpleDao.getById] implementation works.
      */
     @Test
+    @DisplayName("Getting an entity by id returns only the specific entity.")
     fun getByIdWorks() = runTest {
         val entities = (1..10).map { it * 250L }
             .map(::createEntity)
@@ -67,7 +70,7 @@ abstract class SimpleDaoTest<Entity : SimpleEntity, Dao : SimpleDao<Entity>> : B
         entities.forEach { entity ->
             val retrievedEntity = dao.getById(entity.id).first()
 
-            Assert.assertEquals(entity, retrievedEntity)
+            Assertions.assertEquals(entity, retrievedEntity)
         }
     }
 
@@ -75,6 +78,7 @@ abstract class SimpleDaoTest<Entity : SimpleEntity, Dao : SimpleDao<Entity>> : B
      * Tests whether the [SimpleDao.getByIds] implementation works.
      */
     @Test
+    @DisplayName("Getting multiple entities by id's returns only entities with those ids and ignores invalid id's.")
     fun getByIdsWorks() = runTest {
         (1..10).map { it * 250L }
             .map(::createEntity)
@@ -87,9 +91,9 @@ abstract class SimpleDaoTest<Entity : SimpleEntity, Dao : SimpleDao<Entity>> : B
 
                 ids.forEach { id ->
                     if (id in (1..10).map { it * 250L }) {
-                        Assert.assertEquals(1, entitiesForIds.count { it.id == id })
+                        Assertions.assertEquals(1, entitiesForIds.count { it.id == id })
                     } else {
-                        Assert.assertTrue(entitiesForIds.none { it.id == id })
+                        Assertions.assertTrue(entitiesForIds.none { it.id == id })
                     }
                 }
             }
@@ -99,6 +103,7 @@ abstract class SimpleDaoTest<Entity : SimpleEntity, Dao : SimpleDao<Entity>> : B
      * Tests whether the [SimpleDao.getAll] implementation works.
      */
     @Test
+    @DisplayName("Getting all entities returns all entities.")
     fun getAllWorks() = runTest {
         val entities = (1..10).map { it * 250L }
             .map(::createEntity)
@@ -107,14 +112,15 @@ abstract class SimpleDaoTest<Entity : SimpleEntity, Dao : SimpleDao<Entity>> : B
 
         val allEntities = dao.getAll().first()
 
-        Assert.assertTrue(entities.containsAll(allEntities))
-        Assert.assertTrue(allEntities.containsAll(entities))
+        Assertions.assertTrue(entities.containsAll(allEntities))
+        Assertions.assertTrue(allEntities.containsAll(entities))
     }
 
     /**
      * Tests whether the [SimpleDao.delete] implementation works.
      */
     @Test
+    @DisplayName("Deleting an entity removes it from the database.")
     fun deleteWorks() = runTest {
         (1..10).map { it * 250L }
             .map(::createEntity)
@@ -128,7 +134,7 @@ abstract class SimpleDaoTest<Entity : SimpleEntity, Dao : SimpleDao<Entity>> : B
 
         deletedEntities.forEach { entity ->
             val retrieved = dao.getById(entity.id)
-            Assert.assertNull(retrieved)
+            Assertions.assertNull(retrieved)
         }
     }
 
@@ -136,6 +142,7 @@ abstract class SimpleDaoTest<Entity : SimpleEntity, Dao : SimpleDao<Entity>> : B
      * Tests whether the [SimpleDao.update] implementation works.
      */
     @Test
+    @DisplayName("Updating an entity changes the specified properties.")
     fun updateWorks() = runTest {
         val entities = (1..10).map { it * 250L }
             .map(::createEntity)
@@ -150,7 +157,7 @@ abstract class SimpleDaoTest<Entity : SimpleEntity, Dao : SimpleDao<Entity>> : B
             val retrieved = dao.getById(entity.id).first()
             val updated = updatedEntities.find { it.id == entity.id }
 
-            Assert.assertEquals(updated, retrieved)
+            Assertions.assertEquals(updated, retrieved)
         }
     }
 

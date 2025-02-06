@@ -1,8 +1,7 @@
 package me.bumiller.mol.database.test
 
-import android.content.Context
 import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import me.bumiller.mol.database.MolDatabase
@@ -25,7 +24,9 @@ abstract class BaseRoomTest {
     /**
      * The in-memory database
      */
-    private val db: MolDatabase
+    private val db: MolDatabase = Room.inMemoryDatabaseBuilder<MolDatabase>()
+        .setDriver(BundledSQLiteDriver())
+        .build()
 
     internal val bookDao: BookDao
         get() = db.bookDao()
@@ -37,13 +38,6 @@ abstract class BaseRoomTest {
         get() = db.invitationDao()
     internal val sectionDao: SectionDao
         get() = db.sectionDao()
-
-    init {
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        db = Room.inMemoryDatabaseBuilder(
-            context, MolDatabase::class.java
-        ).build()
-    }
 
     /**
      * Creates a [BookEntity].
