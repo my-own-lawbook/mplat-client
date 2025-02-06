@@ -22,8 +22,8 @@ interface ForeignUserDao : SimpleDao<ForeignUserEntity> {
     override suspend fun delete(vararg entity: ForeignUserEntity)
 
     @Insert
-    override suspend fun insert(vararg entity: ForeignUserEntity): Long
+    override suspend fun insert(entity: ForeignUserEntity): Long
 
     @Update
-    override suspend fun update(vararg entity: ForeignUserEntity): Int
+    override suspend fun update(entity: ForeignUserEntity): Int
 }

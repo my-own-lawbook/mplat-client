@@ -22,9 +22,9 @@ interface BookDao : SimpleDao<BookEntity> {
     override suspend fun delete(vararg entity: BookEntity)
 
     @Insert
-    override suspend fun insert(vararg entity: BookEntity): Long
+    override suspend fun insert(entity: BookEntity): Long
 
     @Update
-    override suspend fun update(vararg entity: BookEntity): Int
+    override suspend fun update(entity: BookEntity): Int
 
 }

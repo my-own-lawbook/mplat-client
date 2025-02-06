@@ -22,8 +22,8 @@ interface SectionDao : SimpleDao<SectionEntity> {
     override suspend fun delete(vararg entity: SectionEntity)
 
     @Insert
-    override suspend fun insert(vararg entity: SectionEntity): Long
+    override suspend fun insert(entity: SectionEntity): Long
 
     @Update
-    override suspend fun update(vararg entity: SectionEntity): Int
+    override suspend fun update(entity: SectionEntity): Int
 }

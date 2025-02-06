@@ -6,6 +6,11 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import me.bumiller.mol.database.converter.InstantConverter
 import me.bumiller.mol.database.converter.LocalDateConverter
+import me.bumiller.mol.database.dao.BookDao
+import me.bumiller.mol.database.dao.EntryDao
+import me.bumiller.mol.database.dao.ForeignUserDao
+import me.bumiller.mol.database.dao.InvitationDao
+import me.bumiller.mol.database.dao.SectionDao
 import me.bumiller.mol.database.entities.BookEntity
 import me.bumiller.mol.database.entities.EntryEntity
 import me.bumiller.mol.database.entities.ForeignUserEntity
@@ -38,5 +43,41 @@ abstract class MolDatabase : RoomDatabase() {
         const val DB_NAME = "mol_db"
 
     }
+
+
+    /**
+     * Retrieves the [BookDao] for the database.
+     *
+     * @return The dao
+     */
+    abstract fun bookDao(): BookDao
+
+    /**
+     * Retrieves the [EntryDao] for the database.
+     *
+     * @return The dao
+     */
+    abstract fun entryDao(): EntryDao
+
+    /**
+     * Retrieves the [ForeignUserDao] for the database.
+     *
+     * @return The dao
+     */
+    abstract fun foreignUserDao(): ForeignUserDao
+
+    /**
+     * Retrieves the [InvitationDao] for the database.
+     *
+     * @return The dao
+     */
+    abstract fun invitationDao(): InvitationDao
+
+    /**
+     * Retrieves the [SectionDao] for the database.
+     *
+     * @return The dao
+     */
+    abstract fun sectionDao(): SectionDao
 
 }

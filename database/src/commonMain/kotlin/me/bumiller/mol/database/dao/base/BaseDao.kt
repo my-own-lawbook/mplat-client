@@ -24,7 +24,7 @@ interface BaseDao<Entity : BaseEntity> {
      * @param entity The entity
      * @return The new rowId of the entity
      */
-    suspend fun insert(vararg entity: Entity): Long
+    suspend fun insert(entity: Entity): Long
 
     /**
      * Updates an existing entity.
@@ -32,7 +32,7 @@ interface BaseDao<Entity : BaseEntity> {
      * @param entity The entity to update, identified by the [SimpleEntity.id] field
      * @return The number of updated columns
      */
-    suspend fun update(vararg entity: Entity): Int
+    suspend fun update(entity: Entity): Int
 
     /**
      * Deletes an entity by the specified id.

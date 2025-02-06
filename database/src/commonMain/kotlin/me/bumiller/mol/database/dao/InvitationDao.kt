@@ -22,8 +22,8 @@ interface InvitationDao : SimpleDao<InvitationEntity> {
     override suspend fun delete(vararg entity: InvitationEntity)
 
     @Insert
-    override suspend fun insert(vararg entity: InvitationEntity): Long
+    override suspend fun insert(entity: InvitationEntity): Long
 
     @Update
-    override suspend fun update(vararg entity: InvitationEntity): Int
+    override suspend fun update(entity: InvitationEntity): Int
 }

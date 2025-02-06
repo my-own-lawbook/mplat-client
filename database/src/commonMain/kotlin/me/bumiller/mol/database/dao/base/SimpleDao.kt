@@ -26,6 +26,8 @@ interface SimpleDao<Entity : SimpleEntity> : BaseDao<Entity> {
      * @return The list of all entities having ids in [ids]. Non present ids are ignored.
      */
     fun getByIds(ids: List<Long>): Flow<List<Entity>> =
-        getAll().map { entities -> entities.filter { it.id in ids } }
+        getAll().map { entities ->
+            entities.filter { it.id in ids }
+        }
 
 }
