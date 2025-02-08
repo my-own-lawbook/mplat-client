@@ -70,7 +70,7 @@ abstract class BaseRoomTest {
      */
     fun entryEntity(key: Long) = EntryEntity(
         id = key,
-        parentSectionId = key,
+        parentBookId = key,
         key = "key $key",
         name = "name $key"
     )
@@ -117,7 +117,7 @@ abstract class BaseRoomTest {
      */
     fun sectionEntity(key: Long) = SectionEntity(
         id = key,
-        parentBookId = key,
+        parentEntryId = key,
         index = "index $key",
         name = "name $key",
         content = "content $key"
