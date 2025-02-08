@@ -26,7 +26,7 @@ import me.bumiller.mol.auth.profile_screen_input_last_name_label
 import me.bumiller.mol.auth.profile_screen_title
 import me.bumiller.mol.common.ui.localization.localizedName
 import me.bumiller.mol.common.ui.viewmodel.ViewModelScope
-import me.bumiller.mol.model.Gender
+import me.bumiller.mol.model.user.Gender
 import me.bumiller.mol.ui.components.DateTextField
 import me.bumiller.mol.ui.components.DropdownTextField
 import me.bumiller.mol.ui.components.MolTextField

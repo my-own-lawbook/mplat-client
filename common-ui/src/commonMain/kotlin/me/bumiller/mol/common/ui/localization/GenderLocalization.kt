@@ -6,7 +6,7 @@ import me.bumiller.mol.common_ui.gender_disclosed
 import me.bumiller.mol.common_ui.gender_female
 import me.bumiller.mol.common_ui.gender_male
 import me.bumiller.mol.common_ui.gender_other
-import me.bumiller.mol.model.Gender
+import me.bumiller.mol.model.user.Gender
 import org.jetbrains.compose.resources.stringResource
 
 /**

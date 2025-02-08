@@ -1,8 +1,8 @@
 package me.bumiller.mol.auth.mapping
 
-import me.bumiller.mol.model.Gender
 import me.bumiller.mol.model.user.AuthUser
 import me.bumiller.mol.model.user.AuthUserWithProfile
+import me.bumiller.mol.model.user.Gender
 import me.bumiller.mol.model.user.Profile
 import me.bumiller.mol.network.response.AuthUserWithProfileResponse
 import me.bumiller.mol.network.response.AuthUserWithoutProfileResponse

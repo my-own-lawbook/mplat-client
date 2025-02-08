@@ -3,7 +3,7 @@ package me.bumiller.mol.feature.auth.screen.profile
 import kotlinx.datetime.LocalDate
 import me.bumiller.mol.common.ui.event.UiEvent
 import me.bumiller.mol.common.ui.event.ViewModelEvent
-import me.bumiller.mol.model.Gender
+import me.bumiller.mol.model.user.Gender
 
 /**
  * Events fired by the profile screen.
