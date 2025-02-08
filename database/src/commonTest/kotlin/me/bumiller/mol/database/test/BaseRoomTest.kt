@@ -6,6 +6,7 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import me.bumiller.mol.database.MolDatabase
 import me.bumiller.mol.database.dao.BookDao
+import me.bumiller.mol.database.dao.BookMemberCrossrefDao
 import me.bumiller.mol.database.dao.EntryDao
 import me.bumiller.mol.database.dao.ForeignUserDao
 import me.bumiller.mol.database.dao.InvitationDao
@@ -25,7 +26,7 @@ abstract class BaseRoomTest {
     /**
      * The in-memory database
      */
-    lateinit var db: MolDatabase
+    private lateinit var db: MolDatabase
 
     @BeforeEach
     fun setup() {
@@ -44,6 +45,8 @@ abstract class BaseRoomTest {
         get() = db.invitationDao()
     internal val sectionDao: SectionDao
         get() = db.sectionDao()
+    internal val bookMemberDao: BookMemberCrossrefDao
+        get() = db.bookMemberCrossrefDao()
 
     /**
      * Creates a [BookEntity].
