@@ -2,6 +2,7 @@ package me.bumiller.mol.database.dao
 
 import me.bumiller.mol.database.entities.SectionEntity
 import me.bumiller.mol.database.test.SimpleDaoTest
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
 /**
@@ -23,6 +24,7 @@ class SectionDaoTest : SimpleDaoTest<SectionEntity, SectionDao>() {
     override fun SectionEntity.copyId(id: Long) = copy(id = id)
 
     @Test
+    @DisplayName("<Triggering parent tests>")
     fun triggerParentTests() {
     }
 }
