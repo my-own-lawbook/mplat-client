@@ -3,7 +3,7 @@ package me.bumiller.mol.model.law
 import me.bumiller.mol.model.Identifiable
 
 /**
- * Models one part of a [LawEntry] that contains actual content.
+ * Models one entry in a [LawEntry].
  */
 data class LawSection(
 
