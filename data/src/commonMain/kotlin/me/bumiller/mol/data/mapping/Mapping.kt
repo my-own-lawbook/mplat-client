@@ -14,46 +14,46 @@ import me.bumiller.mol.model.law.LawSection
 import me.bumiller.mol.model.law.MemberRole
 import me.bumiller.mol.model.user.Gender
 
-internal fun bookModel(bookEntity: BookEntity) = bookEntity.run {
+internal fun mapBookModel(bookEntity: BookEntity) = bookEntity.run {
     LawBook(id, key, name, description, isFavourite)
 }
 
-internal fun entryModel(entryEntity: EntryEntity) = entryEntity.run {
+internal fun mapEntryModel(entryEntity: EntryEntity) = entryEntity.run {
     LawEntry(id, parentBookId, name, key)
 }
 
-internal fun sectionModel(sectionEntity: SectionEntity) = sectionEntity.run {
+internal fun mapSectionModel(sectionEntity: SectionEntity) = sectionEntity.run {
     LawSection(id, parentEntryId, index, name, content)
 }
 
-internal fun invitationModel(invitationEntity: InvitationEntity) = invitationEntity.run {
+internal fun mapInvitationModel(invitationEntity: InvitationEntity) = invitationEntity.run {
     LawBookInvitation(
         id,
         authorId,
         recipientId,
         targetId,
-        role(role),
+        mapRole(role),
         sentTimestamp,
         usedTimestamp,
         expiredTimestamp,
-        invitationStatus(status),
+        mapInvitationStatus(status),
         message
     )
 }
 
 
-internal fun foreignUserModel(foreignUserEntity: ForeignUserEntity) = foreignUserEntity.run {
-    ForeignUser(id, username, firstName, lastName, gender(gender), birthday)
+internal fun mapForeignUserModel(foreignUserEntity: ForeignUserEntity) = foreignUserEntity.run {
+    ForeignUser(id, username, firstName, lastName, mapGender(gender), birthday)
 }
 
-internal fun role(role: String) = when (role) {
+internal fun mapRole(role: String) = when (role) {
     "member" -> MemberRole.Member
     "moderator" -> MemberRole.Moderator
     "admin" -> MemberRole.Admin
     else -> throw IllegalArgumentException()
 }
 
-internal fun invitationStatus(status: String) = when (status) {
+internal fun mapInvitationStatus(status: String) = when (status) {
     "open" -> InvitationStatus.Open
     "revoked" -> InvitationStatus.Revoked
     "accepted" -> InvitationStatus.Accepted
@@ -61,7 +61,7 @@ internal fun invitationStatus(status: String) = when (status) {
     else -> throw IllegalArgumentException()
 }
 
-internal fun gender(gender: String) = when (gender) {
+internal fun mapGender(gender: String) = when (gender) {
     "male" -> Gender.Male
     "female" -> Gender.Female
     "not_say" -> Gender.NotSay
