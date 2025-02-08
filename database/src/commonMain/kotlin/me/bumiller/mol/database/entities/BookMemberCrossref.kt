@@ -28,12 +28,14 @@ data class BookMemberCrossref(
      * - moderator
      * - member
      */
-    val role: String,
+    val role: String
+
+) : CrossrefEntity {
 
     @Ignore
-    override val parentId: Long = bookId,
+    override val parentId: Long = bookId
 
     @Ignore
     override val childId: Long = userId
 
-) : CrossrefEntity
+}
