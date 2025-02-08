@@ -1,4 +1,4 @@
-package me.bumiller.mol.model
+package me.bumiller.mol.model.settings
 
 /**
  * Different contrast levels for the color schemes.

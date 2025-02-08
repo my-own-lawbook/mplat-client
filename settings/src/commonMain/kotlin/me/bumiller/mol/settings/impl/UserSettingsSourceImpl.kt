@@ -3,10 +3,10 @@ package me.bumiller.mol.settings.impl
 import com.eygraber.uri.Url
 import com.russhwolf.settings.Settings
 import kotlinx.coroutines.flow.MutableStateFlow
-import me.bumiller.mol.model.ColorMode
-import me.bumiller.mol.model.ColorScheme
-import me.bumiller.mol.model.ColorSchemeContrastLevel
-import me.bumiller.mol.model.UserSettings
+import me.bumiller.mol.model.settings.ColorMode
+import me.bumiller.mol.model.settings.ColorScheme
+import me.bumiller.mol.model.settings.ColorSchemeContrastLevel
+import me.bumiller.mol.model.settings.UserSettings
 import me.bumiller.mol.settings.UserSettingsSource
 
 private const val KeyMode = "color_mode"

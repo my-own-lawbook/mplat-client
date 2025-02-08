@@ -21,10 +21,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.bumiller.mol.common.ui.input.inputValue
 import me.bumiller.mol.common.ui.localization.localizedName
 import me.bumiller.mol.common.ui.viewmodel.ViewModelScope
-import me.bumiller.mol.model.ColorMode
-import me.bumiller.mol.model.ColorScheme
-import me.bumiller.mol.model.ColorSchemeContrastLevel
-import me.bumiller.mol.model.UserSettings
+import me.bumiller.mol.model.settings.ColorMode
+import me.bumiller.mol.model.settings.ColorScheme
+import me.bumiller.mol.model.settings.ColorSchemeContrastLevel
+import me.bumiller.mol.model.settings.UserSettings
 import me.bumiller.mol.model.state.SimpleState
 import me.bumiller.mol.onboarding.Res
 import me.bumiller.mol.onboarding.cd_design_screen

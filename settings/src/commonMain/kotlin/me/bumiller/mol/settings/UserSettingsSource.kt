@@ -1,7 +1,7 @@
 package me.bumiller.mol.settings
 
 import kotlinx.coroutines.flow.StateFlow
-import me.bumiller.mol.model.UserSettings
+import me.bumiller.mol.model.settings.UserSettings
 
 /**
  * Models a data source to access the settings of the user
