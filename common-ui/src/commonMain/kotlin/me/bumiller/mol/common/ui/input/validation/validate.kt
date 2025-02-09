@@ -57,14 +57,14 @@ private fun <T> getError(value: T, semantic: InputSemantic) = when (value) {
  */
 fun <Type> InputValue<Type>.validate() = validateValue(this)
 
-const val HTTPS_URL =
+private const val HTTPS_URL =
     "https?://(www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)"
 
 private fun validateUrl(string: String): ValidationError? =
     if (!Regex(HTTPS_URL).matches("https://$string")) ValidationError.BadUrl
     else null
 
-const val USERNAME =
+private const val USERNAME =
     "^[a-zA-Z0-9-_]{8,16}\$"
 
 private fun validateUsername(string: String): ValidationError? =
@@ -92,7 +92,12 @@ private fun validateNotInFuture(value: LocalTime): ValidationError? =
     else null
 
 private const val EMAIL_ADDRESS =
-    "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])"
+    "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c" +
+            "\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:" +
+            "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(2(5[0-5]|" +
+            "[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-" +
+            "9])|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x" +
+            "01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])"
 
 private fun validateEmail(str: String): ValidationError? =
     if (!Regex(EMAIL_ADDRESS).matches(str)) ValidationError.EmailFormat

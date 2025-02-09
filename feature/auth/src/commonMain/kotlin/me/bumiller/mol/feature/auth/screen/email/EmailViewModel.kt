@@ -1,6 +1,7 @@
 package me.bumiller.mol.feature.auth.screen.email
 
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import me.bumiller.mol.auth.AuthResult
 import me.bumiller.mol.auth.AuthService
@@ -31,7 +32,7 @@ class EmailViewModel(
     /**
      * The form state containing input values.
      */
-    val formState = uiState<EmailState>()
+    val formState = uiState<EmailState>().asStateFlow()
 
     override suspend fun handleEvent(event: EmailUiEvent) = when (event) {
         is EmailUiEvent.ChangeToken -> updateUiState<EmailState> {
