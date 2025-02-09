@@ -9,12 +9,14 @@ private const val Timeout = 2000
 /**
  * Checks whether the device is connected to the internet
  */
-internal actual fun isConnectedToInternet(): Boolean = try {
-    val url = URI(ReliablyOnlineUrl).toURL()
-    val connection = url.openConnection() as HttpURLConnection
-    connection.connectTimeout = Timeout
-    connection.connect()
-    connection.responseCode == 200
-} catch (e: Exception) {
-    false
+internal actual val isConnectedToInternetCallback: () -> Boolean = {
+    try {
+        val url = URI(ReliablyOnlineUrl).toURL()
+        val connection = url.openConnection() as HttpURLConnection
+        connection.connectTimeout = Timeout
+        connection.connect()
+        connection.responseCode == 200
+    } catch (e: Exception) {
+        false
+    }
 }
