@@ -12,3 +12,7 @@ Release <semver> creates the following changes:
     crossref
   - Daos for all entities
   - Tests for all daos
+
+- Set up abstraction in data module
+  - Repositories for the law books, entries, sections, users and invitations
+  - Unit tests for those repositories
