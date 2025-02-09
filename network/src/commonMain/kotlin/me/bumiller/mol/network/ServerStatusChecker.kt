@@ -3,7 +3,7 @@ package me.bumiller.mol.network
 /**
  * Base class for a service that helps to evaluate the connection to the server.
  */
-interface ServerStatusChecker {
+fun interface ServerStatusChecker {
 
     /**
      * Checks the connection to a server with a specified url.

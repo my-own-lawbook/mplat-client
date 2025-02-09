@@ -3,6 +3,8 @@ package me.bumiller.mol.settings.impl
 import com.eygraber.uri.Url
 import com.russhwolf.settings.Settings
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import me.bumiller.mol.model.settings.ColorMode
 import me.bumiller.mol.model.settings.ColorScheme
 import me.bumiller.mol.model.settings.ColorSchemeContrastLevel
@@ -30,7 +32,8 @@ internal class UserSettingsSourceImpl(
     private val settingsSource: Settings
 ) : UserSettingsSource {
 
-    override val settings: MutableStateFlow<UserSettings>
+    private val _settings: MutableStateFlow<UserSettings>
+    override val settings: StateFlow<UserSettings>
 
     init {
         var initialSettings = getUserSettings()
@@ -40,7 +43,8 @@ internal class UserSettingsSourceImpl(
             initialSettings = DefaultSettings
         }
 
-        settings = MutableStateFlow(initialSettings)
+        _settings = MutableStateFlow(initialSettings)
+        settings = _settings.asStateFlow()
     }
 
     override suspend fun update(settings: UserSettings) {
@@ -83,7 +87,7 @@ internal class UserSettingsSourceImpl(
         userSettings.refreshToken?.let { putString(KeyRefresh, it) }
 
             if (updateFlow) {
-                settings.value = userSettings
+                _settings.value = userSettings
             }
     }
 
