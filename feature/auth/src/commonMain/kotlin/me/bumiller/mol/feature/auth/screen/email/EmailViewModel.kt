@@ -60,8 +60,8 @@ class EmailViewModel(
             }
         } else authService.requestEmailToken()
         when (response) {
-            is AuthResult.NetworkError -> hasNetworkError.emit(true)
-            is AuthResult.Error, is AuthResult.UnknownError -> hasUnknownError.emit(true)
+            is AuthResult.NetworkError -> setHasNetworkError()
+            is AuthResult.Error, is AuthResult.UnknownError -> setHasUnknownError()
             else -> {}
         }
     }
@@ -81,8 +81,8 @@ class EmailViewModel(
                 }
             }
 
-            is AuthResult.NetworkError -> hasNetworkError.emit(true)
-            is AuthResult.UnknownError -> hasUnknownError.emit(true)
+            is AuthResult.NetworkError -> setHasNetworkError()
+            is AuthResult.UnknownError -> setHasUnknownError()
         }
     }
 

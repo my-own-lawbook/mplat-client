@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, E
     /**
      * Handles the event passed by the ui.
      */
-    abstract suspend fun handleEvent(event: UiEvent)
+    protected abstract suspend fun handleEvent(event: UiEvent)
 
     /**
      * Will queue the event to be handled by the view model.
@@ -58,6 +59,9 @@ abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, E
     // State configuring for view models
     //
 
+    /**
+     * List of all current ui stated registered.
+     */
     protected val uiStates = hashMapOf<Pair<KClass<*>, *>, MutableStateFlow<*>>()
 
     /**
@@ -126,9 +130,7 @@ abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, E
     //
 
     private data object Fetching
-
     private data object NetworkError
-
     private data object UnknownError
 
     init {
@@ -137,20 +139,53 @@ abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, E
         registerUiState<Boolean>(false, UnknownError)
     }
 
+    private val _isFetching = uiState<Boolean>(Fetching)
+
+    /**
+     * Sets the new value of the isFetching state.
+     *
+     * @param isFetching The new value
+     */
+    fun setIsFetching(isFetching: Boolean = true) {
+        viewModelScope.launch { _isFetching.emit(isFetching) }
+    }
+
     /**
      * Whether the viewmodel was set into a fetching state, i.e. some processing work is being made in the background.
      */
-    val isFetching = uiState<Boolean>(Fetching)
+    val isFetching = _isFetching.asStateFlow()
+
+    private val _hasNetworkError = uiState<Boolean>(NetworkError)
+
+    /**
+     * Sets the new value of the hasNetworkError state.
+     *
+     * @param hasNetworkError The new value
+     */
+    fun setHasNetworkError(hasNetworkError: Boolean = true) {
+        viewModelScope.launch { _hasNetworkError.emit(hasNetworkError) }
+    }
 
     /**
      * Whether a request failed because the server could not be reached.
      */
-    val hasNetworkError = uiState<Boolean>(NetworkError)
+    val hasNetworkError = _hasNetworkError.asStateFlow()
+
+    private val _hasUnknownError = uiState<Boolean>(UnknownError)
+
+    /**
+     * Sets the new value of the hasUnknownError state.
+     *
+     * @param hasUnknownError The new value
+     */
+    fun setHasUnknownError(hasUnknownError: Boolean = true) {
+        viewModelScope.launch { _hasUnknownError.emit(hasUnknownError) }
+    }
 
     /**
      * Whether a request failed because of an unknown error.
      */
-    val hasUnknownError = uiState<Boolean>(UnknownError)
+    val hasUnknownError = _hasUnknownError.asStateFlow()
 
     /**
      * Sets the [isFetching] value to true while a suspend block is executed.
@@ -158,10 +193,10 @@ abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, E
      * @param block The block to be executed
      * @return The result value of the block
      */
-    protected suspend fun <T> withFetchState(block: suspend () -> T): T {
-        isFetching.emit(true)
+    protected inline fun <T> withFetchState(block: () -> T): T {
+        setIsFetching()
         val result = block()
-        isFetching.emit(false)
+        setIsFetching(false)
 
         return result
     }
@@ -169,9 +204,9 @@ abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, E
     /**
      * Clears [hasNetworkError] and [hasUnknownError] by setting them to false.
      */
-    protected suspend fun clearErrors() {
-        hasNetworkError.emit(false)
-        hasUnknownError.emit(false)
+    protected fun clearErrors() {
+        setHasNetworkError(false)
+        setHasUnknownError(false)
     }
 
     //
@@ -184,7 +219,7 @@ abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, E
      * @param initial The initial value of the stateflow
      * @return A stateflow, with the initial value [initial]
      */
-    fun <T> Flow<T>.stateIn(initial: T) =
+    private fun <T> Flow<T>.stateIn(initial: T) =
         stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),

@@ -1,6 +1,6 @@
 package me.bumiller.mol.feature.auth.screen.profile
 
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.asStateFlow
 import me.bumiller.mol.auth.AuthResult
 import me.bumiller.mol.auth.AuthService
 import me.bumiller.mol.common.ui.input.validation.validate
@@ -26,23 +26,23 @@ internal class ProfileViewModel(
     /**
      * The state of the form.
      */
-    val formState = uiState<ProfileUiState>()
+    val formState = uiState<ProfileUiState>().asStateFlow()
 
     override suspend fun handleEvent(event: ProfileUiEvent) = with(event) {
         when (this) {
-            is ProfileUiEvent.ChangeFirstName -> formState.update {
+            is ProfileUiEvent.ChangeFirstName -> updateUiState<ProfileUiState> {
                 it.copy(firstName = it.firstName.update(input))
             }
 
-            is ProfileUiEvent.ChangeLastName -> formState.update {
+            is ProfileUiEvent.ChangeLastName -> updateUiState<ProfileUiState> {
                 it.copy(lastName = it.lastName.update(input))
             }
 
-            is ProfileUiEvent.ChangeGender -> formState.update {
+            is ProfileUiEvent.ChangeGender -> updateUiState<ProfileUiState> {
                 it.copy(gender = it.gender.update(input))
             }
 
-            is ProfileUiEvent.ChangeBirthday -> formState.update {
+            is ProfileUiEvent.ChangeBirthday -> updateUiState<ProfileUiState> {
                 it.copy(birthday = it.birthday.update(input))
             }
 
@@ -52,7 +52,7 @@ internal class ProfileViewModel(
 
     private suspend fun ProfileUiEvent.Confirm.handle() {
         clearErrors()
-        formState.update {
+        updateUiState<ProfileUiState> {
             it.copy(
                 firstName = it.firstName.validate(),
                 lastName = it.lastName.validate(),
@@ -78,8 +78,8 @@ internal class ProfileViewModel(
 
         when (profileResponse) {
             is AuthResult.Success -> fireEvent(ProfileEvent.Continue)
-            is AuthResult.Error, is AuthResult.UnknownError -> hasUnknownError.emit(true)
-            is AuthResult.NetworkError -> hasNetworkError.emit(true)
+            is AuthResult.Error, is AuthResult.UnknownError -> setHasUnknownError()
+            is AuthResult.NetworkError -> setHasNetworkError()
         }
     }
 

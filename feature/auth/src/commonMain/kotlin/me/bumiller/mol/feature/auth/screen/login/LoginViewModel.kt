@@ -1,5 +1,6 @@
 package me.bumiller.mol.feature.auth.screen.login
 
+import kotlinx.coroutines.flow.asStateFlow
 import me.bumiller.mol.auth.AuthResult
 import me.bumiller.mol.auth.AuthService
 import me.bumiller.mol.auth.GetProfileError
@@ -28,7 +29,7 @@ class LoginViewModel(
     /**
      * The form state.
      */
-    val formState = uiState<LoginState>()
+    val formState = uiState<LoginState>().asStateFlow()
 
     override suspend fun handleEvent(event: LoginUiEvent) = with(event) {
         when (this) {
@@ -95,8 +96,8 @@ class LoginViewModel(
                 else -> {}
             }
 
-            is AuthResult.NetworkError -> hasNetworkError.emit(true)
-            is AuthResult.UnknownError -> hasUnknownError.emit(true)
+            is AuthResult.NetworkError -> setHasNetworkError()
+            is AuthResult.UnknownError -> setHasUnknownError()
         }
     }
 
@@ -117,8 +118,8 @@ class LoginViewModel(
         val isNetworkError = profileResponse is AuthResult.NetworkError
 
         event?.let { fireEvent(it) }
-        hasNetworkError.emit(isNetworkError)
-        hasUnknownError.emit(isUnknownError)
+        setHasNetworkError(isNetworkError)
+        setHasUnknownError(isUnknownError)
     }
 
 }

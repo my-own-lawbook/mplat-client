@@ -1,5 +1,6 @@
 package me.bumiller.mol.feature.auth.screen.signup
 
+import kotlinx.coroutines.flow.asStateFlow
 import me.bumiller.mol.auth.AuthResult
 import me.bumiller.mol.auth.AuthService
 import me.bumiller.mol.common.ui.input.validation.ValidationError
@@ -25,7 +26,7 @@ class SignupViewModel(
     /**
      * State containing the form values.
      */
-    val formState = uiState<SignupState>()
+    val formState = uiState<SignupState>().asStateFlow()
 
     override suspend fun handleEvent(event: SignupUiEvent) = with(event) {
         when (this) {
@@ -97,8 +98,8 @@ class SignupViewModel(
                 }
             }
 
-            is AuthResult.NetworkError -> hasNetworkError.emit(true)
-            is AuthResult.UnknownError -> hasUnknownError.emit(true)
+            is AuthResult.NetworkError -> setHasNetworkError()
+            is AuthResult.UnknownError -> setHasUnknownError()
         }
     }
 

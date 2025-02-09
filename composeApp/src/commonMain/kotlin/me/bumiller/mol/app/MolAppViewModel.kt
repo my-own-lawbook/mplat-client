@@ -2,6 +2,7 @@ package me.bumiller.mol.app
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -44,7 +45,7 @@ class MolAppViewModel(
     /**
      * A state flow containing the initial top level location.
      */
-    val topLevelLocation = uiState<SimpleState<MolTopLevelLocation>>()
+    val topLevelLocation = uiState<SimpleState<MolTopLevelLocation>>().asStateFlow()
 
     /**
      * Will wait for the first settings emission and set the initial value for the top-level-location accordingly.

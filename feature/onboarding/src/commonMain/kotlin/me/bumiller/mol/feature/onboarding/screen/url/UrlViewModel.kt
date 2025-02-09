@@ -2,6 +2,7 @@ package me.bumiller.mol.feature.onboarding.screen.url
 
 import androidx.lifecycle.viewModelScope
 import com.eygraber.uri.Url
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import me.bumiller.mol.common.ui.input.validation.ValidationError
@@ -38,7 +39,7 @@ class UrlViewModel(
     /**
      * The form state of the screen.
      */
-    val formState = uiState<UrlState>()
+    val formState = uiState<UrlState>().asStateFlow()
 
     override suspend fun handleEvent(event: UrlUiEvent) = with(event) {
         when (this) {
