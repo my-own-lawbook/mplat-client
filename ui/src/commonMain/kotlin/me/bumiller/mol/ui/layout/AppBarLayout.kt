@@ -40,6 +40,8 @@ import me.bumiller.mol.ui.components.MolAppBar
 import me.bumiller.mol.ui.components.TopAppBarStyles
 import me.bumiller.mol.ui.locals.LocalWindowSizeClass
 
+private const val InvalidWindowClassError = "Invalid window size class"
+
 @Composable
 private fun calculatePadding(): PaddingValues {
     val imeShown = WindowInsets.ime.getBottom(LocalDensity.current) > 0
@@ -48,14 +50,14 @@ private fun calculatePadding(): PaddingValues {
         WindowWidthSizeClass.Compact -> 16.dp
         WindowWidthSizeClass.Medium -> 32.dp
         WindowWidthSizeClass.Expanded -> 128.dp
-        else -> throw IllegalStateException("Invalid window width size class.")
+        else -> error(InvalidWindowClassError)
     }
 
     val bottom = when (LocalWindowSizeClass.current.heightSizeClass) {
         WindowHeightSizeClass.Compact -> if (imeShown) 4.dp else 8.dp
         WindowHeightSizeClass.Medium -> if (imeShown) 8.dp else 32.dp
         WindowHeightSizeClass.Expanded -> if (imeShown) 16.dp else 64.dp
-        else -> throw IllegalStateException("Invalid window height size class.")
+        else -> error(InvalidWindowClassError)
     }
 
     val top = 8.dp
@@ -72,7 +74,7 @@ private fun calculateSpacing(layoutType: CanonicalLayoutType) = when (layoutType
             WindowHeightSizeClass.Compact -> 8.dp
             WindowHeightSizeClass.Medium -> 16.dp
             WindowHeightSizeClass.Expanded -> 16.dp
-            else -> throw IllegalStateException("Invalid window width size class.")
+            else -> error(InvalidWindowClassError)
         }
     }
 
@@ -83,7 +85,7 @@ private fun calculateSpacing(layoutType: CanonicalLayoutType) = when (layoutType
             WindowWidthSizeClass.Compact -> 16.dp
             WindowWidthSizeClass.Medium -> 32.dp
             WindowWidthSizeClass.Expanded -> 64.dp
-            else -> throw IllegalStateException("Invalid window width size class.")
+            else -> error(InvalidWindowClassError)
         }
     }
 }

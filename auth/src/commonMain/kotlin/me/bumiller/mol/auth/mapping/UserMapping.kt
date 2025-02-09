@@ -29,5 +29,5 @@ internal fun String.toGender(): Gender = when (this) {
     "female" -> Gender.Female
     "other" -> Gender.Other
     "disclosed" -> Gender.NotSay
-    else -> throw IllegalStateException("Invalid gender string: '$this'")
+    else -> error("Invalid gender string: '$this'")
 }
