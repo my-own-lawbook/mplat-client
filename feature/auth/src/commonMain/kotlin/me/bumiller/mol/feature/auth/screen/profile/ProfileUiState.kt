@@ -4,7 +4,7 @@ import kotlinx.datetime.LocalDate
 import me.bumiller.mol.common.ui.input.InputValue
 import me.bumiller.mol.common.ui.input.inputValue
 import me.bumiller.mol.common.ui.input.validation.InputSemantic
-import me.bumiller.mol.model.Gender
+import me.bumiller.mol.model.user.Gender
 
 /**
  * Ui State for the profile screen.

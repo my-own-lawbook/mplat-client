@@ -11,5 +11,6 @@ kotlin {
         implementation(project(":model"))
         implementation(project(":network"))
         implementation(project(":settings"))
+        implementation(project(":database"))
     }
 }

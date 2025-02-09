@@ -5,9 +5,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import me.bumiller.mol.model.ColorMode
-import me.bumiller.mol.model.ColorScheme
-import me.bumiller.mol.model.ColorSchemeContrastLevel
+import me.bumiller.mol.model.settings.ColorMode
+import me.bumiller.mol.model.settings.ColorScheme
+import me.bumiller.mol.model.settings.ColorSchemeContrastLevel
 import me.bumiller.mol.ui.locals.LocalWindowSizeClass
 
 /**

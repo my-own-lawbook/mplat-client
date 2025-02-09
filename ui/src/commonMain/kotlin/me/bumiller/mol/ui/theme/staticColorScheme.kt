@@ -1,6 +1,6 @@
 package me.bumiller.mol.ui.theme
 
-import me.bumiller.mol.model.ColorSchemeContrastLevel
+import me.bumiller.mol.model.settings.ColorSchemeContrastLevel
 
 /**
  * Method for retrieving the static color scheme based on settings.

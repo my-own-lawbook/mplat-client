@@ -1,4 +1,4 @@
-package me.bumiller.mol.model
+package me.bumiller.mol.model.settings
 
 /**
  * Enum that contains the possible color modes for the app

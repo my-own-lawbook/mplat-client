@@ -5,7 +5,7 @@ import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import me.bumiller.mol.model.Gender
+import me.bumiller.mol.model.user.Gender
 
 internal class GenderSerializer : KSerializer<Gender> {
 

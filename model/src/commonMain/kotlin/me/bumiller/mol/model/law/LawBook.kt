@@ -1,0 +1,32 @@
+package me.bumiller.mol.model.law
+
+import me.bumiller.mol.model.Identifiable
+
+/**
+ * Model for a law-book.
+ */
+data class LawBook(
+
+    override val id: Long,
+
+    /**
+     * The key, i.e. a shorthand for the book.
+     */
+    val key: String,
+
+    /**
+     * The name of the book.
+     */
+    val name: String,
+
+    /**
+     * A description about the content of the book.
+     */
+    val description: String,
+
+    /**
+     * Whether the book is marked as favourite
+     */
+    val isFavourite: Boolean
+
+) : Identifiable<Long>

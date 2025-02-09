@@ -1,4 +1,4 @@
-package me.bumiller.mol.model
+package me.bumiller.mol.model.user
 
 import kotlinx.serialization.Serializable
 import me.bumiller.mol.model.serializer.GenderSerializer

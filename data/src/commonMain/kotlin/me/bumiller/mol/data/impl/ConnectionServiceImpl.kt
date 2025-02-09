@@ -11,7 +11,9 @@ internal class ConnectionServiceImpl(
 
     private val serverStatusChecker: ServerStatusChecker,
 
-    private val settingsSource: UserSettingsSource
+    private val settingsSource: UserSettingsSource,
+
+    private val isConnectedToInternet: () -> Boolean = isConnectedToInternetCallback
 
 ) : ConnectionService {
 
@@ -35,4 +37,4 @@ internal class ConnectionServiceImpl(
 /**
  * Checks whether the device is connected to the internet
  */
-internal expect fun isConnectedToInternet(): Boolean
+internal expect val isConnectedToInternetCallback: () -> Boolean

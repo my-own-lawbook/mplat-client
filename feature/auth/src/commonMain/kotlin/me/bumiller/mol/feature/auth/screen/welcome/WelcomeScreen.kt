@@ -22,7 +22,7 @@ import me.bumiller.mol.auth.welcome_screen_server_info
 import me.bumiller.mol.auth.welcome_screen_signup_button_label
 import me.bumiller.mol.auth.welcome_screen_title
 import me.bumiller.mol.common.ui.viewmodel.ViewModelScope
-import me.bumiller.mol.model.UserSettings
+import me.bumiller.mol.model.settings.UserSettings
 import me.bumiller.mol.model.state.SimpleState
 import me.bumiller.mol.ui.components.MultiStyleText
 import me.bumiller.mol.ui.components.TextStyleWithCallback

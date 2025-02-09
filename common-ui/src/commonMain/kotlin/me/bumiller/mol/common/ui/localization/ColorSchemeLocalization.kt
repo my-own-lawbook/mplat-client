@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import me.bumiller.mol.common_ui.Res
 import me.bumiller.mol.common_ui.scheme_app
 import me.bumiller.mol.common_ui.scheme_dynamic
-import me.bumiller.mol.model.ColorScheme
+import me.bumiller.mol.model.settings.ColorScheme
 import org.jetbrains.compose.resources.stringResource
 
 /**

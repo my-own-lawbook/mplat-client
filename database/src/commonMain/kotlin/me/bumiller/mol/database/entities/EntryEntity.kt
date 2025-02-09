@@ -18,7 +18,7 @@ data class EntryEntity(
     /**
      * The id of the parent [BookEntity].
      */
-    val parentSectionId: Long,
+    val parentBookId: Long,
 
     /**
      * Shorthand key for the section,

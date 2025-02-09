@@ -9,7 +9,7 @@ import me.bumiller.mol.auth.AuthService
 import me.bumiller.mol.common.ui.event.UiEvent
 import me.bumiller.mol.common.ui.event.ViewModelEvent
 import me.bumiller.mol.common.ui.viewmodel.MolViewModel
-import me.bumiller.mol.model.UserSettings
+import me.bumiller.mol.model.settings.UserSettings
 import me.bumiller.mol.model.state.SimpleState
 import me.bumiller.mol.settings.UserSettingsSource
 

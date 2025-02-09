@@ -2,9 +2,9 @@ package me.bumiller.mol.feature.onboarding.screen.design
 
 import me.bumiller.mol.common.ui.event.UiEvent
 import me.bumiller.mol.common.ui.event.ViewModelEvent
-import me.bumiller.mol.model.ColorMode
-import me.bumiller.mol.model.ColorScheme
-import me.bumiller.mol.model.ColorSchemeContrastLevel
+import me.bumiller.mol.model.settings.ColorMode
+import me.bumiller.mol.model.settings.ColorScheme
+import me.bumiller.mol.model.settings.ColorSchemeContrastLevel
 
 /**
  * Events fired by the ui of the design screen.

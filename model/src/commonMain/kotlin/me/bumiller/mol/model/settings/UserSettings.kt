@@ -1,4 +1,4 @@
-package me.bumiller.mol.model
+package me.bumiller.mol.model.settings
 
 import com.eygraber.uri.Url
 

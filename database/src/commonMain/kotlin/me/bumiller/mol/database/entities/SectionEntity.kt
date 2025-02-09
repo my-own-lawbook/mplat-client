@@ -18,7 +18,7 @@ data class SectionEntity(
     /**
      * Id of the parent [EntryEntity].
      */
-    val parentBookId: Long,
+    val parentEntryId: Long,
 
     /**
      * Index resembling a position inside the entry.
