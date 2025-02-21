@@ -5,3 +5,12 @@ plugins {
 kotlin {
     jvmToolchain(21)
 }
+
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation(project(":ui"))
+            implementation(project(":model"))
+        }
+    }
+}
