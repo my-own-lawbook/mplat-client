@@ -1,4 +1,9 @@
 <resources>
+    <string name="invitation_list_empty_text">You currently don't have any pending invitations!</string>
+    <string name="invitation_list_item_name">invitations</string>
+    <string name="book_feed_empty_text">You currently don't have any law books. Try adding one yourself, or ask someone to invite you!</string>
+    <string name="book_feed_item_name">books</string>
+    <string name="feed_loading">Loading your %1$s…</string>
     <string name="invitation_list_item_header">%1$s invited you into %2$s</string>
     <string name="cd_invitation_list_item_trailing">Invitation is expiring soon!</string>
     <string name="url_textfield_prefix">https://</string>
