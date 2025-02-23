@@ -8,7 +8,7 @@ import kotlinx.io.IOException
 import me.bumiller.mol.network.ServerStatusChecker
 import java.nio.channels.UnresolvedAddressException
 
-private const val PingPath = "api/v1/ping/"
+private const val PingPath = "/ping/"
 
 internal class KtorServerStatusChecker : ServerStatusChecker {
 
@@ -18,11 +18,14 @@ internal class KtorServerStatusChecker : ServerStatusChecker {
         val response = try {
             client.get("$url$PingPath")
         } catch (e: IOException) {
+            println("ex: $e")
             null
         } catch (e: UnresolvedAddressException) {
+            println("ex: $e")
             null
         }
 
+        println("Will return for res $response")
         return response?.status == HttpStatusCode.OK
     }
 

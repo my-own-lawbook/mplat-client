@@ -30,11 +30,14 @@ kotlin {
             implementation(project(":ui"))
             implementation(project(":feature:onboarding"))
             implementation(project(":feature:home"))
+            implementation(project(":feature:dashboard"))
             implementation(project(":feature:auth"))
             implementation(project(":common-ui"))
             implementation(project(":auth"))
             implementation(project(":network"))
             implementation(project(":settings"))
+            implementation(project(":database"))
+            implementation(project(":domain"))
 
             // Workaround, see https://github.com/juliansteenbakker/flutter_secure_storage/issues/748#issuecomment-2505862197
             implementation(libs.spotbugs)

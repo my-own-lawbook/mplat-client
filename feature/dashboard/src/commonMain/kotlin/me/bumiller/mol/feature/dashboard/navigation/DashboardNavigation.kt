@@ -1,13 +1,12 @@
 package me.bumiller.mol.feature.dashboard.navigation
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
+import me.bumiller.mol.feature.dashboard.screen.DashboardScreen
 
 /**
  * Navigation route for the dashboard screen.
@@ -20,12 +19,16 @@ data object DashboardScreen
  */
 fun NavGraphBuilder.dashboard() {
     composable<DashboardScreen> {
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
+                .fillMaxSize()
         ) {
-            Text("Dashboard")
+
+            DashboardScreen(
+                onGoToInvitationDetail = {},
+                onGoToBookDetail = {},
+                onOpenAddBookDialog = {}
+            )
         }
     }
 }

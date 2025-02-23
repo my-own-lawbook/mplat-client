@@ -1,8 +1,11 @@
 package me.bumiller.mol.feature.home.screen.home
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -35,8 +38,14 @@ internal fun HomeScreen(
                 )
             }
         }
-    )
-    HomeNavHost(navController)
+    ) {
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            HomeNavHost(navController)
+        }
+    }
 }
 
 private fun NavBackStackEntry?.toRouteSafe(): Any? = this?.let {

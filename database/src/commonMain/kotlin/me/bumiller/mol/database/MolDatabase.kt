@@ -37,7 +37,7 @@ abstract class MolDatabase : RoomDatabase() {
         /**
          * The database version
          */
-        const val DB_VERSION = 3
+        const val DB_VERSION = 4
 
         /**
          * The database name
