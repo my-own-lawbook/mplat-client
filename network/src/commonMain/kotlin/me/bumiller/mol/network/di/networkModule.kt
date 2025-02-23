@@ -8,7 +8,17 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.serialization.kotlinx.json.json
+import me.bumiller.mol.network.BookService
+import me.bumiller.mol.network.EntryService
+import me.bumiller.mol.network.ForeignUserService
+import me.bumiller.mol.network.InvitationService
+import me.bumiller.mol.network.SectionService
 import me.bumiller.mol.network.ServerStatusChecker
+import me.bumiller.mol.network.impl.KtorBookService
+import me.bumiller.mol.network.impl.KtorEntryService
+import me.bumiller.mol.network.impl.KtorForeignUserService
+import me.bumiller.mol.network.impl.KtorInvitationService
+import me.bumiller.mol.network.impl.KtorSectionService
 import me.bumiller.mol.network.impl.KtorServerStatusChecker
 import me.bumiller.mol.network.plugin.DynamicUrl
 import me.bumiller.mol.network.plugin.MolAuth
@@ -22,6 +32,12 @@ val networkModule = module {
     single<ServerStatusChecker> { KtorServerStatusChecker() }
 
     single { instantiateKtorClient() }
+
+    single<BookService> { KtorBookService(get()) }
+    single<EntryService> { KtorEntryService(get()) }
+    single<SectionService> { KtorSectionService(get()) }
+    single<ForeignUserService> { KtorForeignUserService(get()) }
+    single<InvitationService> { KtorInvitationService(get()) }
 }
 
 private fun Scope.instantiateKtorClient(): HttpClient = HttpClient(CIO) {
