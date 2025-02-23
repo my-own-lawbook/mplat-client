@@ -11,9 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.datetime.Clock
-import me.bumiller.mol.model.law.ForeignUser
-import me.bumiller.mol.model.law.LawBook
-import me.bumiller.mol.model.law.LawBookInvitation
+import me.bumiller.mol.model.aggregate.LawBookInvitationAggregate
 import me.bumiller.mol.ui.Res
 import me.bumiller.mol.ui.cd_invitation_list_item_trailing
 import me.bumiller.mol.ui.format.formatFullName
@@ -33,12 +31,10 @@ import kotlin.time.Duration.Companion.days
 @Composable
 fun LawBookInvitationListItem(
     modifier: Modifier = Modifier,
-    onClick: (LawBookInvitation) -> Unit = {},
-    invitation: LawBookInvitation,
-    author: ForeignUser,
-    target: LawBook
+    onClick: (LawBookInvitationAggregate) -> Unit = {},
+    invitation: LawBookInvitationAggregate
 ) {
-    val showTrailingIcon = invitation.expiredTimestamp?.let {
+    val showTrailingIcon = invitation.invitation.expiredTimestamp?.let {
         Clock.System.now().minus(it) < 5.days
     } ?: false
 
@@ -49,14 +45,14 @@ fun LawBookInvitationListItem(
             Text(
                 text = stringResource(
                     Res.string.invitation_list_item_header,
-                    author.formatFullName(),
-                    target.name
+                    invitation.author.formatFullName(),
+                    invitation.target.name
                 ),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
         },
-        supportingContent = invitation.message?.let {
+        supportingContent = invitation.invitation.message?.let {
             {
                 Text(
                     text = it,
