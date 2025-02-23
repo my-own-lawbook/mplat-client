@@ -1,9 +1,15 @@
 package me.bumiller.mol.domain
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
-import me.bumiller.mol.data.repository.SimpleRepository
+import me.bumiller.mol.data.repository.ForeignUserRepository
+import me.bumiller.mol.data.repository.LawBookInvitationRepository
+import me.bumiller.mol.data.repository.LawBookRepository
 import me.bumiller.mol.domain.base.FlowUsecase
+import me.bumiller.mol.domain.common.flatMapMergeCombine
+import me.bumiller.mol.model.aggregate.LawBookInvitationAggregate
 import me.bumiller.mol.model.law.InvitationStatus
 import me.bumiller.mol.model.law.LawBookInvitation
 import me.bumiller.mol.model.law.MemberRole
@@ -14,8 +20,10 @@ import me.bumiller.mol.model.sort.SortConfig
  * Usecase to get a collection of invitations.
  */
 class GetInvitationsUsecase(
-    private val invitationsRepository: SimpleRepository<Long, LawBookInvitation>
-) : FlowUsecase<GetInvitationsUsecase.Query, List<LawBookInvitation>> {
+    private val invitationsRepository: LawBookInvitationRepository,
+    private val userRepository: ForeignUserRepository,
+    private val bookRepository: LawBookRepository
+) : FlowUsecase<GetInvitationsUsecase.Query, List<LawBookInvitationAggregate>> {
 
     /**
      * The query for getting the invitations.
@@ -44,9 +52,17 @@ class GetInvitationsUsecase(
 
     )
 
-    override fun invoke(input: Query): Flow<List<LawBookInvitation>> =
+    override fun invoke(input: Query): Flow<List<LawBookInvitationAggregate>> =
         invitationsRepository.getAll()
             .map { it.applyQuery(input) }
+            .flatMapMergeCombine { invitation ->
+                val authorFlow = userRepository.getById(invitation.authorId).filterNotNull()
+                val targetFlow = bookRepository.getById(invitation.targetId).filterNotNull()
+
+                combine(authorFlow, targetFlow) { author, target ->
+                    LawBookInvitationAggregate(invitation, author, target)
+                }
+            }
 
     private fun List<LawBookInvitation>.applyQuery(query: Query) =
         filterRoles(query.roles)

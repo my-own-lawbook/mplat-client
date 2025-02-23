@@ -2,7 +2,7 @@ package me.bumiller.mol.domain
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import me.bumiller.mol.data.repository.SimpleRepository
+import me.bumiller.mol.data.repository.LawBookRepository
 import me.bumiller.mol.domain.base.FlowUsecase
 import me.bumiller.mol.model.law.LawBook
 import me.bumiller.mol.model.sort.SortConfig
@@ -12,7 +12,7 @@ import me.bumiller.mol.model.sort.sortWith
  * Usecase to get a collection of books.
  */
 class GetBooksUsecase(
-    private val bookRepository: SimpleRepository<Long, LawBook>
+    private val bookRepository: LawBookRepository
 ) : FlowUsecase<GetBooksUsecase.Query, List<LawBook>> {
 
     /**
@@ -33,12 +33,14 @@ class GetBooksUsecase(
         /**
          * Whether only favourites should be returned.
          */
-        val onlyFavorites: Boolean
+        val onlyFavorites: Boolean = false
 
     )
 
     override fun invoke(input: Query): Flow<List<LawBook>> =
-        bookRepository.getAll().map { it.applyQuery(input) }
+        bookRepository.getAll().map {
+            it.applyQuery(input)
+        }
 
     private fun List<LawBook>.applyQuery(query: Query) =
         filterOnlyFavorites(query.onlyFavorites)
