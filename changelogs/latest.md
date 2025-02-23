@@ -16,3 +16,7 @@ Release <semver> creates the following changes:
 - Set up abstraction in data module
   - Repositories for the law books, entries, sections, users and invitations
   - Unit tests for those repositories
+
+- Set up the main overview screen
+  - Added use-cases for getting the books and invitations
+  - Display feeds on the dashboard screen with books and pending invitations
