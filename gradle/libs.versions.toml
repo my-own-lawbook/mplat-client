@@ -11,6 +11,7 @@ room = "2.7.0-alpha12"
 koin = "3.3.2"
 koin_compose = "3.2.0"
 koin-kmp = "1.2.0-Beta4"
+koin_work = "4.0.2"
 android_sqlite = "2.5.0-alpha13"
 navigation = "2.8.0-alpha10"
 androidx_test_junit = "1.2.1"
@@ -30,6 +31,7 @@ datetime = "0.6.1"
 errorprone = "2.36.0"
 sonarqube = "5.1.0.4882"
 spotbugs = "4.8.6"
+work = "2.10.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -37,12 +39,14 @@ lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmode
 lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 
 android-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }
+android-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 
 koin = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-android-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin_compose" }
 koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin-kmp" }
 koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin-kmp" }
+koin-android-work = { group = "io.insert-koin", name = "koin-androidx-workmanager", version.ref = "koin_work" }
 
 compose-animation = { group = "org.jetbrains.compose.animation", name = "animation", version.ref = "compose" }
 compose-animation-graphics = { group = "org.jetbrains.compose.animation", name = "animation-graphics", version.ref = "compose" }

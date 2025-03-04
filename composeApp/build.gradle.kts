@@ -22,6 +22,7 @@ kotlin {
 
         androidMain.dependencies {
             implementation(libs.android.splashscreen)
+            implementation(libs.koin.android.work)
         }
 
         commonMain.dependencies {
