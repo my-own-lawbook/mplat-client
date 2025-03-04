@@ -1,7 +1,9 @@
 package me.bumiller.mol.sync.di
 
 import me.bumiller.mol.sync.SyncAdapter
+import me.bumiller.mol.sync.SyncManager
 import me.bumiller.mol.sync.impl.NetworkDatabaseSyncAdapter
+import org.koin.core.module.Module
 import org.koin.dsl.module
 
 /**
@@ -22,4 +24,11 @@ val syncModule = module {
             get()
         )
     }
+
+    platformSyncManager()
 }
+
+/**
+ * Adds a dependency injection configuration for the platform dependant [SyncManager]
+ */
+internal expect fun Module.platformSyncManager()
