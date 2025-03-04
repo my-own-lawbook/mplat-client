@@ -189,13 +189,13 @@ jobs:
         uses: tvdias/github-tagger@v0.0.1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          tag: v${{ inputs.releaseVersion }}
+          tag: ${{ inputs.releaseVersion }}
 
       - name: Create Release
         uses: ncipollo/release-action/@v1
         with:
           bodyFile: ./changelogs/${{ inputs.releaseVersion }}.md
-          tag: v${{ inputs.releaseVersion }}
+          tag: ${{ inputs.releaseVersion }}
           artifacts: ${{ steps.download_apk.outputs.download-path }}/${{ env.APK_FILE_NAME }},${{ steps.download_aab.outputs.download-path }}/${{ env.AAB_FILE_NAME }},${{ steps.download_exe.outputs.download-path }}/${{ env.EXE_FILE_NAME }},${{ steps.download_msi.outputs.download-path }}/${{ env.MSI_FILE_NAME }},${{ steps.download_deb.outputs.download-path }}/${{ env.DEB_FILE_NAME }}
 
       # - name: Create release
