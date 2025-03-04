@@ -191,17 +191,24 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           tag: v${{ inputs.releaseVersion }}
 
-      - name: Create release
-        uses: softprops/action-gh-release@v2.2.1
+      - name: Create Release
+        uses: ncipollo/release-action/@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: my-own-lawbook/mplat-client
-          body_path: ./changelogs/${{ inputs.releaseVersion }}.md
-          name: v${{ inputs.releaseVersion }}
-          tag_name: v${{ inputs.releaseVersion }}
-          files: |
-            ${{ steps.download_apk.outputs.download-path }}/${{ env.APK_FILE_NAME }}
-            ${{ steps.download_aab.outputs.download-path }}/${{ env.AAB_FILE_NAME }}
-            ${{ steps.download_exe.outputs.download-path }}/${{ env.EXE_FILE_NAME }}
-            ${{ steps.download_msi.outputs.download-path }}/${{ env.MSI_FILE_NAME }}
-            ${{ steps.download_deb.outputs.download-path }}/${{ env.DEB_FILE_NAME }}
+          bodyFile: ./changelogs/${{ inputs.releaseVersion }}.md
+          tag: v${{ inputs.releaseVersion }}
+          artifacts: ${{ steps.download_apk.outputs.download-path }}/${{ env.APK_FILE_NAME }},${{ steps.download_aab.outputs.download-path }}/${{ env.AAB_FILE_NAME }},${{ steps.download_exe.outputs.download-path }}/${{ env.EXE_FILE_NAME }},${{ steps.download_msi.outputs.download-path }}/${{ env.MSI_FILE_NAME }},${{ steps.download_deb.outputs.download-path }}/${{ env.DEB_FILE_NAME }}
+
+      # - name: Create release
+      #   uses: softprops/action-gh-release@v2.2.1
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     repository: my-own-lawbook/mplat-client
+      #     body_path: ./changelogs/${{ inputs.releaseVersion }}.md
+      #     name: v${{ inputs.releaseVersion }}
+      #     tag_name: v${{ inputs.releaseVersion }}
+      #     files: |
+      #       ${{ steps.download_apk.outputs.download-path }}/${{ env.APK_FILE_NAME }}
+      #       ${{ steps.download_aab.outputs.download-path }}/${{ env.AAB_FILE_NAME }}
+      #       ${{ steps.download_exe.outputs.download-path }}/${{ env.EXE_FILE_NAME }}
+      #       ${{ steps.download_msi.outputs.download-path }}/${{ env.MSI_FILE_NAME }}
+      #       ${{ steps.download_deb.outputs.download-path }}/${{ env.DEB_FILE_NAME }}
