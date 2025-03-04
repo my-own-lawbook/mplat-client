@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import me.bumiller.mol.common.ui.operator.plus
 import me.bumiller.mol.common.ui.viewmodel.LocalViewModelScope
+import me.bumiller.mol.model.sync.SyncJobInfo
 import me.bumiller.mol.ui.components.MolAppBar
 import me.bumiller.mol.ui.components.TopAppBarStyles
 import me.bumiller.mol.ui.locals.LocalWindowSizeClass
@@ -325,7 +326,8 @@ fun AppBarLayout(
     firstContent: @Composable (CanonicalLayoutType) -> Unit,
     secondContent: @Composable (CanonicalLayoutType) -> Unit
 ) {
-    val isFetching = LocalViewModelScope.current.isFetching
+    val isFetching =
+        LocalViewModelScope.current.isFetching || LocalViewModelScope.current.syncJobInfo == SyncJobInfo.Running
 
     when (layoutType) {
         is AppBarLayoutType.Column -> {

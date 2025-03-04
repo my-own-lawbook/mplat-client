@@ -47,17 +47,17 @@ internal fun mapForeignUserModel(foreignUserEntity: ForeignUserEntity) = foreign
 }
 
 internal fun mapRole(role: String) = when (role) {
-    "member" -> MemberRole.Member
-    "moderator" -> MemberRole.Moderator
-    "admin" -> MemberRole.Admin
+    "Member" -> MemberRole.Member
+    "Moderator" -> MemberRole.Moderator
+    "Admin" -> MemberRole.Admin
     else -> throw IllegalArgumentException()
 }
 
 internal fun mapInvitationStatus(status: String) = when (status) {
-    "open" -> InvitationStatus.Open
-    "revoked" -> InvitationStatus.Revoked
-    "accepted" -> InvitationStatus.Accepted
-    "declined" -> InvitationStatus.Declined
+    "Open" -> InvitationStatus.Open
+    "Revoked" -> InvitationStatus.Revoked
+    "Accepted" -> InvitationStatus.Accepted
+    "Declined" -> InvitationStatus.Declined
     else -> throw IllegalArgumentException()
 }
 

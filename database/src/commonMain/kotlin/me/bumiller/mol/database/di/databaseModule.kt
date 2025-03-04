@@ -9,6 +9,10 @@ import me.bumiller.mol.database.dao.EntryDao
 import me.bumiller.mol.database.dao.ForeignUserDao
 import me.bumiller.mol.database.dao.InvitationDao
 import me.bumiller.mol.database.dao.SectionDao
+import me.bumiller.mol.database.dao.base.OneToManyDao
+import me.bumiller.mol.database.entities.BookEntity
+import me.bumiller.mol.database.entities.EntryEntity
+import me.bumiller.mol.database.entities.SectionEntity
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
 
@@ -33,6 +37,21 @@ val databaseModule = module {
     single<ForeignUserDao> { get<MolDatabase>().foreignUserDao() }
     single<InvitationDao> { get<MolDatabase>().invitationDao() }
     single<SectionDao> { get<MolDatabase>().sectionDao() }
+
+    single<OneToManyDao<BookEntity, EntryEntity>> {
+        OneToManyDao(
+            get(),
+            get(),
+            EntryEntity::parentBookId
+        )
+    }
+    single<OneToManyDao<EntryEntity, SectionEntity>> {
+        OneToManyDao(
+            get(),
+            get(),
+            SectionEntity::parentEntryId
+        )
+    }
 }
 
 /**

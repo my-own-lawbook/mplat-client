@@ -22,6 +22,7 @@ kotlin {
 
         androidMain.dependencies {
             implementation(libs.android.splashscreen)
+            implementation(libs.koin.android.work)
         }
 
         commonMain.dependencies {
@@ -38,6 +39,7 @@ kotlin {
             implementation(project(":settings"))
             implementation(project(":database"))
             implementation(project(":domain"))
+            implementation(project(":sync"))
 
             // Workaround, see https://github.com/juliansteenbakker/flutter_secure_storage/issues/748#issuecomment-2505862197
             implementation(libs.spotbugs)

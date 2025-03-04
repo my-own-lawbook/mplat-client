@@ -1,6 +1,5 @@
 package me.bumiller.mol.network.response
 
-import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 
 /**
@@ -9,7 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UserProfileResponse(
 
-    val birthday: LocalDate,
+    val birthday: String,
 
     val gender: String,
 

@@ -9,6 +9,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
 import me.bumiller.mol.common.ui.event.UiEvent
 import me.bumiller.mol.common.ui.event.ViewModelEvent
+import me.bumiller.mol.model.sync.SyncJobInfo
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -30,15 +31,35 @@ data class ViewModelScope(
     /**
      * Whether a request failed due to an unknown error.
      */
-    val hasUnknownError: Boolean
+    val hasUnknownError: Boolean,
 
-)
+    /**
+     * Contains the latest sync job info.
+     *
+     * Null if no sync has yet been started
+     */
+    val syncJobInfo: SyncJobInfo?
+
+) {
+
+    /**
+     * Combines the current scope with one that lives a hierarchy above it.
+     */
+    fun mergeWithUpper(scope: ViewModelScope): ViewModelScope =
+        ViewModelScope(
+            isFetching || scope.isFetching,
+            hasNetworkError || scope.hasNetworkError,
+            hasUnknownError || scope.hasUnknownError,
+            syncJobInfo ?: scope.syncJobInfo
+        )
+
+}
 
 /**
  * Composition local holding reference to the current [ViewModelScope].
  */
 val LocalViewModelScope = staticCompositionLocalOf {
-    ViewModelScope(isFetching = false, hasNetworkError = false, hasUnknownError = false)
+    ViewModelScope(isFetching = false, hasNetworkError = false, hasUnknownError = false, null)
 }
 
 /**
@@ -59,11 +80,14 @@ inline fun <ScreenEvent : UiEvent, Event : ViewModelEvent, reified ViewModel : M
     val isFetching by viewModel.isFetching.collectAsStateWithLifecycle()
     val hasNetworkError by viewModel.hasNetworkError.collectAsStateWithLifecycle()
     val hasUnknownError by viewModel.hasUnknownError.collectAsStateWithLifecycle()
+    val syncJobInfo by viewModel.syncJobInfo.collectAsStateWithLifecycle()
 
-    val scope = ViewModelScope(isFetching, hasNetworkError, hasUnknownError)
+    val scope = ViewModelScope(isFetching, hasNetworkError, hasUnknownError, syncJobInfo)
+
+    val mergedScope = scope.mergeWithUpper(LocalViewModelScope.current)
 
     CompositionLocalProvider(
-        LocalViewModelScope provides scope
+        LocalViewModelScope provides mergedScope
     ) {
         scope.content(viewModel)
     }
