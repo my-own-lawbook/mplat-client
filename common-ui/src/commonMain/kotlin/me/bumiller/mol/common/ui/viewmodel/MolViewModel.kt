@@ -54,7 +54,9 @@ abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, E
      *
      * @param event The event to fire
      */
-    protected suspend fun fireEvent(event: Event) = _events.emit(event)
+    protected suspend fun fireEvent(event: Event) {
+        _events.emit(event)
+    }
 
     //
     // State configuring for view models
@@ -194,6 +196,15 @@ abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, E
      * The info about the latest executed sync job, or null.
      */
     val syncJobInfo = uiState<SyncJobInfo>(SyncInfo).asStateFlow()
+
+    /**
+     * Sets the current sync job info.
+     *
+     * @param syncJobInfo The new sync job info
+     */
+    fun setSyncJobInfo(syncJobInfo: SyncJobInfo) {
+        uiState<SyncJobInfo>(SyncInfo).update { syncJobInfo }
+    }
 
     /**
      * Sets the [isFetching] value to true while a suspend block is executed.

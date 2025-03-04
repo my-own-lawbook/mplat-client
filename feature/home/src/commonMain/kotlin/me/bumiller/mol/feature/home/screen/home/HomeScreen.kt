@@ -1,10 +1,15 @@
 package me.bumiller.mol.feature.home.screen.home
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
@@ -12,21 +17,40 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import me.bumiller.mol.common.ui.event.UiEvent
-import me.bumiller.mol.common.ui.event.ViewModelEvent
+import me.bumiller.mol.common.ui.snackbar.confirmedSnackbarMessage
 import me.bumiller.mol.common.ui.viewmodel.ViewModelScope
 import me.bumiller.mol.feature.dashboard.navigation.DashboardScreen
 import me.bumiller.mol.feature.dashboard.navigation.dashboard
 import me.bumiller.mol.feature.home.HomeSection
 import me.bumiller.mol.feature.profile.navigation.profile
+import me.bumiller.mol.home.Res
+import me.bumiller.mol.home.sync_failed_snackbar_action
+import me.bumiller.mol.home.sync_failed_snackbar_message
+import org.jetbrains.compose.resources.stringResource
+import kotlin.system.exitProcess
 
 /**
  * The composable for the home screen.
  */
 @Composable
 internal fun HomeScreen() {
-    ViewModelScope<UiEvent, ViewModelEvent, HomeViewmodel>(
+    val snackbarHostState = remember { SnackbarHostState() }
+    val syncFailedMessage = stringResource(Res.string.sync_failed_snackbar_message)
+    val syncFailedAction = stringResource(Res.string.sync_failed_snackbar_action)
+
+    ViewModelScope<UiEvent, HomeEvent, HomeViewmodel>(
         onViewModelEvent = {
-            throw Error("No view model event should be fired.")
+            when (it) {
+                HomeEvent.SyncFailed -> {
+                    snackbarHostState.confirmedSnackbarMessage(
+                        syncFailedMessage,
+                        syncFailedAction,
+                        SnackbarDuration.Long
+                    ) {
+                        exitProcess(0)
+                    }
+                }
+            }
         }
     ) {
         val navController = rememberNavController()
@@ -34,24 +58,30 @@ internal fun HomeScreen() {
             null
         )
 
-        NavigationSuiteScaffold(
-            navigationSuiteItems = {
-                val selected = backStackEntry.toRouteSafe()
-
-                HomeSection.entries.forEach {
-                    it.asItem(
-                        scope = this,
-                        selected = it == selected,
-                        onClick = { navController.navigate(it.route) }
-                    )
-                }
+        Scaffold(
+            snackbarHost = {
+                SnackbarHost(snackbarHostState)
             }
         ) {
-            Surface(
-                modifier = Modifier
-                    .fillMaxSize()
+            NavigationSuiteScaffold(
+                navigationSuiteItems = {
+                    val selected = backStackEntry.toRouteSafe()
+
+                    HomeSection.entries.forEach {
+                        it.asItem(
+                            scope = this,
+                            selected = it == selected,
+                            onClick = { navController.navigate(it.route) }
+                        )
+                    }
+                }
             ) {
-                HomeNavHost(navController)
+                Surface(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    HomeNavHost(navController)
+                }
             }
         }
     }
