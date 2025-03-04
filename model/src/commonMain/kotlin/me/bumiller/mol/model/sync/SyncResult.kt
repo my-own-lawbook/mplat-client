@@ -1,4 +1,4 @@
-package me.bumiller.mol.sync.model
+package me.bumiller.mol.model.sync
 
 /**
  * Models results from a sync action.

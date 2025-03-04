@@ -5,6 +5,7 @@ import me.bumiller.mol.database.dao.EntryDao
 import me.bumiller.mol.database.dao.ForeignUserDao
 import me.bumiller.mol.database.dao.InvitationDao
 import me.bumiller.mol.database.dao.SectionDao
+import me.bumiller.mol.model.sync.SyncResult
 import me.bumiller.mol.network.BookService
 import me.bumiller.mol.network.EntryService
 import me.bumiller.mol.network.ForeignUserService
@@ -16,7 +17,6 @@ import me.bumiller.mol.sync.mapping.entryMapper
 import me.bumiller.mol.sync.mapping.invitationMapper
 import me.bumiller.mol.sync.mapping.sectionMapper
 import me.bumiller.mol.sync.mapping.userMapper
-import me.bumiller.mol.sync.model.SyncResult
 
 internal class NetworkDatabaseSyncAdapter(
     bookService: BookService,

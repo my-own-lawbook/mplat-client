@@ -3,12 +3,12 @@ package me.bumiller.mol.sync.impl
 import kotlinx.coroutines.flow.first
 import me.bumiller.mol.database.dao.base.SimpleDao
 import me.bumiller.mol.database.entities.base.SimpleEntity
+import me.bumiller.mol.model.sync.SyncResult
 import me.bumiller.mol.network.base.ResourceParentService
 import me.bumiller.mol.network.base.SimpleResourceService
 import me.bumiller.mol.network.response.RestResponse
 import me.bumiller.mol.sync.Synchronizer
 import me.bumiller.mol.sync.mapping.ParentEntityMapper
-import me.bumiller.mol.sync.model.SyncResult
 
 internal class ParentSynchronizer<Response : RestResponse, Entity : SimpleEntity, Parent : RestResponse>(
     private val mapper: ParentEntityMapper<Response, Entity>,

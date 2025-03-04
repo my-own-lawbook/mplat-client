@@ -1,6 +1,7 @@
 package me.bumiller.mol.sync
 
 import kotlinx.coroutines.flow.Flow
+import me.bumiller.mol.model.sync.SyncJobInfo
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 

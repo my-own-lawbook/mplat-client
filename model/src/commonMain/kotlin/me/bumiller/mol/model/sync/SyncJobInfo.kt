@@ -1,6 +1,4 @@
-package me.bumiller.mol.sync
-
-import me.bumiller.mol.sync.model.SyncResult
+package me.bumiller.mol.model.sync
 
 /**
  * Information about a started sync job. Describes the current state.

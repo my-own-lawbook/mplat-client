@@ -1,6 +1,6 @@
 package me.bumiller.mol.sync
 
-import me.bumiller.mol.sync.model.SyncResult
+import me.bumiller.mol.model.sync.SyncResult
 
 /**
  * Adapter that manages the transferring of resources from the remote to the local database.

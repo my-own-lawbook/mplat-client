@@ -7,9 +7,9 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import me.bumiller.mol.sync.SyncJobInfo
+import me.bumiller.mol.model.sync.SyncJobInfo
+import me.bumiller.mol.model.sync.SyncResult
 import me.bumiller.mol.sync.SyncManager
-import me.bumiller.mol.sync.model.SyncResult
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import kotlin.uuid.toJavaUuid

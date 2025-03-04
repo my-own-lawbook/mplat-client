@@ -1,6 +1,6 @@
 package me.bumiller.mol.sync
 
-import me.bumiller.mol.sync.model.SyncResult
+import me.bumiller.mol.model.sync.SyncResult
 
 /**
  * Manages synchronizing a list of responses from the api to the local database.

@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.WorkerParameters
+import me.bumiller.mol.model.sync.SyncResult
 import me.bumiller.mol.sync.SyncAdapter
-import me.bumiller.mol.sync.model.SyncResult
 
 internal class SyncWorker(
     context: Context,

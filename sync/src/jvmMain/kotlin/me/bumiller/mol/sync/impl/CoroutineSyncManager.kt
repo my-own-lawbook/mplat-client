@@ -5,8 +5,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import me.bumiller.mol.model.sync.SyncJobInfo
 import me.bumiller.mol.sync.SyncAdapter
-import me.bumiller.mol.sync.SyncJobInfo
 import me.bumiller.mol.sync.SyncManager
 import java.util.LinkedList
 import java.util.Queue
