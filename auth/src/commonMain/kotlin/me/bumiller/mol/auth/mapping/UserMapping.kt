@@ -1,5 +1,6 @@
 package me.bumiller.mol.auth.mapping
 
+import kotlinx.datetime.LocalDate
 import me.bumiller.mol.model.user.AuthUser
 import me.bumiller.mol.model.user.AuthUserWithProfile
 import me.bumiller.mol.model.user.Gender
@@ -12,7 +13,7 @@ internal fun AuthUserWithoutProfileResponse.toModel(): AuthUser =
     AuthUser(email, isEmailVerified, id, username)
 
 internal fun UserProfileResponse.toModel(): Profile =
-    Profile(firstName, lastName, gender.toGender(), birthday)
+    Profile(firstName, lastName, gender.toGender(), LocalDate.parse(birthday))
 
 internal fun AuthUserWithProfileResponse.toModel(): AuthUserWithProfile =
     AuthUserWithProfile(profile.toModel(), id, username, email, isEmailVerified)
