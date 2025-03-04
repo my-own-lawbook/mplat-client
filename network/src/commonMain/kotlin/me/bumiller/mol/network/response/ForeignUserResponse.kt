@@ -8,10 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ForeignUserResponse(
 
-    /**
-     * The id of the user.
-     */
-    val id: Long,
+    override val id: Long,
 
     /**
      * The username of the user.
@@ -23,4 +20,4 @@ data class ForeignUserResponse(
      */
     val profile: UserProfileResponse
 
-)
+) : RestResponse

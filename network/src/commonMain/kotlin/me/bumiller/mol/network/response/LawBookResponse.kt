@@ -8,10 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class LawBookResponse(
 
-    /**
-     * The id of the book.
-     */
-    val id: Long,
+    override val id: Long,
 
     /**
      * The key of the book.
@@ -28,4 +25,4 @@ data class LawBookResponse(
      */
     val description: String
 
-)
+) : RestResponse

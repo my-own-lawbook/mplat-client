@@ -8,10 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class LawSectionResponse(
 
-    /**
-     * The id of the section.
-     */
-    val id: Long,
+    override val id: Long,
 
     /**
      * The index of the section.
@@ -28,4 +25,4 @@ data class LawSectionResponse(
      */
     val content: String
 
-)
+) : RestResponse

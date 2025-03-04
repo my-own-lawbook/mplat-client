@@ -8,10 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class BookInvitationResponse(
 
-    /**
-     * The id of the invitation.
-     */
-    val id: Long,
+    override val id: Long,
 
     /**
      * The id of the author.
@@ -58,4 +55,4 @@ data class BookInvitationResponse(
      */
     val message: String?
 
-)
+) : RestResponse
