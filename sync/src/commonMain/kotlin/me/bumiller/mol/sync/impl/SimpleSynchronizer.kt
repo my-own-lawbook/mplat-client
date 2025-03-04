@@ -17,7 +17,7 @@ internal class SimpleSynchronizer<Response : RestResponse, Entity : SimpleEntity
 
     override suspend fun synchronize(): SyncResult {
         val responses = service.getAll().run {
-            dataOrNull() ?: return SyncResult.Network(this)
+            dataOrNull() ?: return SyncResult.Network
         }
 
         responses.forEach { response ->

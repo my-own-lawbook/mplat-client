@@ -19,12 +19,12 @@ internal class ParentSynchronizer<Response : RestResponse, Entity : SimpleEntity
 
     override suspend fun synchronize(): SyncResult {
         val parentResponses = parentService.getAll().run {
-            dataOrNull() ?: return SyncResult.Network(this)
+            dataOrNull() ?: return SyncResult.Network
         }
 
         parentResponses.forEach { parent ->
             val responses = service.getByParent(parent.id).run {
-                dataOrNull() ?: return SyncResult.Network(this)
+                dataOrNull() ?: return SyncResult.Network
             }
 
             responses.forEach {

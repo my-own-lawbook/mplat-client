@@ -1,5 +1,5 @@
 plugins {
-    id("me.bumiller.mol.kotlin.library")
+    id("me.bumiller.mol.android.library")
 }
 
 kotlin {
@@ -11,6 +11,11 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":network"))
             implementation(project(":database"))
+        }
+
+        androidMain.dependencies {
+            implementation(libs.android.work)
+            implementation(libs.koin.android.work)
         }
     }
 }
