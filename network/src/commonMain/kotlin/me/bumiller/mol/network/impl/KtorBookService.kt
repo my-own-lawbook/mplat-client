@@ -16,7 +16,7 @@ internal class KtorBookService(
 
     companion object {
 
-        private const val BASE_PATH = "law-books/"
+        private const val BASE_PATH = "user/law-books/"
 
     }
 

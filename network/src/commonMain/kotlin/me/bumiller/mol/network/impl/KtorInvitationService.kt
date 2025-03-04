@@ -16,7 +16,7 @@ internal class KtorInvitationService(
 
     companion object {
 
-        private const val BASE_PATH = "book-invitations/"
+        private const val BASE_PATH = "user/book-invitations/"
 
     }
 
