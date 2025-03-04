@@ -11,6 +11,9 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import me.bumiller.mol.common.ui.event.UiEvent
+import me.bumiller.mol.common.ui.event.ViewModelEvent
+import me.bumiller.mol.common.ui.viewmodel.ViewModelScope
 import me.bumiller.mol.feature.dashboard.navigation.DashboardScreen
 import me.bumiller.mol.feature.dashboard.navigation.dashboard
 import me.bumiller.mol.feature.home.HomeSection
@@ -20,30 +23,36 @@ import me.bumiller.mol.feature.profile.navigation.profile
  * The composable for the home screen.
  */
 @Composable
-internal fun HomeScreen(
-
-) {
-    val navController = rememberNavController()
-    val backStackEntry by navController.currentBackStackEntryFlow.collectAsStateWithLifecycle(null)
-
-    NavigationSuiteScaffold(
-        navigationSuiteItems = {
-            val selected = backStackEntry.toRouteSafe()
-
-            HomeSection.entries.forEach {
-                it.asItem(
-                    scope = this,
-                    selected = it == selected,
-                    onClick = { navController.navigate(it.route) }
-                )
-            }
+internal fun HomeScreen() {
+    ViewModelScope<UiEvent, ViewModelEvent, HomeViewmodel>(
+        onViewModelEvent = {
+            throw Error("No view model event should be fired.")
         }
     ) {
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
+        val navController = rememberNavController()
+        val backStackEntry by navController.currentBackStackEntryFlow.collectAsStateWithLifecycle(
+            null
+        )
+
+        NavigationSuiteScaffold(
+            navigationSuiteItems = {
+                val selected = backStackEntry.toRouteSafe()
+
+                HomeSection.entries.forEach {
+                    it.asItem(
+                        scope = this,
+                        selected = it == selected,
+                        onClick = { navController.navigate(it.route) }
+                    )
+                }
+            }
         ) {
-            HomeNavHost(navController)
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                HomeNavHost(navController)
+            }
         }
     }
 }
