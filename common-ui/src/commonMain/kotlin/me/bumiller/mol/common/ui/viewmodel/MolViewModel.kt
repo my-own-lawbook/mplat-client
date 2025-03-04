@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.bumiller.mol.common.ui.event.ViewModelEvent
 import me.bumiller.mol.model.state.SimpleState
+import me.bumiller.mol.model.sync.SyncJobInfo
 import kotlin.reflect.KClass
 
 /**
@@ -72,7 +73,7 @@ abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, E
      * @param Data The type of which to create a new ui state for
      * @return The newly created ui state flow
      */
-    protected inline fun <reified Data : Any> registerUiState(
+    protected inline fun <reified Data : Any?> registerUiState(
         initialValue: Data,
         key: Any
     ): MutableStateFlow<Data> {
@@ -132,11 +133,13 @@ abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, E
     private data object Fetching
     private data object NetworkError
     private data object UnknownError
+    private data object SyncInfo
 
     init {
         registerUiState<Boolean>(false, Fetching)
         registerUiState<Boolean>(false, NetworkError)
         registerUiState<Boolean>(false, UnknownError)
+        registerUiState<SyncJobInfo?>(null, SyncInfo)
     }
 
     private val _isFetching = uiState<Boolean>(Fetching)
@@ -186,6 +189,11 @@ abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, E
      * Whether a request failed because of an unknown error.
      */
     val hasUnknownError = _hasUnknownError.asStateFlow()
+
+    /**
+     * The info about the latest executed sync job, or null.
+     */
+    val syncJobInfo = uiState<SyncJobInfo>(SyncInfo).asStateFlow()
 
     /**
      * Sets the [isFetching] value to true while a suspend block is executed.
