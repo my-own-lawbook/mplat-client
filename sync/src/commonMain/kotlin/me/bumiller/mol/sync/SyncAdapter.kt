@@ -5,7 +5,7 @@ import me.bumiller.mol.sync.model.SyncResult
 /**
  * Adapter that manages the transferring of resources from the remote to the local database.
  */
-fun interface SyncAdapter {
+internal fun interface SyncAdapter {
 
     /**
      * Performs the synchronization.
