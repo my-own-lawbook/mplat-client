@@ -189,16 +189,16 @@ jobs:
         uses: tvdias/github-tagger@v0.0.1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ inputs.releaseVersion }}
+          tag: v${{ inputs.releaseVersion }}
 
       - name: Create release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v2.2.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: my-own-lawbook/mplat-client
           body_path: ./changelogs/${{ inputs.releaseVersion }}.md
-          name: ${{ inputs.releaseVersion }}
-          tag_name: ${{ inputs.releaseVersion }}
+          name: v${{ inputs.releaseVersion }}
+          tag_name: v${{ inputs.releaseVersion }}
           files: |
             ${{ steps.download_apk.outputs.download-path }}/${{ env.APK_FILE_NAME }}
             ${{ steps.download_aab.outputs.download-path }}/${{ env.AAB_FILE_NAME }}
