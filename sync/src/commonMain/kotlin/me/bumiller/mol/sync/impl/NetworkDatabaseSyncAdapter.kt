@@ -51,12 +51,13 @@ internal class NetworkDatabaseSyncAdapter(
             sectionSynchronizer
         )
 
-        val successful = synchronizers.all { it.synchronize() }
-
-        return when (successful) {
-            true -> SyncResult.Success
-            false -> SyncResult.Network
+        synchronizers.forEach { synchronizer ->
+            synchronizer.synchronize().run {
+                if (isFailed) return this
+            }
         }
+
+        return SyncResult.Success
     }
 
 }

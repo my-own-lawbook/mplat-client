@@ -8,6 +8,7 @@ import me.bumiller.mol.network.base.SimpleResourceService
 import me.bumiller.mol.network.response.RestResponse
 import me.bumiller.mol.sync.Synchronizer
 import me.bumiller.mol.sync.mapping.ParentEntityMapper
+import me.bumiller.mol.sync.model.SyncResult
 
 internal class ParentSynchronizer<Response : RestResponse, Entity : SimpleEntity, Parent : RestResponse>(
     private val mapper: ParentEntityMapper<Response, Entity>,
@@ -16,23 +17,22 @@ internal class ParentSynchronizer<Response : RestResponse, Entity : SimpleEntity
     private val parentService: SimpleResourceService<Parent>
 ) : Synchronizer {
 
-    /**
-     * Syncs all the entities for a specified parent.
-     *
-     * @return Whether the resources were able to be fetched from the api
-     */
-    override suspend fun synchronize(): Boolean {
-        val parentResponses = parentService.getAll().dataOrNull() ?: return false
+    override suspend fun synchronize(): SyncResult {
+        val parentResponses = parentService.getAll().run {
+            dataOrNull() ?: return SyncResult.Network(this)
+        }
 
         parentResponses.forEach { parent ->
-            val responses = service.getByParent(parent.id).dataOrNull() ?: return false
+            val responses = service.getByParent(parent.id).run {
+                dataOrNull() ?: return SyncResult.Network(this)
+            }
 
             responses.forEach {
                 syncResponse(it, parent.id)
             }
         }
 
-        return true
+        return SyncResult.Success
     }
 
     private suspend fun syncResponse(response: Response, parentId: Long) {

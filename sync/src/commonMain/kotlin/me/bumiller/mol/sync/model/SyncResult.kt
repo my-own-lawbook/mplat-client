@@ -1,9 +1,11 @@
 package me.bumiller.mol.sync.model
 
+import me.bumiller.mol.network.model.NetworkResponse
+
 /**
  * Models results from a sync action.
  */
-enum class SyncResult(
+sealed class SyncResult(
 
     /**
      * Whether the sync failed.
@@ -15,16 +17,18 @@ enum class SyncResult(
     /**
      * The sync finished correctly.
      */
-    Success(false),
+    data object Success : SyncResult(false)
 
     /**
      * The sync aborted due to a network error.
+     *
+     * @param result The result that signifies the failure. Guaranteed to be either [NetworkResponse.NetworkError] or [NetworkResponse.HttpError].
      */
-    Network(true),
+    data class Network(val result: NetworkResponse<*>) : SyncResult(true)
 
     /**
      * The sync aborted due to a data validation error.
      */
-    Data(true)
+    data object Data : SyncResult(true)
 
 }

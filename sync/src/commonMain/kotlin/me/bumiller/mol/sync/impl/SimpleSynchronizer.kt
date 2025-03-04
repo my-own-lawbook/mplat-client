@@ -7,6 +7,7 @@ import me.bumiller.mol.network.base.SimpleResourceService
 import me.bumiller.mol.network.response.RestResponse
 import me.bumiller.mol.sync.Synchronizer
 import me.bumiller.mol.sync.mapping.EntityMapper
+import me.bumiller.mol.sync.model.SyncResult
 
 internal class SimpleSynchronizer<Response : RestResponse, Entity : SimpleEntity>(
     private val mapper: EntityMapper<Response, Entity>,
@@ -14,19 +15,16 @@ internal class SimpleSynchronizer<Response : RestResponse, Entity : SimpleEntity
     private val service: SimpleResourceService<Response>
 ) : Synchronizer {
 
-    /**
-     * Synchronizes all responses from the service into the local daos
-     *
-     * @return Whether the data could be fetched from the api
-     */
-    override suspend fun synchronize(): Boolean {
-        val responses = service.getAll().dataOrNull() ?: return false
+    override suspend fun synchronize(): SyncResult {
+        val responses = service.getAll().run {
+            dataOrNull() ?: return SyncResult.Network(this)
+        }
 
         responses.forEach { response ->
             syncResponse(response)
         }
 
-        return true
+        return SyncResult.Success
     }
 
     private suspend fun syncResponse(response: Response) {
