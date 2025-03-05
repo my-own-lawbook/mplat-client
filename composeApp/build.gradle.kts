@@ -81,11 +81,11 @@ compose.desktop.application {
         licenseFile = licenseFile
 
         linux {
-            iconFile.set(iconFileIco)
+            iconFile.set(iconFilePng)
             this.debMaintainer
         }
         windows {
-            iconFile.set(iconFilePng)
+            iconFile.set(iconFileIco)
         }
     }
 }
