@@ -53,6 +53,9 @@ kotlin {
     }
 }
 
+val iconFileIco = project.file("./src/jvmMain/resources/icon.ico")
+val iconFilePng = project.file("./src/jvmMain/resources/icon.png")
+
 compose.desktop.application {
     // Workaround according to https://github.com/JetBrains/compose-multiplatform/issues/3818#issuecomment-1795163561
     buildTypes.release.proguard {
@@ -63,6 +66,12 @@ compose.desktop.application {
     mainClass = "me.bumiller.mol.MainKt"
 
     nativeDistributions {
+        linux {
+            iconFile.set(iconFileIco)
+        }
+        windows {
+            iconFile.set(iconFilePng)
+        }
         targetFormats(TargetFormat.Exe, TargetFormat.Msi, TargetFormat.Deb)
         packageName = "me.bumiller.mol"
         packageVersion = "0.0.2"
