@@ -62,6 +62,7 @@ private val appName = "Civoris"
 private val appDescription =
     "Manage rules and conventions by creating a structured dictionary of guidelines! Collaborate with others and manage access, visibility and more."
 private val appVendor = "Simon Bumiller"
+private val appDebMaintainer = "simon@bumiller.me"
 
 compose.desktop.application {
     // Workaround according to https://github.com/JetBrains/compose-multiplatform/issues/3818#issuecomment-1795163561
@@ -82,7 +83,7 @@ compose.desktop.application {
 
         linux {
             iconFile.set(iconFilePng)
-            this.debMaintainer
+            debMaintainer = appDebMaintainer
         }
         windows {
             iconFile.set(iconFileIco)
