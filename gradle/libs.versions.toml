@@ -32,6 +32,7 @@ errorprone = "2.36.0"
 sonarqube = "5.1.0.4882"
 spotbugs = "4.8.6"
 work = "2.10.0"
+license = "0.9.8"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -113,6 +114,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
+license = { id = "com.jaredsburrows.license", version.ref = "license" }
 
 # Custom convention plugins
 mol-android-library = { id = "me.bumiller.mol.android.library", version = "1.0.0" }

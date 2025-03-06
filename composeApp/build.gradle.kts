@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("me.bumiller.mol.compose.application")
+    alias(libs.plugins.license)
 }
 
 kotlin {
@@ -20,11 +21,13 @@ kotlin {
 
         val jvmMain by getting
 
+        //noinspection WrongGradleMethod
         androidMain.dependencies {
             implementation(libs.android.splashscreen)
             implementation(libs.koin.android.work)
         }
 
+        //noinspection WrongGradleMethod
         commonMain.dependencies {
             implementation(project(":model"))
             implementation(project(":data"))
@@ -50,6 +53,38 @@ kotlin {
             implementation(compose.desktop.currentOs)
         }
 
+    }
+}
+
+// Tasks that are prefixed with one of these will generate a license report before building.
+private val buildingTasksPrefixes = listOf("assemble", "bundle", "install")
+
+/*
+ * A task that perform the following steps:
+ *
+ * 1. Executes the license report task (html output)
+ * 2. Deletes the generates report under src/main/assets/, because duplicate resources are not allowed
+ */
+tasks.create("civorisLicenseReport") {
+    dependsOn("licenseReleaseReport")
+
+    doFirst {
+        val mainSourceSetDirectory = project.file("./src/main/")
+        mainSourceSetDirectory.deleteRecursively()
+    }
+}
+
+/*
+ * Ensure that 'civorisLicenseReport' is run before
+ */
+afterEvaluate {
+    //noinspection WrongGradleMethod
+    tasks.forEach { task ->
+        buildingTasksPrefixes.forEach { prefix ->
+            if (task.name.startsWith(prefix)) {
+                task.dependsOn("civorisLicenseReport")
+            }
+        }
     }
 }
 
