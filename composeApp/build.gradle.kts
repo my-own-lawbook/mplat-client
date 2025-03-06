@@ -74,7 +74,7 @@ tasks.create("civorisLicenseReport") {
 
     doFirst {
         val targetFile = project.file(
-            "./../feature/about/src/commonMain/resources/assets/license_report.html",
+            "./../feature/about/src/commonMain/composeResources/files/license_report.html",
             PathValidation.NONE
         )
         val licenseHtmlReportFile =
