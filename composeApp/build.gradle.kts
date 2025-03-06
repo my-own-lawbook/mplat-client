@@ -33,6 +33,7 @@ kotlin {
             implementation(project(":data"))
             implementation(project(":ui"))
             implementation(project(":feature:onboarding"))
+            implementation(project(":feature:about"))
             implementation(project(":feature:home"))
             implementation(project(":feature:dashboard"))
             implementation(project(":feature:auth"))
@@ -64,19 +65,21 @@ private val buildingTasksPrefixes = listOf("assemble", "bundle", "install")
  *
  * 1. Executes the license report task (html output)
  * 2. Copies the license report to the ':feature:about' module, where it is needed
- * 2. Deletes the originally generated reports
+ * 3. Deletes the originally generated reports
  */
 tasks.create("civorisLicenseReport") {
     dependsOn("licenseReleaseReport")
 
+    outputs.upToDateWhen { false }
+
     doFirst {
         val targetFile = project.file(
-            "./../feature/about/src/commonMain/composeResources/files/license_report.html",
+            "./../feature/about/src/commonMain/resources/assets/license_report.html",
             PathValidation.NONE
         )
         val licenseHtmlReportFile =
             project.file("./src/androidMain/assets/open_source_licenses.html")
-        licenseHtmlReportFile.copyTo(targetFile)
+        licenseHtmlReportFile.copyTo(targetFile, true)
 
         val commonMainAssetsDirectory = project.file("./src/androidMain/assets/")
         val mainSourceSetDirectory = project.file("./src/main/")
@@ -86,11 +89,17 @@ tasks.create("civorisLicenseReport") {
 }
 
 /*
- * Ensure that 'civorisLicenseReport' is run before
+ * Ensures the following:
+ *
+ * 1. 'licenseReleaseReport' is always run, and never 'UP_TO_DATE'
+ * 2. 'civorisLicenseReport' is ran before any 'install*', 'assemble*' and 'bundle*' task
  */
 afterEvaluate {
     //noinspection WrongGradleMethod
     tasks.forEach { task ->
+        if (task.name == "licenseReleaseReport") {
+            task.outputs.upToDateWhen { false }
+        }
         buildingTasksPrefixes.forEach { prefix ->
             if (task.name.startsWith(prefix)) {
                 task.dependsOn("civorisLicenseReport")
