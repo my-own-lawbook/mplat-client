@@ -63,14 +63,25 @@ private val buildingTasksPrefixes = listOf("assemble", "bundle", "install")
  * A task that perform the following steps:
  *
  * 1. Executes the license report task (html output)
- * 2. Deletes the generates report under src/main/assets/, because duplicate resources are not allowed
+ * 2. Copies the license report to the ':feature:about' module, where it is needed
+ * 2. Deletes the originally generated reports
  */
 tasks.create("civorisLicenseReport") {
     dependsOn("licenseReleaseReport")
 
     doFirst {
+        val targetFile = project.file(
+            "./../feature/about/src/commonMain/composeResources/files/license_report.html",
+            PathValidation.NONE
+        )
+        val licenseHtmlReportFile =
+            project.file("./src/androidMain/assets/open_source_licenses.html")
+        licenseHtmlReportFile.copyTo(targetFile)
+
+        val commonMainAssetsDirectory = project.file("./src/androidMain/assets/")
         val mainSourceSetDirectory = project.file("./src/main/")
         mainSourceSetDirectory.deleteRecursively()
+        commonMainAssetsDirectory.deleteRecursively()
     }
 }
 
