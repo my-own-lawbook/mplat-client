@@ -9,6 +9,9 @@ kotlin {
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":ui"))
+            implementation(project(":common-ui"))
+
             api(libs.webview)
         }
     }

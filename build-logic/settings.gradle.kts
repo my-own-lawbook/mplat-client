@@ -15,6 +15,7 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        maven("https://jogamp.org/deployment/maven")
     }
     versionCatalogs {
         create("libs") {
