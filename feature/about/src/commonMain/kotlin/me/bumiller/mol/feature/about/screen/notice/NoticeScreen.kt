@@ -40,7 +40,6 @@ internal fun NoticeScreen() {
         return
     }
 
-    println("Got html: ${processReport(htmlData!!)}")
     val webViewState = rememberWebViewStateWithHTMLData(processReport(htmlData!!))
 
     AppBarLayout(

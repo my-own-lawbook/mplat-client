@@ -1,3 +1,17 @@
 <resources>
     <string name="notice_screen_title">License Notice</string>
+    <string name="about_screen_title">About the app</string>
+    <string name="app_name">Civoris</string>
+    <string name="app_version">0.0.4 | 4</string>
+    <string name="app_github_link">https://github.com/civoris/mplat-client</string>
+    <string name="license_text_pre">Licensed under the </string>
+    <string name="license_text">GPLv3 License</string>
+    <string name="license_text_post">.</string>
+    <string name="license_link">https://github.com/civoris/mplat-client/blob/develop/LICENSE</string>
+    <string name="app_github_button_label">Visit GitHub page</string>
+    <string name="notice_button_label">Copyright notice</string>
+    <string name="maintainer_pre">Maintainer: </string>
+    <string name="maintainer">Simon Bumiller</string>
+    <string name="maintainer_post" />
+    <string name="maintainer_link">https://github.com/SimonBumiller</string>
 </resources>
