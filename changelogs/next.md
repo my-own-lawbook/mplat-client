@@ -5,3 +5,6 @@ Release 0.0.5 creates the following changes:
 - Set up application metadata
     - Icon
     - Name, description, license, etc...
+
+- Set up 'about' and 'notices' screen
+- Set up collecting of dependency licenses
