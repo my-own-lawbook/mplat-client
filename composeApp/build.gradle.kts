@@ -120,10 +120,14 @@ private val appVendor = "Simon Bumiller"
 private val appDebMaintainer = "simon@bumiller.me"
 
 compose.desktop.application {
+    // Args as described in https://github.com/KevinnZou/compose-webview-multiplatform/blob/main/README.desktop.md
+    jvmArgs("--add-opens", "java.jvm/sun.awt=ALL-UNNAMED")
+    jvmArgs("--add-opens", "java.jvm/java.awt.peer=ALL-UNNAMED")
+
     // Workaround according to https://github.com/JetBrains/compose-multiplatform/issues/3818#issuecomment-1795163561
     buildTypes.release.proguard {
         version.set("7.4.0")
-        configurationFiles.setFrom("proguard-rules.pro")
+        configurationFiles.setFrom("proguard-rules.pro", "compose-desktop.pro")
     }
 
     mainClass = "me.bumiller.mol.MainKt"

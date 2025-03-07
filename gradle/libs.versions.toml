@@ -33,7 +33,7 @@ sonarqube = "5.1.0.4882"
 spotbugs = "4.8.6"
 work = "2.10.0"
 license = "0.9.8"
-webview = "1.6.0"
+webview = "1.9.0"
 uuid = "5.1.0"
 
 [libraries]

@@ -1,0 +1,16 @@
+-dontwarn org.eclipse.**
+-dontwarn javafx.**
+-dontwarn io.ktor.**
+-dontwarn org.objectweb.**
+-dontwarn org.conscrypt.**
+-dontwarn com.jogamp.**
+-dontwarn org.jetbrains.compose.**
+-dontwarn org.bouncycastle.**
+-dontwarn org.openjsse.**
+-dontwarn android.util.**
+-dontwarn org.tukaani.**
+-dontwarn com.github.luben.**
+-dontwarn sun.**
+-dontwarn org.brotli.**
+-dontwarn org.apache.commons.compress.**
+-dontwarn android.**
