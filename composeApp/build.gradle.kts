@@ -112,7 +112,7 @@ private val iconFileIco = project.file("./src/jvmMain/resources/icon.ico")
 private val iconFilePng = project.file("./src/jvmMain/resources/icon.png")
 private val licenseFile = project.file("./../LICENSE")
 
-private val appVersion = "0.0.4"
+private val appVersion = "0.0.5"
 private val appName = "Civoris"
 private val appDescription =
     "Manage rules and conventions by creating a structured dictionary of guidelines! Collaborate with others and manage access, visibility and more."
