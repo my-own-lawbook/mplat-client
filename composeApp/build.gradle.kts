@@ -110,7 +110,7 @@ afterEvaluate {
 
 private val iconFileIco = project.file("./src/jvmMain/resources/icon.ico")
 private val iconFilePng = project.file("./src/jvmMain/resources/icon.png")
-private val licenseFile = project.file("./../LICENSE")
+private val appLicenseFile = project.file("./../LICENSE")
 
 private val appVersion = "0.0.5"
 private val appName = "Civoris"
@@ -134,7 +134,7 @@ compose.desktop.application {
         packageVersion = appVersion
         packageName = appName
         description = appDescription
-        licenseFile = licenseFile
+        licenseFile = appLicenseFile
 
         linux {
             iconFile.set(iconFilePng)
@@ -142,6 +142,7 @@ compose.desktop.application {
         }
         windows {
             iconFile.set(iconFileIco)
+            dirChooser = true
         }
     }
 }
