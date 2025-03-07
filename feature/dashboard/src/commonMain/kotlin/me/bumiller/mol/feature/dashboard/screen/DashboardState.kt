@@ -20,3 +20,15 @@ internal data class DashboardState(
     val invitationsState: SimpleState<List<LawBookInvitationAggregate>> = SimpleState.loading()
 
 )
+
+/**
+ * Ui state for the dashboard screen.
+ */
+internal data class DashboardUiState(
+
+    /**
+     * Whether the menu is currently opened
+     */
+    val isMenuOpened: Boolean = false
+
+)

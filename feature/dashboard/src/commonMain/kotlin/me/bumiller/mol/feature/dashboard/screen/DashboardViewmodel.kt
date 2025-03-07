@@ -3,6 +3,7 @@ package me.bumiller.mol.feature.dashboard.screen
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import me.bumiller.mol.common.ui.viewmodel.MolViewModel
@@ -13,14 +14,23 @@ import me.bumiller.mol.model.sort.SortConfig
 import me.bumiller.mol.model.sort.SortDirection
 import me.bumiller.mol.model.sort.SortMode
 import me.bumiller.mol.model.state.SimpleState
+import me.bumiller.mol.sync.SyncManager
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Viewmodel for the dashboard screen.
  */
+@OptIn(ExperimentalUuidApi::class)
 internal class DashboardViewmodel(
     private val getBooks: GetBooksUsecase,
-    private val getInvitations: GetInvitationsUsecase
+    private val getInvitations: GetInvitationsUsecase,
+    private val syncManager: SyncManager
 ) : MolViewModel<DashboardUiEvent, DashboardEvent>() {
+
+    init {
+        registerUiState<DashboardUiState>(DashboardUiState())
+    }
 
     /**
      * The state flow containing the state of the view model.
@@ -32,10 +42,28 @@ internal class DashboardViewmodel(
             initialValue = DashboardState()
         )
 
+    /**
+     * The ui state for the dashboard screen
+     */
+    val uiState = uiState<DashboardUiState>().asStateFlow()
+
     override suspend fun handleEvent(event: DashboardUiEvent) = when (event) {
         DashboardUiEvent.ClickAddBook -> fireEvent(DashboardEvent.ShowAddBookDialog)
         is DashboardUiEvent.ClickBook -> fireEvent(DashboardEvent.GoToBookDetail(event.book))
         is DashboardUiEvent.ClickInvitation -> fireEvent(DashboardEvent.GoToInvitationDetail(event.invitation))
+        DashboardUiEvent.ClickAbout -> {
+            updateUiState<DashboardUiState> { it.copy(isMenuOpened = false) }
+            fireEvent(DashboardEvent.GoToAbout)
+        }
+
+        DashboardUiEvent.ClickMenu -> updateUiState<DashboardUiState> { it.copy(isMenuOpened = !it.isMenuOpened) }
+        DashboardUiEvent.ClickSync -> sync()
+    }
+
+    private suspend fun sync() {
+        syncManager.scheduleSync(Uuid.random()).collect { jobInfo ->
+            setSyncJobInfo(jobInfo)
+        }
     }
 
     private fun createState(): Flow<DashboardState> {

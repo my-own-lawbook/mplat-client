@@ -2,4 +2,7 @@
     <string name="dashboard_title">Dashboard</string>
     <string name="dashboard_books_title">Books</string>
     <string name="dashboard_invitations_title">Invitations</string>
+    <string name="cd_sync_action">Start sync</string>
+    <string name="cd_menu_action">Open menu</string>
+    <string name="menu_about_label">About Civoris</string>
 </resources>

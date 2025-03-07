@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import me.bumiller.mol.about.Res
+import me.bumiller.mol.about.about_screen_title
 import me.bumiller.mol.about.app_github_button_label
 import me.bumiller.mol.about.app_github_link
 import me.bumiller.mol.about.app_name
@@ -30,7 +31,6 @@ import me.bumiller.mol.about.maintainer_link
 import me.bumiller.mol.about.maintainer_post
 import me.bumiller.mol.about.maintainer_pre
 import me.bumiller.mol.about.notice_button_label
-import me.bumiller.mol.about.notice_screen_title
 import me.bumiller.mol.common.ui.style.disabledColor
 import me.bumiller.mol.ui.components.MultiStyleText
 import me.bumiller.mol.ui.components.TextStyleWithCallback
@@ -57,7 +57,7 @@ internal fun AboutScreen(
         modifier = Modifier
             .fillMaxSize(),
         title = {
-            Text(stringResource(Res.string.notice_screen_title))
+            Text(stringResource(Res.string.about_screen_title))
         },
         layoutType = AppBarLayoutType.SizeAware(
             verticalFirstWeightRange = 0.4F..0.5F,

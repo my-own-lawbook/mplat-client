@@ -17,7 +17,9 @@ data object DashboardScreen
 /**
  * Extension function that adds a nav destination for the [DashboardScreen] route.
  */
-fun NavGraphBuilder.dashboard() {
+fun NavGraphBuilder.dashboard(
+    onGoToAbout: () -> Unit
+) {
     composable<DashboardScreen> {
         Column(
             modifier = Modifier
@@ -27,7 +29,8 @@ fun NavGraphBuilder.dashboard() {
             DashboardScreen(
                 onGoToInvitationDetail = {},
                 onGoToBookDetail = {},
-                onOpenAddBookDialog = {}
+                onOpenAddBookDialog = {},
+                onGoToAbout = onGoToAbout
             )
         }
     }

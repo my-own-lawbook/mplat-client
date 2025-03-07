@@ -20,13 +20,16 @@ internal class HomeViewmodel(
         val syncJobFlow = syncManager.scheduleSync(Uuid.random())
 
         viewModelScope.launch {
+            syncJobFlow.collect { jobInfo ->
+                setSyncJobInfo(jobInfo)
+            }
+        }
+
+        viewModelScope.launch {
             syncManager.workerFailed().collect { failed ->
                 if (failed) {
                     fireEvent(HomeEvent.SyncFailed)
                 }
-            }
-            syncJobFlow.collect { jobInfo ->
-                setSyncJobInfo(jobInfo)
             }
         }
     }
