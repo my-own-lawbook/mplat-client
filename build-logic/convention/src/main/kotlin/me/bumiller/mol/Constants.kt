@@ -8,8 +8,8 @@ const val CompileSdk = 35
 const val TargetSdk = CompileSdk
 const val MinSdk = 26
 
-const val VersionCode = 3
-const val VersionName = "0.0.5"
+const val VersionCode = 6
+const val VersionName = "0.0.6"
 
 const val SigningConfigReleaseName = "release"
 const val SigningConfigKeyAliasVarName = "SIGNING_KEY_ALIAS"
