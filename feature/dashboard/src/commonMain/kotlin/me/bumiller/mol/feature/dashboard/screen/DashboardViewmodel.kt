@@ -16,7 +16,6 @@ import me.bumiller.mol.model.sort.SortMode
 import me.bumiller.mol.model.state.SimpleState
 import me.bumiller.mol.sync.SyncManager
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 /**
  * Viewmodel for the dashboard screen.
@@ -61,7 +60,7 @@ internal class DashboardViewmodel(
     }
 
     private suspend fun sync() {
-        syncManager.scheduleSync(Uuid.random()).collect { jobInfo ->
+        syncManager.scheduleSync().collect { jobInfo ->
             setSyncJobInfo(jobInfo)
         }
     }

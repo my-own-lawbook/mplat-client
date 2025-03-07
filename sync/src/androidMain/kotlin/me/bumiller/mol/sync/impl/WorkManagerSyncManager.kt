@@ -5,19 +5,14 @@ import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.fasterxml.uuid.Generators
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import me.bumiller.mol.model.sync.SyncJobInfo
 import me.bumiller.mol.model.sync.SyncResult
 import me.bumiller.mol.sync.SyncManager
-import java.util.UUID
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
-import kotlin.uuid.toJavaUuid
 
-@OptIn(ExperimentalUuidApi::class)
 internal class WorkManagerSyncManager(
     context: Context
 ) : SyncManager {
@@ -26,18 +21,18 @@ internal class WorkManagerSyncManager(
         WorkManager.getInstance(context)
     }
 
-    override fun scheduleSync(identifier: Uuid): Flow<SyncJobInfo> {
+    override fun scheduleSync(): Flow<SyncJobInfo> {
         val workRequest = OneTimeWorkRequestBuilder<SyncWorker>()
-            .setId(identifier.toJavaUuid())
             .addTag(SYNC_TAG)
+            .setId(Generators.timeBasedGenerator().generate())
             .build()
 
         workManager.enqueue(workRequest)
 
-        return workManager.getWorkInfoByIdFlow(identifier.toJavaUuid())
+        return workManager.getWorkInfoByIdFlow(workRequest.id)
             .map { workInfo ->
                 workInfo?.toSyncJobInfo()
-                    ?: throw IllegalStateException("Did not find a scheduled or for a uuid.")
+                    ?: throw Error("Did not find the just recently started worker")
             }
     }
 
@@ -56,32 +51,18 @@ internal class WorkManagerSyncManager(
             SyncJobInfo.Finished(SyncResult.valueOf(it))
         } ?: throw IllegalStateException("Worker finished successfully with no data")
 
-    override fun stopSync(identifier: Uuid) {
-        workManager.cancelWorkById(identifier.toJavaUuid())
-    }
-
-    private val workerFailedFlow = callbackFlow {
-        val initiallyRunningWorkers = mutableSetOf<UUID>()
-        val callback = FlowCollector<WorkInfo?> { workInfo ->
-            println("Got work info $workInfo and initially running workers $initiallyRunningWorkers")
-            val jobInfo = workInfo?.toSyncJobInfo()
-
-            if (jobInfo == SyncJobInfo.Running) {
-                initiallyRunningWorkers.add(workInfo.id)
-            }
-
-            if (jobInfo is SyncJobInfo.Finished && workInfo.id in initiallyRunningWorkers) {
-                channel.send(jobInfo.result.isFailed)
-            }
+    private val workerFailedFlow = workManager
+        .getWorkInfosByTagFlow(SYNC_TAG)
+        .map { infos ->
+            infos
+                .maxByOrNull { it.id.timestamp() }
         }
+        .filterNotNull()
+        .map { info ->
+            val jobInfo = info.toSyncJobInfo()
 
-        workManager.getWorkInfosByTagFlow(SYNC_TAG).collect { workInfos ->
-            workInfos.forEach { workInfo ->
-                workManager.getWorkInfoByIdFlow(workInfo.id)
-                    .collect(callback)
-            }
+            jobInfo is SyncJobInfo.Finished && jobInfo.result.isFailed
         }
-    }
 
     override fun workerFailed(): Flow<Boolean> = workerFailedFlow
 
