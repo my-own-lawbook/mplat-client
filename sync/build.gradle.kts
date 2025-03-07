@@ -17,6 +17,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.android.work)
             implementation(libs.koin.android.work)
+            implementation(libs.uuid)
         }
     }
 }

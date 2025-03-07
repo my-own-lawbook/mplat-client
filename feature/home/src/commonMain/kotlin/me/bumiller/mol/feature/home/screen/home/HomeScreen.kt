@@ -33,7 +33,9 @@ import kotlin.system.exitProcess
  * The composable for the home screen.
  */
 @Composable
-internal fun HomeScreen() {
+internal fun HomeScreen(
+    onGoToAbout: () -> Unit
+) {
     val snackbarHostState = remember { SnackbarHostState() }
     val syncFailedMessage = stringResource(Res.string.sync_failed_snackbar_message)
     val syncFailedAction = stringResource(Res.string.sync_failed_snackbar_action)
@@ -80,7 +82,10 @@ internal fun HomeScreen() {
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
-                    HomeNavHost(navController)
+                    HomeNavHost(
+                        controller = navController,
+                        onGoToAbout = onGoToAbout
+                    )
                 }
             }
         }
@@ -99,13 +104,16 @@ private fun NavBackStackEntry?.toRouteSafe(): Any? = this?.let {
 
 @Composable
 private fun HomeNavHost(
-    controller: NavHostController
+    controller: NavHostController,
+    onGoToAbout: () -> Unit
 ) {
     NavHost(
         navController = controller,
         startDestination = DashboardScreen
     ) {
-        dashboard()
+        dashboard(
+            onGoToAbout = onGoToAbout
+        )
         profile()
     }
 }

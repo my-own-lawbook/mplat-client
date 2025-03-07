@@ -21,7 +21,6 @@ class MolApplication : Application(), KoinComponent {
                 }
             )
 
-            println("Initializing work manager!")
             workManagerFactory()
         }
     }

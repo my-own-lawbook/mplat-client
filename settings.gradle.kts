@@ -26,6 +26,7 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        maven("https://jogamp.org/deployment/maven")
     }
 }
 
@@ -34,6 +35,7 @@ include(":model")
 include(":data")
 include(":ui")
 include(":feature:onboarding")
+include(":feature:about")
 include(":feature:home")
 include(":feature:profile")
 include(":feature:dashboard")

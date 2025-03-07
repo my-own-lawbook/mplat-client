@@ -10,10 +10,8 @@ import me.bumiller.mol.sync.SyncAdapter
 import me.bumiller.mol.sync.SyncManager
 import java.util.LinkedList
 import java.util.Queue
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
+import java.util.UUID
 
-@OptIn(ExperimentalUuidApi::class)
 internal class CoroutineSyncManager(
     private val scope: CoroutineScope,
     private val syncAdapter: SyncAdapter
@@ -23,16 +21,21 @@ internal class CoroutineSyncManager(
 
     private val jobActiveFlow = MutableStateFlow(false)
 
+    private val syncFailedFlow = MutableStateFlow(false)
+
     private fun updateActiveFlow() {
         jobActiveFlow.value = jobQueue.isNotEmpty()
     }
 
-    override fun scheduleSync(identifier: Uuid): Flow<SyncJobInfo> {
+    override fun scheduleSync(): Flow<SyncJobInfo> {
+        val identifier = UUID.randomUUID()
         val flow = MutableStateFlow<SyncJobInfo>(SyncJobInfo.Scheduled)
 
         val job = scope.launch {
             flow.emit(SyncJobInfo.Running)
             val result = syncAdapter.performSync()
+
+            syncFailedFlow.emit(result.isFailed)
 
             val info = SyncJobInfo.Finished(result)
             flow.emit(info)
@@ -47,15 +50,13 @@ internal class CoroutineSyncManager(
         return flow
     }
 
-    override fun stopSync(identifier: Uuid) {
-        jobQueue.removeIf { it.uuid == identifier }
-    }
+    override fun workerFailed(): Flow<Boolean> = syncFailedFlow
 
     override fun isSyncJobActive(): Flow<Boolean> = jobActiveFlow
 
     data class JobWithId(
         val job: Job,
-        val uuid: Uuid
+        val uuid: UUID
     )
 
 }

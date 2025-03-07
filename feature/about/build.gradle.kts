@@ -11,10 +11,8 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":ui"))
             implementation(project(":common-ui"))
-            implementation(project(":domain"))
-            implementation(project(":sync"))
-            implementation(project(":model"))
-            implementation(project(":data"))
+
+            api(libs.webview)
         }
     }
 }

@@ -5,16 +5,14 @@ import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.fasterxml.uuid.Generators
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import me.bumiller.mol.model.sync.SyncJobInfo
 import me.bumiller.mol.model.sync.SyncResult
 import me.bumiller.mol.sync.SyncManager
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
-import kotlin.uuid.toJavaUuid
 
-@OptIn(ExperimentalUuidApi::class)
 internal class WorkManagerSyncManager(
     context: Context
 ) : SyncManager {
@@ -23,26 +21,29 @@ internal class WorkManagerSyncManager(
         WorkManager.getInstance(context)
     }
 
-    override fun scheduleSync(identifier: Uuid): Flow<SyncJobInfo> {
+    override fun scheduleSync(): Flow<SyncJobInfo> {
         val workRequest = OneTimeWorkRequestBuilder<SyncWorker>()
-            .setId(identifier.toJavaUuid())
+            .addTag(SYNC_TAG)
+            .setId(Generators.timeBasedGenerator().generate())
             .build()
 
         workManager.enqueue(workRequest)
 
-        return workManager.getWorkInfoByIdFlow(identifier.toJavaUuid())
+        return workManager.getWorkInfoByIdFlow(workRequest.id)
             .map { workInfo ->
-                when (workInfo?.state) {
-                    androidx.work.WorkInfo.State.ENQUEUED,
-                    androidx.work.WorkInfo.State.BLOCKED -> SyncJobInfo.Scheduled
-
-                    androidx.work.WorkInfo.State.RUNNING -> SyncJobInfo.Running
-                    androidx.work.WorkInfo.State.SUCCEEDED -> mapOutputData(workInfo.outputData)
-                    androidx.work.WorkInfo.State.FAILED -> mapOutputData(workInfo.outputData)
-                    androidx.work.WorkInfo.State.CANCELLED -> SyncJobInfo.Cancelled
-                    null -> throw IllegalStateException("Did not find a scheduled or for a uuid.")
-                }
+                workInfo?.toSyncJobInfo()
+                    ?: throw Error("Did not find the just recently started worker")
             }
+    }
+
+    private fun WorkInfo.toSyncJobInfo() = when (state) {
+        WorkInfo.State.ENQUEUED,
+        WorkInfo.State.BLOCKED -> SyncJobInfo.Scheduled
+
+        WorkInfo.State.RUNNING -> SyncJobInfo.Running
+        WorkInfo.State.SUCCEEDED -> mapOutputData(outputData)
+        WorkInfo.State.FAILED -> mapOutputData(outputData)
+        WorkInfo.State.CANCELLED -> SyncJobInfo.Cancelled
     }
 
     private fun mapOutputData(data: Data): SyncJobInfo =
@@ -50,9 +51,20 @@ internal class WorkManagerSyncManager(
             SyncJobInfo.Finished(SyncResult.valueOf(it))
         } ?: throw IllegalStateException("Worker finished successfully with no data")
 
-    override fun stopSync(identifier: Uuid) {
-        workManager.cancelWorkById(identifier.toJavaUuid())
-    }
+    private val workerFailedFlow = workManager
+        .getWorkInfosByTagFlow(SYNC_TAG)
+        .map { infos ->
+            infos
+                .maxByOrNull { it.id.timestamp() }
+        }
+        .filterNotNull()
+        .map { info ->
+            val jobInfo = info.toSyncJobInfo()
+
+            jobInfo is SyncJobInfo.Finished && jobInfo.result.isFailed
+        }
+
+    override fun workerFailed(): Flow<Boolean> = workerFailedFlow
 
     override fun isSyncJobActive(): Flow<Boolean> = workManager
         .getWorkInfosByTagFlow(SYNC_TAG)

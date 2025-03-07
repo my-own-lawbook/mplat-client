@@ -30,6 +30,21 @@ internal sealed interface DashboardUiEvent : UiEvent {
      */
     data object ClickAddBook : DashboardUiEvent
 
+    /**
+     * User clicked on the menu action.
+     */
+    data object ClickMenu : DashboardUiEvent
+
+    /**
+     * User clicked on the about menu item.
+     */
+    data object ClickAbout : DashboardUiEvent
+
+    /**
+     * User clicked on the sync action.
+     */
+    data object ClickSync : DashboardUiEvent
+
 }
 
 /**
@@ -41,6 +56,11 @@ internal sealed interface DashboardEvent : ViewModelEvent {
      * The dialog for the add book action should be opened.
      */
     data object ShowAddBookDialog : DashboardEvent
+
+    /**
+     * The user should be navigated to the about screen.
+     */
+    data object GoToAbout : DashboardEvent
 
     /**
      * The app should navigate to the book detail screen.
