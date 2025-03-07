@@ -26,6 +26,13 @@ interface SyncManager {
     fun stopSync(identifier: Uuid)
 
     /**
+     * Creates a flow that emits true everytime a worker failed.
+     *
+     * @return The described flow
+     */
+    fun workerFailed(): Flow<Boolean>
+
+    /**
      * Checks whether a sync job is active.
      *
      * @return A flow containing whether a sync jib is active to a certain point

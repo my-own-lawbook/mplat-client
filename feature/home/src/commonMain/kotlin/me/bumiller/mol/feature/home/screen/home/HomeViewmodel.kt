@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.bumiller.mol.common.ui.event.UiEvent
 import me.bumiller.mol.common.ui.viewmodel.MolViewModel
-import me.bumiller.mol.model.sync.SyncJobInfo
 import me.bumiller.mol.sync.SyncManager
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -21,10 +20,12 @@ internal class HomeViewmodel(
         val syncJobFlow = syncManager.scheduleSync(Uuid.random())
 
         viewModelScope.launch {
-            syncJobFlow.collect { jobInfo ->
-                if (jobInfo is SyncJobInfo.Finished && jobInfo.result.isFailed) {
+            syncManager.workerFailed().collect { failed ->
+                if (failed) {
                     fireEvent(HomeEvent.SyncFailed)
                 }
+            }
+            syncJobFlow.collect { jobInfo ->
                 setSyncJobInfo(jobInfo)
             }
         }

@@ -23,6 +23,8 @@ internal class CoroutineSyncManager(
 
     private val jobActiveFlow = MutableStateFlow(false)
 
+    private val syncFailedFlow = MutableStateFlow(false)
+
     private fun updateActiveFlow() {
         jobActiveFlow.value = jobQueue.isNotEmpty()
     }
@@ -33,6 +35,8 @@ internal class CoroutineSyncManager(
         val job = scope.launch {
             flow.emit(SyncJobInfo.Running)
             val result = syncAdapter.performSync()
+
+            syncFailedFlow.emit(result.isFailed)
 
             val info = SyncJobInfo.Finished(result)
             flow.emit(info)
@@ -50,6 +54,8 @@ internal class CoroutineSyncManager(
     override fun stopSync(identifier: Uuid) {
         jobQueue.removeIf { it.uuid == identifier }
     }
+
+    override fun workerFailed(): Flow<Boolean> = syncFailedFlow
 
     override fun isSyncJobActive(): Flow<Boolean> = jobActiveFlow
 

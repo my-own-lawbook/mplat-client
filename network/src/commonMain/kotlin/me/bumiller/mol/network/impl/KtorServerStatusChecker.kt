@@ -18,14 +18,11 @@ internal class KtorServerStatusChecker : ServerStatusChecker {
         val response = try {
             client.get("$url$PingPath")
         } catch (e: IOException) {
-            println("ex: $e")
             null
         } catch (e: UnresolvedAddressException) {
-            println("ex: $e")
             null
         }
 
-        println("Will return for res $response")
         return response?.status == HttpStatusCode.OK
     }
 

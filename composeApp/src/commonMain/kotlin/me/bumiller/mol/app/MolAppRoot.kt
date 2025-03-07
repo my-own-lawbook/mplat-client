@@ -10,7 +10,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import me.bumiller.mol.feature.about.navigation.AboutLocation
 import me.bumiller.mol.feature.about.navigation.aboutScreens
 import me.bumiller.mol.feature.auth.navigation.AuthLocation
 import me.bumiller.mol.feature.auth.navigation.authLocation
@@ -77,7 +76,7 @@ private fun MolAppRootNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = AboutLocation
+        startDestination = initialLocation.asNavRoute
     ) {
         aboutScreens()
         homeLocation()
