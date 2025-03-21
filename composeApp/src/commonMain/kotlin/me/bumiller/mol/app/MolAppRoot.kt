@@ -81,7 +81,14 @@ private fun MolAppRootNavHost(
     ) {
         aboutScreens()
         homeLocation(
-            onGoToAbout = { navController.navigate(AboutLocation) }
+            onGoToAbout = { navController.navigate(AboutLocation) },
+            onGoToAuth = {
+                navController.navigate(AuthLocation) {
+                    popUpTo<HomeLocation> {
+                        inclusive = true
+                    }
+                }
+            }
         )
         onboardingLocation(
             onOnboardingFinished = {

@@ -15,11 +15,13 @@ data object HomeLocation
  * Method to add a nav destination for [HomeLocation] to the nav graph.
  */
 fun NavGraphBuilder.homeLocation(
-    onGoToAbout: () -> Unit
+    onGoToAbout: () -> Unit,
+    onGoToAuth: () -> Unit
 ) {
     composable<HomeLocation> {
         HomeScreen(
-            onGoToAbout = onGoToAbout
+            onGoToAbout = onGoToAbout,
+            onGoToAuth = onGoToAuth
         )
     }
 }
