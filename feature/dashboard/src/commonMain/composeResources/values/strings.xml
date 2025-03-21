@@ -5,4 +5,5 @@
     <string name="cd_sync_action">Start sync</string>
     <string name="cd_menu_action">Open menu</string>
     <string name="menu_about_label">About Civoris</string>
+    <string name="menu_logout_label">Logout</string>
 </resources>

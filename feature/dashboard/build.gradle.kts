@@ -10,6 +10,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":ui"))
+            implementation(project(":settings"))
             implementation(project(":common-ui"))
             implementation(project(":domain"))
             implementation(project(":sync"))

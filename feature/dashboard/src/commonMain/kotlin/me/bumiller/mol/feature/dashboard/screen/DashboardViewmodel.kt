@@ -14,17 +14,17 @@ import me.bumiller.mol.model.sort.SortConfig
 import me.bumiller.mol.model.sort.SortDirection
 import me.bumiller.mol.model.sort.SortMode
 import me.bumiller.mol.model.state.SimpleState
+import me.bumiller.mol.settings.UserSettingsSource
 import me.bumiller.mol.sync.SyncManager
-import kotlin.uuid.ExperimentalUuidApi
 
 /**
  * Viewmodel for the dashboard screen.
  */
-@OptIn(ExperimentalUuidApi::class)
 internal class DashboardViewmodel(
     private val getBooks: GetBooksUsecase,
     private val getInvitations: GetInvitationsUsecase,
-    private val syncManager: SyncManager
+    private val syncManager: SyncManager,
+    private val settingsSource: UserSettingsSource
 ) : MolViewModel<DashboardUiEvent, DashboardEvent>() {
 
     init {
@@ -57,6 +57,21 @@ internal class DashboardViewmodel(
 
         DashboardUiEvent.ClickMenu -> updateUiState<DashboardUiState> { it.copy(isMenuOpened = !it.isMenuOpened) }
         DashboardUiEvent.ClickSync -> sync()
+        DashboardUiEvent.Logout -> {
+            updateUiState<DashboardUiState> { it.copy(isMenuOpened = false) }
+            fireEvent(DashboardEvent.GoToAuth)
+            deleteTokens()
+        }
+    }
+
+    private suspend fun deleteTokens() {
+        val settings = settingsSource.settings.value
+        val newSettings = settings.copy(
+            accessToken = null,
+            refreshToken = null
+        )
+
+        settingsSource.update(newSettings)
     }
 
     private suspend fun sync() {

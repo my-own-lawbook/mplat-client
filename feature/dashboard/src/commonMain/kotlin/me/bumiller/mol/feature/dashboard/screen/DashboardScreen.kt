@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.CloudSync
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.DropdownMenu
@@ -26,6 +27,7 @@ import me.bumiller.mol.dashboard.dashboard_books_title
 import me.bumiller.mol.dashboard.dashboard_invitations_title
 import me.bumiller.mol.dashboard.dashboard_title
 import me.bumiller.mol.dashboard.menu_about_label
+import me.bumiller.mol.dashboard.menu_logout_label
 import me.bumiller.mol.model.aggregate.LawBookInvitationAggregate
 import me.bumiller.mol.model.law.LawBook
 import me.bumiller.mol.ui.components.TopAppBarStyles
@@ -39,7 +41,8 @@ internal fun DashboardScreen(
     onGoToBookDetail: (LawBook) -> Unit,
     onGoToInvitationDetail: (LawBookInvitationAggregate) -> Unit,
     onOpenAddBookDialog: () -> Unit,
-    onGoToAbout: () -> Unit
+    onGoToAbout: () -> Unit,
+    onGoToAuth: () -> Unit
 ) {
     ViewModelScope<DashboardUiEvent, DashboardEvent, DashboardViewmodel>(
         onViewModelEvent = {
@@ -48,6 +51,7 @@ internal fun DashboardScreen(
                 is DashboardEvent.GoToInvitationDetail -> onGoToInvitationDetail(it.invitation)
                 DashboardEvent.ShowAddBookDialog -> onOpenAddBookDialog()
                 DashboardEvent.GoToAbout -> onGoToAbout()
+                DashboardEvent.GoToAuth -> onGoToAuth()
             }
         }
     ) { vm ->
@@ -104,6 +108,18 @@ private fun DashboardScreen(
                         Text(stringResource(Res.string.menu_about_label))
                     },
                     onClick = { onEvent(DashboardUiEvent.ClickAbout) }
+                )
+                DropdownMenuItem(
+                    text = {
+                        Text(stringResource(Res.string.menu_logout_label))
+                    },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Outlined.Logout,
+                            contentDescription = stringResource(Res.string.menu_logout_label)
+                        )
+                    },
+                    onClick = { onEvent(DashboardUiEvent.Logout) }
                 )
             }
         },
