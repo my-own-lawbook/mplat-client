@@ -1,9 +1,12 @@
 package me.bumiller.mol.common.ui.input.validation
 
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import me.bumiller.mol.common.ui.input.InputValue
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
 
 /**
  * Validates an input value based on the semantic that is bound to it.
@@ -13,43 +16,48 @@ import java.time.LocalTime
  */
 fun <Type> validateValue(inputValue: InputValue<Type>): InputValue<Type> {
     val error = inputValue.semantics.firstNotNullOfOrNull { getError(inputValue.value, it) }
+    println("Got error: $error")
 
 
     return inputValue.copy(error = error)
 }
 
-private fun <T> getError(value: T, semantic: InputSemantic) = when (value) {
-    is String -> when (semantic) {
-        InputSemantic.Password -> validatePassword(value)
-        InputSemantic.Email -> validateEmail(value)
-        InputSemantic.Name -> validateName(value)
-        InputSemantic.NonEmpty -> validateNonEmpty(value)
-        InputSemantic.Url -> validateUrl(value)
-        InputSemantic.Username -> validateUsername(value)
+private fun <T> getError(value: T, semantic: InputSemantic): ValidationError? {
+    println("Got value $value and semantic $semantic")
+    return when (value) {
+
+        is String -> when (semantic) {
+            InputSemantic.Password -> validatePassword(value)
+            InputSemantic.Email -> validateEmail(value)
+            InputSemantic.Name -> validateName(value)
+            InputSemantic.NonEmpty -> validateNonEmpty(value)
+            InputSemantic.Url -> validateUrl(value)
+            InputSemantic.Username -> validateUsername(value)
+            else -> null
+        }
+
+        is LocalDate -> when (semantic) {
+            InputSemantic.NotInFuture -> validateNotInFuture(value)
+            else -> null
+        }
+
+        is LocalDateTime -> when (semantic) {
+            InputSemantic.NotInFuture -> validateNotInFuture(value)
+            else -> null
+        }
+
+        is LocalTime -> when (semantic) {
+            InputSemantic.NotInFuture -> validateNotInFuture(value)
+            else -> null
+        }
+
+        null -> when (semantic) {
+            InputSemantic.NotNull -> ValidationError.Empty
+            else -> null
+        }
+
         else -> null
     }
-
-    is LocalDate -> when (semantic) {
-        InputSemantic.NotInFuture -> validateNotInFuture(value)
-        else -> null
-    }
-
-    is LocalDateTime -> when (semantic) {
-        InputSemantic.NotInFuture -> validateNotInFuture(value)
-        else -> null
-    }
-
-    is LocalTime -> when (semantic) {
-        InputSemantic.NotInFuture -> validateNotInFuture(value)
-        else -> null
-    }
-
-    null -> when (semantic) {
-        InputSemantic.NotNull -> validateNotNull(null)
-        else -> null
-    }
-
-    else -> null
 }
 
 /**
@@ -71,23 +79,18 @@ private fun validateUsername(string: String): ValidationError? =
     if (!Regex(USERNAME).matches(string)) ValidationError.UsernameFormat
     else null
 
-
-private fun <Type> validateNotNull(value: Type) =
-    if (value == null) ValidationError.Empty
-    else null
-
 private fun validateNotInFuture(value: LocalDate): ValidationError? =
-    if (value.isAfter(LocalDate.now()))
+    if (value > Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date)
         ValidationError.DateInFuture
     else null
 
 private fun validateNotInFuture(value: LocalDateTime): ValidationError? =
-    if (value.isAfter(LocalDateTime.now()))
+    if (value > Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()))
         ValidationError.DateInFuture
     else null
 
 private fun validateNotInFuture(value: LocalTime): ValidationError? =
-    if (value.isAfter(LocalTime.now()))
+    if (value > Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time)
         ValidationError.DateInFuture
     else null
 
