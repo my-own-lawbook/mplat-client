@@ -19,7 +19,8 @@ internal val bookMapper = EntityMapper<LawBookResponse, BookEntity> { response, 
         response.key,
         response.name,
         response.description,
-        entity?.isFavourite ?: false
+        entity?.isFavourite ?: false,
+        response.isMemberOf
     )
 }
 

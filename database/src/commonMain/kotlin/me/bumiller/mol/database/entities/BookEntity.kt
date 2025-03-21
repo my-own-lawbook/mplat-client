@@ -33,6 +33,11 @@ data class BookEntity(
     /**
      * Whether the book has been marked as favourite
      */
-    val isFavourite: Boolean
+    val isFavourite: Boolean,
+
+    /**
+     * Whether the user is a member of that book (true), or only has temporary access to it due to an invitation (false)
+     */
+    val isMember: Boolean
 
 ) : SimpleEntity

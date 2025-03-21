@@ -28,10 +28,13 @@ class MappingTest : BaseDataTest() {
     @Test
     @DisplayName("Mapping a BookEntity to a LawBook copies the right attributes")
     fun mapBookModelWorks() {
-        val entity = BookEntity(45L, "key 3", "name 24", "description 21", false)
+        val entity = BookEntity(45L, "key 3", "name 24", "description 21", false, false)
         val model = mapBookModel(entity)
 
-        Assertions.assertEquals(LawBook(45L, "key 3", "name 24", "description 21", false), model)
+        Assertions.assertEquals(
+            LawBook(45L, "key 3", "name 24", "description 21", false, false),
+            model
+        )
     }
 
     @Test

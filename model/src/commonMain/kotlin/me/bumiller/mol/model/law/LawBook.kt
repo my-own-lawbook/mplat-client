@@ -27,6 +27,11 @@ data class LawBook(
     /**
      * Whether the book is marked as favourite
      */
-    val isFavourite: Boolean
+    val isFavourite: Boolean,
+
+    /**
+     * Whether the user is a member of this book(true) or only has temporary access to it (false)
+     */
+    val isMember: Boolean
 
 ) : Identifiable<Long>
