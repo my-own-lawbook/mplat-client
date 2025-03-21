@@ -111,9 +111,7 @@ fun NavGraphBuilder.authLocation(
                 }
             )
             profileScreen(
-                onFinished = {
-
-                }
+                onFinished = onAuthenticate
             )
             emailScreen(
                 onFinished = {
