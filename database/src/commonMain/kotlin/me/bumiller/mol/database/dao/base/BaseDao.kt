@@ -1,5 +1,8 @@
 package me.bumiller.mol.database.dao.base
 
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import me.bumiller.mol.database.entities.base.BaseEntity
 import me.bumiller.mol.database.entities.base.SimpleEntity
@@ -24,6 +27,7 @@ interface BaseDao<Entity : BaseEntity> {
      * @param entity The entity
      * @return The new rowId of the entity
      */
+    @Insert
     suspend fun insert(entity: Entity): Long
 
     /**
@@ -32,13 +36,15 @@ interface BaseDao<Entity : BaseEntity> {
      * @param entity The entity to update, identified by the [SimpleEntity.id] field
      * @return The number of updated columns
      */
+    @Update
     suspend fun update(entity: Entity): Int
 
     /**
-     * Deletes an entity by the specified id.
+     * Deletes an entity.
      *
      * @param entity The entity to delete
      */
-    suspend fun delete(vararg entity: Entity)
+    @Delete
+    suspend fun delete(entity: Entity)
 
 }
