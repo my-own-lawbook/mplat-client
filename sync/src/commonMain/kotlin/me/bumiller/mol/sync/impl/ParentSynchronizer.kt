@@ -22,6 +22,8 @@ internal class ParentSynchronizer<Response : RestResponse, Entity : SimpleEntity
             dataOrNull() ?: return SyncResult.Network
         }
 
+        val allResponses = mutableListOf<Response>()
+
         parentResponses.forEach { parent ->
             val responses = service.getByParent(parent.id).run {
                 dataOrNull() ?: return SyncResult.Network
@@ -30,9 +32,23 @@ internal class ParentSynchronizer<Response : RestResponse, Entity : SimpleEntity
             responses.forEach {
                 syncResponse(it, parent.id)
             }
+
+            allResponses.addAll(responses)
         }
 
+        deleteOldLocals(allResponses)
+
         return SyncResult.Success
+    }
+
+    private suspend fun deleteOldLocals(responses: List<Response>) {
+        val entities = dao.getAll().first()
+
+        entities.forEach { entity ->
+            if (responses.none { it.id == entity.id }) {
+                dao.delete(entity)
+            }
+        }
     }
 
     private suspend fun syncResponse(response: Response, parentId: Long) {

@@ -24,7 +24,19 @@ internal class SimpleSynchronizer<Response : RestResponse, Entity : SimpleEntity
             syncResponse(response)
         }
 
+        deleteOldLocals(responses)
+
         return SyncResult.Success
+    }
+
+    private suspend fun deleteOldLocals(responses: List<Response>) {
+        val entities = dao.getAll().first()
+
+        entities.forEach { entity ->
+            if (responses.none { it.id == entity.id }) {
+                dao.delete(entity)
+            }
+        }
     }
 
     private suspend fun syncResponse(response: Response) {
