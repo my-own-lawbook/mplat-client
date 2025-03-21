@@ -78,17 +78,23 @@ internal class UserSettingsSourceImpl(
 
     private fun saveUserSettings(userSettings: UserSettings, updateFlow: Boolean = true) =
         with(settingsSource) {
-        putString(KeyMode, userSettings.colorMode.name.lowercase())
-        putString(KeyScheme, userSettings.colorScheme.name.lowercase())
-        putString(KeyContrastLevel, userSettings.contrastLevel.name.lowercase())
+            putString(KeyMode, userSettings.colorMode.name.lowercase())
+            putString(KeyScheme, userSettings.colorScheme.name.lowercase())
+            putString(KeyContrastLevel, userSettings.contrastLevel.name.lowercase())
 
-        userSettings.backendUrl?.let { putString(KeyUrl, it.toString()) }
-        userSettings.accessToken?.let { putString(KeyAccess, it) }
-        userSettings.refreshToken?.let { putString(KeyRefresh, it) }
+            userSettings.backendUrl?.let {
+                putString(KeyUrl, it.toString())
+            } ?: remove(KeyUrl)
+            userSettings.accessToken?.let {
+                putString(KeyAccess, it)
+            } ?: remove(KeyAccess)
+            userSettings.refreshToken?.let {
+                putString(KeyRefresh, it)
+            } ?: remove(KeyRefresh)
 
             if (updateFlow) {
                 _settings.value = userSettings
             }
-    }
+        }
 
 }
