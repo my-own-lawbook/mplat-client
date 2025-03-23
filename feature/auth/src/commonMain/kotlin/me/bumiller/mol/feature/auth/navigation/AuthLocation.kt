@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.serialization.Serializable
+import me.bumiller.mol.feature.auth.model.SignupStage
 import me.bumiller.mol.feature.auth.screen.email.EmailScreen
 import me.bumiller.mol.feature.auth.screen.login.LoginScreen
 import me.bumiller.mol.feature.auth.screen.profile.ProfileScreen
@@ -62,6 +63,11 @@ fun NavGraphBuilder.authLocation(
 ) = composable<AuthLocation> {
     val navController = rememberNavController()
 
+    val onStageChanged = { stage: SignupStage ->
+        stage.navigationDestination()?.let(navController::navigate)
+            ?: onAuthenticate()
+    }
+
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -95,13 +101,7 @@ fun NavGraphBuilder.authLocation(
             )
             signupScreen(
                 onBack = { navController.popBackStack() },
-                onFinished = {
-                    navController.navigate(EmailScreen) {
-                        popUpTo(SignupScreen) {
-                            inclusive = true
-                        }
-                    }
-                },
+                onStageChange = onStageChanged,
                 onLogin = {
                     navController.navigate(LoginScreen) {
                         popUpTo(SignupScreen) {
@@ -111,12 +111,10 @@ fun NavGraphBuilder.authLocation(
                 }
             )
             profileScreen(
-                onFinished = onAuthenticate
+                onStageChanged = onStageChanged
             )
             emailScreen(
-                onFinished = {
-                    navController.navigate(ProfileScreen)
-                }
+                onStageChange = onStageChanged
             )
         }
     }
@@ -159,42 +157,49 @@ internal fun NavGraphBuilder.loginScreen(
 /**
  * Builds the signup-screen-destination inside a nav-graph-builder.
  *
- * @param onBack The callback for when the user wants to return to the recent screen.
- * @param onFinished The callback for when the signup process finished.
- * @param onLogin The callback for when the user navigates to the login screen.
+ * @param onBack The callback for when the user wants to return to the recent screen
+ * @param onStageChange The callback for when the signup stage changes
+ * @param onLogin The callback for when the user navigates to the login screen
  */
 internal fun NavGraphBuilder.signupScreen(
     onBack: () -> Unit,
-    onFinished: () -> Unit,
+    onStageChange: (SignupStage) -> Unit,
     onLogin: () -> Unit
 ) {
     composable<SignupScreen> {
-        SignupScreen(onBack, onFinished, onLogin)
+        SignupScreen(onBack, onStageChange, onLogin)
     }
 }
 
 /**
  * Builds the email-screen-destination inside a nav-graph-builder.
  *
- * @param onFinished The callback for when the email process finished.
+ * @param onStageChange The callback for when the signup stage changes
  */
 internal fun NavGraphBuilder.emailScreen(
-    onFinished: () -> Unit
+    onStageChange: (SignupStage) -> Unit
 ) {
     composable<EmailScreen> {
-        EmailScreen(onFinished)
+        EmailScreen(onStageChange)
     }
 }
 
 /**
  * Builds the profile-screen-destination inside a nav-graph-builder.
  *
- * @param onFinished The callback for when the profile process finished.
+ * @param onStageChanged The callback for when the signup stage changes
  */
 internal fun NavGraphBuilder.profileScreen(
-    onFinished: () -> Unit
+    onStageChanged: (SignupStage) -> Unit
 ) {
     composable<ProfileScreen> {
-        ProfileScreen(onFinished)
+        ProfileScreen(onStageChanged)
     }
+}
+
+private fun SignupStage.navigationDestination(): Any? = when (this) {
+    SignupStage.NotStarted -> SignupScreen
+    SignupStage.AccountCreated -> EmailScreen
+    SignupStage.EmailVerified -> ProfileScreen
+    SignupStage.Finished -> null
 }
