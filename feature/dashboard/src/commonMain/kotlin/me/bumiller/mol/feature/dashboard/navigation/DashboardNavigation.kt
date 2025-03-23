@@ -16,9 +16,13 @@ data object DashboardScreen
 
 /**
  * Extension function that adds a nav destination for the [DashboardScreen] route.
+ *
+ * @param onGoToAbout Callback called when the user should be redirected to the about screen
+ * @param onGoToAuth Callback called when the user should be redirected to the auth screen
  */
 fun NavGraphBuilder.dashboard(
-    onGoToAbout: () -> Unit
+    onGoToAbout: () -> Unit,
+    onGoToAuth: () -> Unit
 ) {
     composable<DashboardScreen> {
         Column(
@@ -30,7 +34,8 @@ fun NavGraphBuilder.dashboard(
                 onGoToInvitationDetail = {},
                 onGoToBookDetail = {},
                 onOpenAddBookDialog = {},
-                onGoToAbout = onGoToAbout
+                onGoToAbout = onGoToAbout,
+                onGoToAuth = onGoToAuth
             )
         }
     }

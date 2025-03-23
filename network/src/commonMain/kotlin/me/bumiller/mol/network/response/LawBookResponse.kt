@@ -23,6 +23,11 @@ data class LawBookResponse(
     /**
      * The description of the book.
      */
-    val description: String
+    val description: String,
+
+    /**
+     * Whether the user is a member of the book, or only has temporary access to it due to a pending invitation.
+     */
+    val isMemberOf: Boolean
 
 ) : RestResponse

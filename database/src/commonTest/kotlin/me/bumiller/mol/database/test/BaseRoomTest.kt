@@ -59,7 +59,8 @@ abstract class BaseRoomTest {
         key = "key $key",
         name = "name $key",
         description = "description $key",
-        isFavourite = key % 2L == 0L
+        isFavourite = key % 2L == 0L,
+        isMember = key % 2L == 1L
     )
 
     /**

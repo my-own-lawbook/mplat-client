@@ -45,6 +45,11 @@ internal sealed interface DashboardUiEvent : UiEvent {
      */
     data object ClickSync : DashboardUiEvent
 
+    /**
+     * The user clicked on the logout menu item.
+     */
+    data object Logout : DashboardUiEvent
+
 }
 
 /**
@@ -61,6 +66,11 @@ internal sealed interface DashboardEvent : ViewModelEvent {
      * The user should be navigated to the about screen.
      */
     data object GoToAbout : DashboardEvent
+
+    /**
+     * The user should be navigated back to the auth screen, usually after logging out.
+     */
+    data object GoToAuth : DashboardEvent
 
     /**
      * The app should navigate to the book detail screen.

@@ -15,7 +15,7 @@ import me.bumiller.mol.model.law.MemberRole
 import me.bumiller.mol.model.user.Gender
 
 internal fun mapBookModel(bookEntity: BookEntity) = bookEntity.run {
-    LawBook(id, key, name, description, isFavourite)
+    LawBook(id, key, name, description, isFavourite, isMember)
 }
 
 internal fun mapEntryModel(entryEntity: EntryEntity) = entryEntity.run {

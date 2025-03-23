@@ -34,7 +34,8 @@ import kotlin.system.exitProcess
  */
 @Composable
 internal fun HomeScreen(
-    onGoToAbout: () -> Unit
+    onGoToAbout: () -> Unit,
+    onGoToAuth: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val syncFailedMessage = stringResource(Res.string.sync_failed_snackbar_message)
@@ -84,7 +85,8 @@ internal fun HomeScreen(
                 ) {
                     HomeNavHost(
                         controller = navController,
-                        onGoToAbout = onGoToAbout
+                        onGoToAbout = onGoToAbout,
+                        onGoToAuth = onGoToAuth
                     )
                 }
             }
@@ -105,14 +107,16 @@ private fun NavBackStackEntry?.toRouteSafe(): Any? = this?.let {
 @Composable
 private fun HomeNavHost(
     controller: NavHostController,
-    onGoToAbout: () -> Unit
+    onGoToAbout: () -> Unit,
+    onGoToAuth: () -> Unit
 ) {
     NavHost(
         navController = controller,
         startDestination = DashboardScreen
     ) {
         dashboard(
-            onGoToAbout = onGoToAbout
+            onGoToAbout = onGoToAbout,
+            onGoToAuth = onGoToAuth
         )
         profile()
     }

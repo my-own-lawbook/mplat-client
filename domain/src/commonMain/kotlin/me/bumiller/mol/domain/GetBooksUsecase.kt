@@ -33,7 +33,12 @@ class GetBooksUsecase(
         /**
          * Whether only favourites should be returned.
          */
-        val onlyFavorites: Boolean = false
+        val onlyFavorites: Boolean = false,
+
+        /**
+         * Whether only books should be included of which the user is a member of, and does not only have temporary access to.
+         */
+        val onlyMemberOf: Boolean = true
 
     )
 
@@ -44,6 +49,7 @@ class GetBooksUsecase(
 
     private fun List<LawBook>.applyQuery(query: Query) =
         filterOnlyFavorites(query.onlyFavorites)
+            .filterOnlyMemberOf(query.onlyMemberOf)
             .sortWith(query.sortConfig)
             .splitFavorites(query.favoritesToBeginning)
 
@@ -58,6 +64,10 @@ class GetBooksUsecase(
 
     private fun List<LawBook>.filterOnlyFavorites(filter: Boolean) =
         if (filter) filter { it.isFavourite }
+        else this
+
+    private fun List<LawBook>.filterOnlyMemberOf(filter: Boolean) =
+        if (filter) filter { it.isMember }
         else this
 
 }

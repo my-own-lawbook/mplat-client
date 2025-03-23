@@ -38,7 +38,7 @@ internal class NetworkDatabaseSyncAdapter(
         SimpleSynchronizer(userMapper, foreignUserDao, foreignUserService)
 
     private val entrySynchronizer =
-        ParentSynchronizer(entryMapper, entryDao, entryService, bookService)
+        ParentSynchronizer(entryMapper, entryDao, entryService, bookService) { it.isMemberOf }
     private val sectionSynchronizer =
         ParentSynchronizer(sectionMapper, sectionDao, sectionService, entryService)
 

@@ -33,6 +33,10 @@ internal data class ProfileUiState(
     /**
      * The input value for the birthday.
      */
-    val birthday: InputValue<LocalDate?> = inputValue(null, InputSemantic.NotNull)
+    val birthday: InputValue<LocalDate?> = inputValue(
+        null,
+        InputSemantic.NotNull,
+        InputSemantic.NotInFuture
+    )
 
 )
