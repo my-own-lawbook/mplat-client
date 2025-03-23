@@ -1,12 +1,12 @@
 package me.bumiller.mol.feature.auth.screen.signup
 
 import me.bumiller.mol.common.ui.event.UiEvent
-import me.bumiller.mol.common.ui.event.ViewModelEvent
+import me.bumiller.mol.feature.auth.screen.SignupStageEvent
 
 /**
  * Events fired by the signup screen.
  */
-sealed interface SignupUiEvent : UiEvent {
+internal sealed interface SignupUiEvent : UiEvent {
 
     /**
      * User changed the email input.
@@ -48,17 +48,12 @@ sealed interface SignupUiEvent : UiEvent {
 /**
  * Events fired by the signup view model.
  */
-sealed interface SignupEvent : ViewModelEvent {
+internal sealed interface SignupEvent : SignupStageEvent {
 
     /**
      * Will return to previous screen.
      */
     data object Back : SignupEvent
-
-    /**
-     * Finished the signup process.
-     */
-    data object Finished : SignupEvent
 
     /**
      * Proceeding to the login screen.

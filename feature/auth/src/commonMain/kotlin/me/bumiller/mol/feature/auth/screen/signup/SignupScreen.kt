@@ -34,6 +34,8 @@ import me.bumiller.mol.auth.signup_screen_login_link_suffix
 import me.bumiller.mol.auth.signup_screen_signup_button_label
 import me.bumiller.mol.auth.signup_screen_title
 import me.bumiller.mol.common.ui.viewmodel.ViewModelScope
+import me.bumiller.mol.feature.auth.model.SignupStage
+import me.bumiller.mol.feature.auth.screen.SignupStageEvent
 import me.bumiller.mol.ui.components.BackIconButton
 import me.bumiller.mol.ui.components.MolTextField
 import me.bumiller.mol.ui.components.MultiStyleText
@@ -47,22 +49,22 @@ import org.jetbrains.compose.resources.stringResource
 /**
  * Composable for the signup screen.
  *
- * @param onBack The callback for when the user wants to return to the recent screen.
- * @param onFinished The callback for when the signup process finished.
- * @param onLogin The callback for when the user navigates to the login screen.
+ * @param onBack The callback for when the user wants to return to the recent screen
+ * @param onStageChange The callback for when the signup stage changes
+ * @param onLogin The callback for when the user navigates to the login screen
  */
 @Composable
 internal fun SignupScreen(
     onBack: () -> Unit,
-    onFinished: () -> Unit,
+    onStageChange: (SignupStage) -> Unit,
     onLogin: () -> Unit
 ) {
-    ViewModelScope<SignupUiEvent, SignupEvent, SignupViewModel>(
+    ViewModelScope<SignupUiEvent, SignupStageEvent, SignupViewModel>(
         onViewModelEvent = { event ->
             when (event) {
-                SignupEvent.Back -> onBack()
-                SignupEvent.Finished -> onFinished()
+                is SignupStageEvent.SignupStageChanged -> onStageChange(event.stage)
                 SignupEvent.Login -> onLogin()
+                SignupEvent.Back -> onBack()
             }
         }
     ) { vm ->

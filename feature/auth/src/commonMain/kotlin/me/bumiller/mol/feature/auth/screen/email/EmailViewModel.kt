@@ -6,20 +6,21 @@ import kotlinx.coroutines.launch
 import me.bumiller.mol.auth.AuthResult
 import me.bumiller.mol.auth.AuthService
 import me.bumiller.mol.common.ui.input.validation.ValidationError
-import me.bumiller.mol.common.ui.viewmodel.MolViewModel
+import me.bumiller.mol.feature.auth.model.SignupStage
+import me.bumiller.mol.feature.auth.screen.SignupStageViewmodel
 import kotlin.time.Duration.Companion.seconds
 
 /**
  * View model for the email screen.
  */
-class EmailViewModel(
+internal class EmailViewModel(
 
     /**
      * The auth service.
      */
     private val authService: AuthService
 
-) : MolViewModel<EmailUiEvent, EmailEvent>() {
+) : SignupStageViewmodel<EmailUiEvent>(SignupStage.AccountCreated, authService) {
 
     init {
         registerUiState(EmailState())
@@ -75,7 +76,7 @@ class EmailViewModel(
         clearErrors()
 
         when (response) {
-            is AuthResult.Success -> fireEvent(EmailEvent.Finished)
+            is AuthResult.Success -> performStageCheck(true)
             is AuthResult.Error -> when (response.errorType) {
                 me.bumiller.mol.auth.SubmitEmailTokenError.InvalidToken -> updateUiState<EmailState> {
                     it.copy(token = it.token.copy(error = ValidationError.InvalidEmailToken))

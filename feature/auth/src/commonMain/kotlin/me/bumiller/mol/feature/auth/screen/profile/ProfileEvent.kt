@@ -2,7 +2,6 @@ package me.bumiller.mol.feature.auth.screen.profile
 
 import kotlinx.datetime.LocalDate
 import me.bumiller.mol.common.ui.event.UiEvent
-import me.bumiller.mol.common.ui.event.ViewModelEvent
 import me.bumiller.mol.model.user.Gender
 
 /**
@@ -34,17 +33,5 @@ internal sealed interface ProfileUiEvent : UiEvent {
      * User clicked on confirm.
      */
     data object Confirm : ProfileUiEvent
-
-}
-
-/**
- * Events fired by the profile view model.
- */
-internal sealed interface ProfileEvent : ViewModelEvent {
-
-    /**
-     * Profile has been set.
-     */
-    data object Continue : ProfileEvent
 
 }

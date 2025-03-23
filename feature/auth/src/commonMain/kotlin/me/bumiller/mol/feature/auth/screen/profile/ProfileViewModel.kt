@@ -4,7 +4,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import me.bumiller.mol.auth.AuthResult
 import me.bumiller.mol.auth.AuthService
 import me.bumiller.mol.common.ui.input.validation.validate
-import me.bumiller.mol.common.ui.viewmodel.MolViewModel
+import me.bumiller.mol.feature.auth.model.SignupStage
+import me.bumiller.mol.feature.auth.screen.SignupStageViewmodel
 import me.bumiller.mol.model.user.Profile
 
 /**
@@ -17,7 +18,7 @@ internal class ProfileViewModel(
      */
     private val authService: AuthService
 
-) : MolViewModel<ProfileUiEvent, ProfileEvent>() {
+) : SignupStageViewmodel<ProfileUiEvent>(SignupStage.EmailVerified, authService) {
 
     init {
         registerUiState(ProfileUiState())
@@ -77,7 +78,7 @@ internal class ProfileViewModel(
         }
 
         when (profileResponse) {
-            is AuthResult.Success -> fireEvent(ProfileEvent.Continue)
+            is AuthResult.Success -> performStageCheck(true)
             is AuthResult.Error, is AuthResult.UnknownError -> setHasUnknownError()
             is AuthResult.NetworkError -> setHasNetworkError()
         }

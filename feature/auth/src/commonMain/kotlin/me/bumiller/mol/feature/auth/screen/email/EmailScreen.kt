@@ -19,6 +19,8 @@ import me.bumiller.mol.auth.email_screen_resend_button_label
 import me.bumiller.mol.auth.email_screen_title
 import me.bumiller.mol.auth.email_screen_verify_button_label
 import me.bumiller.mol.common.ui.viewmodel.ViewModelScope
+import me.bumiller.mol.feature.auth.model.SignupStage
+import me.bumiller.mol.feature.auth.screen.SignupStageEvent
 import me.bumiller.mol.feature.auth.screen.component.OtpTextViews
 import me.bumiller.mol.ui.components.WideButton
 import me.bumiller.mol.ui.components.WideOutlinedButton
@@ -29,16 +31,16 @@ import org.jetbrains.compose.resources.stringResource
 /**
  * Composable for the email screen.
  *
- * @param onFinished The callback invoked when the email was verified.
+ * @param onStageChange Callback for when the signup stage changes
  */
 @Composable
 internal fun EmailScreen(
-    onFinished: () -> Unit
+    onStageChange: (SignupStage) -> Unit
 ) {
-    ViewModelScope<EmailUiEvent, EmailEvent, EmailViewModel>(
+    ViewModelScope<EmailUiEvent, SignupStageEvent, EmailViewModel>(
         onViewModelEvent = { event ->
             when (event) {
-                EmailEvent.Finished -> onFinished()
+                is SignupStageEvent.SignupStageChanged -> onStageChange(event.stage)
             }
         }
     ) { vm ->
@@ -80,17 +82,6 @@ private fun EmailScreen(
                     onEvent(EmailUiEvent.Continue)
                 }
             )
-            //MolTextField(
-            //    value = formState.token,
-            //    onValueChange = { onEvent(EmailUiEvent.ChangeToken(it)) },
-            //    label = {
-            //        Text(stringResource(Res.string.email_screen_input_token_label))
-            //    },
-            //    keyboardOptions = KeyboardOptions.Default.copy(
-            //        imeAction = ImeAction.Done
-            //    ),
-            //    keyboardActions = KeyboardActions { onEvent(EmailUiEvent.Continue) }
-            //)
 
             WideButton(
                 onClick = { onEvent(EmailUiEvent.Continue) }

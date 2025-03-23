@@ -1,12 +1,11 @@
 package me.bumiller.mol.feature.auth.screen.email
 
 import me.bumiller.mol.common.ui.event.UiEvent
-import me.bumiller.mol.common.ui.event.ViewModelEvent
 
 /**
  * Events fired by the email screen.
  */
-sealed interface EmailUiEvent : UiEvent {
+internal sealed interface EmailUiEvent : UiEvent {
 
     /**
      * User changed the token input
@@ -22,17 +21,5 @@ sealed interface EmailUiEvent : UiEvent {
      * User clicked to resend the email.
      */
     data object Resend : EmailUiEvent
-
-}
-
-/**
- * Events fired by the email view model.
- */
-sealed interface EmailEvent : ViewModelEvent {
-
-    /**
-     * Email was successfully verified.
-     */
-    data object Finished : EmailEvent
 
 }

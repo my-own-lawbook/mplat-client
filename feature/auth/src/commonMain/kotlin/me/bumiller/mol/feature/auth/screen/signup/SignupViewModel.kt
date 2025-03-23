@@ -5,19 +5,20 @@ import me.bumiller.mol.auth.AuthResult
 import me.bumiller.mol.auth.AuthService
 import me.bumiller.mol.common.ui.input.validation.ValidationError
 import me.bumiller.mol.common.ui.input.validation.validate
-import me.bumiller.mol.common.ui.viewmodel.MolViewModel
+import me.bumiller.mol.feature.auth.model.SignupStage
+import me.bumiller.mol.feature.auth.screen.SignupStageViewmodel
 
 /**
  * The view model for the signup screen.
  */
-class SignupViewModel(
+internal class SignupViewModel(
 
     /**
      * The auth service.
      */
     private val authService: AuthService
 
-) : MolViewModel<SignupUiEvent, SignupEvent>() {
+) : SignupStageViewmodel<SignupUiEvent>(SignupStage.NotStarted, authService) {
 
     init {
         registerUiState(SignupState())
@@ -86,7 +87,7 @@ class SignupViewModel(
         }
 
         when (signupResponse) {
-            is AuthResult.Success -> fireEvent(SignupEvent.Finished)
+            is AuthResult.Success -> performStageCheck(true)
 
             is AuthResult.Error -> when (signupResponse.errorType) {
                 me.bumiller.mol.auth.SignupError.EmailNotUnique -> updateUiState<SignupState> {

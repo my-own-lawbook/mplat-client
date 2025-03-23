@@ -26,6 +26,8 @@ import me.bumiller.mol.auth.profile_screen_input_last_name_label
 import me.bumiller.mol.auth.profile_screen_title
 import me.bumiller.mol.common.ui.localization.localizedName
 import me.bumiller.mol.common.ui.viewmodel.ViewModelScope
+import me.bumiller.mol.feature.auth.model.SignupStage
+import me.bumiller.mol.feature.auth.screen.SignupStageEvent
 import me.bumiller.mol.model.user.Gender
 import me.bumiller.mol.ui.components.DateTextField
 import me.bumiller.mol.ui.components.DropdownTextField
@@ -38,16 +40,16 @@ import org.jetbrains.compose.resources.stringResource
 /**
  * Composable for the profile screen.
  *
- * @param onFinished Callback when the user finished setting the profile.
+ * @param onStageChange Callback for when the signup stage changes
  */
 @Composable
 internal fun ProfileScreen(
-    onFinished: () -> Unit
+    onStageChange: (SignupStage) -> Unit
 ) {
-    ViewModelScope<ProfileUiEvent, ProfileEvent, ProfileViewModel>(
-        onViewModelEvent = {
-            when (it) {
-                ProfileEvent.Continue -> onFinished()
+    ViewModelScope<ProfileUiEvent, SignupStageEvent, ProfileViewModel>(
+        onViewModelEvent = { event ->
+            when (event) {
+                is SignupStageEvent.SignupStageChanged -> onStageChange(event.stage)
             }
         }
     ) { vm ->
