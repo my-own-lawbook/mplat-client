@@ -1,8 +1,6 @@
 package me.bumiller.mol.feature.auth.screen
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import me.bumiller.mol.auth.AuthResult
 import me.bumiller.mol.auth.AuthService
 import me.bumiller.mol.auth.GetProfileError
@@ -30,15 +28,19 @@ internal abstract class SignupStageViewmodel<UiEvent : me.bumiller.mol.common.ui
 
 ) : MolViewModel<UiEvent, SignupStageEvent>() {
 
-    private var performBackgroundChecks = true
+    private val taskScheduler = TaskScheduler(
+        delayMillis = 5_000,
+        scope = viewModelScope
+    ) {
+        performStageCheck(false)
+    }
 
     init {
-        viewModelScope.launch {
-            while (performBackgroundChecks) {
-                performStageCheck(false)
-                delay(STAGE_CHECK_DELAY_MILLIS)
-            }
-        }
+        taskScheduler.start()
+    }
+
+    protected fun requestStageCheck() {
+        taskScheduler.schedule()
     }
 
     /**
@@ -46,27 +48,32 @@ internal abstract class SignupStageViewmodel<UiEvent : me.bumiller.mol.common.ui
      *
      * @param visible Whether the requests should be made visible to the user
      */
-    protected suspend fun performStageCheck(visible: Boolean) {
+    private suspend fun performStageCheck(visible: Boolean) {
         val stage = checkCurrentStage(visible)
-        if (stage != signupStage) {
-            performBackgroundChecks = false
-            fireEvent(SignupStageEvent.SignupStageChanged(stage))
+        if (stage !in setOf(null, signupStage)) {
+            taskScheduler.stop()
+            fireEvent(SignupStageEvent.SignupStageChanged(stage!!))
         }
     }
 
-    private suspend fun checkCurrentStage(visible: Boolean): SignupStage {
+    private suspend fun checkCurrentStage(visible: Boolean): SignupStage? {
+        var networkError = false
         var user: AuthUser? = null
 
         suspend fun <Data, Error> performRequest(request: suspend () -> AuthResult<Data, Error>) =
             if (visible) withFetchState { request() } else request()
 
-        when (val loginResult = performRequest { authService.login() }) {
+        val loginResult = performRequest { authService.login() }
+        when (loginResult) {
+            is AuthResult.NetworkError -> networkError = true
             is AuthResult.Success<AuthUser, LoginError> -> user = loginResult.data
             else -> {}
         }
 
         if (user != null) {
-            when (val profileResult = performRequest { authService.getProfile() }) {
+            val profileResult = performRequest { authService.getProfile() }
+            when (profileResult) {
+                is AuthResult.NetworkError -> networkError = true
                 is AuthResult.Success<Profile, GetProfileError> -> user = AuthUserWithProfile(
                     profile = profileResult.data,
                     id = user.id,
@@ -79,13 +86,7 @@ internal abstract class SignupStageViewmodel<UiEvent : me.bumiller.mol.common.ui
             }
         }
 
-        return SignupStage.fromUser(user)
-    }
-
-    companion object {
-
-        private const val STAGE_CHECK_DELAY_MILLIS = 5000L
-
+        return if (networkError) null else SignupStage.fromUser(user)
     }
 
 }

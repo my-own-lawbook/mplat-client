@@ -87,7 +87,7 @@ internal class SignupViewModel(
         }
 
         when (signupResponse) {
-            is AuthResult.Success -> performStageCheck(true)
+            is AuthResult.Success -> requestStageCheck()
 
             is AuthResult.Error -> when (signupResponse.errorType) {
                 me.bumiller.mol.auth.SignupError.EmailNotUnique -> updateUiState<SignupState> {
