@@ -16,14 +16,12 @@ import me.bumiller.mol.common.ui.input.InputValue
  */
 fun <Type> validateValue(inputValue: InputValue<Type>): InputValue<Type> {
     val error = inputValue.semantics.firstNotNullOfOrNull { getError(inputValue.value, it) }
-    println("Got error: $error")
 
 
     return inputValue.copy(error = error)
 }
 
 private fun <T> getError(value: T, semantic: InputSemantic): ValidationError? {
-    println("Got value $value and semantic $semantic")
     return when (value) {
 
         is String -> when (semantic) {
