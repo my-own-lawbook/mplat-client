@@ -8,10 +8,7 @@ kotlin = "2.0.20"
 kotlinx-coroutines = "1.9.0"
 ksp = "2.0.20-1.0.25"
 room = "2.7.0-alpha12"
-koin = "3.3.2"
-koin_compose = "3.2.0"
-koin-kmp = "1.2.0-Beta4"
-koin_work = "4.0.2"
+koin = "4.0.1"
 android_sqlite = "2.5.0-alpha13"
 navigation = "2.8.0-alpha10"
 androidx_test_junit = "1.2.1"
@@ -46,10 +43,10 @@ android-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref
 
 koin = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
-koin-android-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin_compose" }
-koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin-kmp" }
-koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin-kmp" }
-koin-android-work = { group = "io.insert-koin", name = "koin-androidx-workmanager", version.ref = "koin_work" }
+koin-android-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin" }
+koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin" }
+koin-android-work = { group = "io.insert-koin", name = "koin-androidx-workmanager", version.ref = "koin" }
 
 compose-animation = { group = "org.jetbrains.compose.animation", name = "animation", version.ref = "compose" }
 compose-animation-graphics = { group = "org.jetbrains.compose.animation", name = "animation-graphics", version.ref = "compose" }
