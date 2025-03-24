@@ -6,10 +6,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import me.bumiller.mol.common.ui.LocalNavGraphSetupState
+import me.bumiller.mol.common.ui.nav.CivorisDeepLink
+import me.bumiller.mol.common.ui.nav.CivorisNavHost
+import me.bumiller.mol.common.ui.nav.MolTopLevelLocation
+import me.bumiller.mol.common.ui.nav.MolTopLevelLocation.Auth
+import me.bumiller.mol.common.ui.nav.MolTopLevelLocation.Home
+import me.bumiller.mol.common.ui.nav.MolTopLevelLocation.Onboarding
+import me.bumiller.mol.common.ui.nav.MolTopLevelLocation.Setting
 import me.bumiller.mol.feature.about.navigation.AboutLocation
 import me.bumiller.mol.feature.about.navigation.aboutScreens
 import me.bumiller.mol.feature.auth.navigation.AuthLocation
@@ -27,15 +34,18 @@ import org.koin.core.annotation.KoinExperimentalAPI
  * Root composable that wraps the entirety of the app.
  *
  * @param onScreenReady The callback invoked when the app has finished the initial loading procedures
+ * @param deepLink The deep link with which the app was opened
  */
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-fun MolAppRoot(
+internal fun MolAppRoot(
     windowSizeClass: WindowSizeClass,
+    deepLink: CivorisDeepLink? = null,
     onScreenReady: () -> Unit = {}
 ) = KoinContext {
     val viewModel = koinViewModel<MolAppViewModel>()
     val navController = rememberNavController()
+    val navGraphSetupBefore = LocalNavGraphSetupState.current
 
     // Notify the parent when this screen is ready.
     // May be used for a loading screen or the like.
@@ -54,6 +64,7 @@ fun MolAppRoot(
 
     val settings = settingsState.dataOrNull()
     val location = initialLocationState.dataOrNull()
+    val deepLinkLocation = deepLink?.initialTopLevelLocation()
 
     if (settings != null && location != null) {
         MolTheme(
@@ -62,22 +73,50 @@ fun MolAppRoot(
             colorScheme = settings.colorScheme,
             contrastLevel = settings.contrastLevel
         ) {
+            val initialLocation =
+                decideInitialLocation(location, deepLinkLocation, navGraphSetupBefore)
             MolAppRootNavHost(
                 navController = navController,
-                initialLocation = location
+                initialLocation = initialLocation,
+                deepLink = deepLink
             )
         }
     }
 }
 
+private fun decideInitialLocation(
+    location: MolTopLevelLocation,
+    deepLinkLocation: MolTopLevelLocation?,
+    navGraphSetupBefore: Boolean
+): MolTopLevelLocation = if (deepLinkLocation == null || navGraphSetupBefore) location else {
+    if (!location.requiresAuth() && deepLinkLocation.requiresAuth()) location
+    else deepLinkLocation
+}
+
+/**
+ * Converts this [MolTopLevelLocation] to the associated nav route.
+ */
+private val MolTopLevelLocation.asNavRoute: Any
+    get() = when (this) {
+        Auth -> AuthLocation
+        is Onboarding -> OnboardingLocation(showDesignScreen)
+        Home -> HomeLocation
+        Setting -> TODO()
+    }
+
 @Composable
 private fun MolAppRootNavHost(
     navController: NavHostController,
-    initialLocation: MolTopLevelLocation
+    initialLocation: MolTopLevelLocation,
+    deepLink: CivorisDeepLink?
 ) {
-    NavHost(
+    CivorisNavHost(
         navController = navController,
-        startDestination = initialLocation.asNavRoute
+        startDestination = initialLocation.asNavRoute,
+        deepLink = deepLink,
+        destinationForDeepLink = {
+            it.initialTopLevelLocation().asNavRoute
+        }
     ) {
         aboutScreens()
         homeLocation(
@@ -109,7 +148,8 @@ private fun MolAppRootNavHost(
             },
             onAuthenticate = {
                 navController.navigate(HomeLocation)
-            }
+            },
+            deepLink = deepLink
         )
     }
 }
