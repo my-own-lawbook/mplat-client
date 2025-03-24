@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 /**
  * Class that manages executing a task in fixed time intervals.
  */
-internal class TaskScheduler(
+internal class TaskScheduler<Data>(
 
     /**
      * Millis delay between executions.
@@ -22,12 +22,17 @@ internal class TaskScheduler(
     private val scope: CoroutineScope,
 
     /**
+     * The default argument given to the execution.
+     */
+    private val defaultArg: Data,
+
+    /**
      * The task to execute.
      */
-    private val task: suspend () -> Unit
+    private val task: suspend (Data) -> Unit
 ) {
 
-    private var trigger = Channel<Unit>(Channel.UNLIMITED)
+    private var trigger = Channel<Data>(Channel.UNLIMITED)
 
     private var isActive = true
 
@@ -39,10 +44,13 @@ internal class TaskScheduler(
     fun start() {
         job = scope.launch {
             while (isActive) {
-                task()
-                while (trigger.tryReceive().isSuccess) {
+                task(defaultArg)
+
+                var result = trigger.tryReceive().getOrNull()
+                while (result != null) {
                     if (!isActive) break
-                    task()
+                    task(result)
+                    result = trigger.tryReceive().getOrNull()
                 }
 
                 delay(delayMillis)
@@ -60,9 +68,11 @@ internal class TaskScheduler(
 
     /**
      * Schedules a new task execution.
+     *
+     * @param data The data passed to the task
      */
-    fun schedule() {
-        trigger.trySend(Unit)
+    fun schedule(data: Data) {
+        trigger.trySend(data)
     }
 
 }
