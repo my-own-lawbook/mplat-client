@@ -76,10 +76,13 @@ private fun EmailScreen(
             OtpTextViews(
                 modifier = Modifier
                     .fillMaxWidth(),
+                value = formState.token.value,
                 isError = formState.token.isError(),
-                onFinished = {
-                    onEvent(EmailUiEvent.ChangeToken(it))
-                    onEvent(EmailUiEvent.Continue)
+                onChange = { value, finished ->
+                    onEvent(EmailUiEvent.ChangeToken(value))
+                    if (finished) {
+                        onEvent(EmailUiEvent.Continue)
+                    }
                 }
             )
 

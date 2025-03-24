@@ -1,12 +1,16 @@
 package me.bumiller.mol.feature.auth.screen.email
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import me.bumiller.mol.auth.AuthResult
 import me.bumiller.mol.auth.AuthService
 import me.bumiller.mol.common.ui.input.validation.ValidationError
 import me.bumiller.mol.feature.auth.model.SignupStage
+import me.bumiller.mol.feature.auth.navigation.EmailScreen
 import me.bumiller.mol.feature.auth.screen.SignupStageViewmodel
 import kotlin.time.Duration.Companion.seconds
 
@@ -14,6 +18,8 @@ import kotlin.time.Duration.Companion.seconds
  * View model for the email screen.
  */
 internal class EmailViewModel(
+
+    savedStateHandle: SavedStateHandle,
 
     /**
      * The auth service.
@@ -23,10 +29,20 @@ internal class EmailViewModel(
 ) : SignupStageViewmodel<EmailUiEvent>(SignupStage.AccountCreated, authService) {
 
     init {
-        registerUiState(EmailState())
+        val route = savedStateHandle.toRoute<EmailScreen>()
+
+        val initialState = if (route.initialOtp == null) EmailState()
+        else EmailState().let { it.copy(token = it.token.update(route.initialOtp)) }
+
+        registerUiState(initialState)
 
         viewModelScope.launch {
             requestEmailToken(false)
+
+            if (route.initialOtp != null) {
+                delay(1_000)
+                handleEvent(EmailUiEvent.Continue)
+            }
         }
     }
 
@@ -71,12 +87,12 @@ internal class EmailViewModel(
     private suspend fun EmailUiEvent.Continue.handle() {
         val token = formState.value.token.value
 
-        val response = authService.submitEmailToken(token)
+        val response = withFetchState { authService.submitEmailToken(token) }
 
         clearErrors()
 
         when (response) {
-            is AuthResult.Success -> performStageCheck(true)
+            is AuthResult.Success -> requestStageCheck()
             is AuthResult.Error -> when (response.errorType) {
                 me.bumiller.mol.auth.SubmitEmailTokenError.InvalidToken -> updateUiState<EmailState> {
                     it.copy(token = it.token.copy(error = ValidationError.InvalidEmailToken))

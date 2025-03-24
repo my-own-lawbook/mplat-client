@@ -25,9 +25,11 @@ data object AuthLocation
 
 /**
  * Navigation destination for the email screen.
+ *
+ * @param initialOtp The OTP that will be prefilled on the screen
  */
 @Serializable
-internal data object EmailScreen
+internal data class EmailScreen(val initialOtp: String? = null)
 
 /**
  * Navigation destination for the welcome screen.
@@ -85,7 +87,7 @@ fun NavGraphBuilder.authLocation(
             deepLink = deepLink,
             destinationForDeepLink = {
                 when (it) {
-                    is CivorisDeepLink.VerifyEmail -> EmailScreen
+                    is CivorisDeepLink.VerifyEmail -> EmailScreen(it.otp)
                 }
             }
         ) {
@@ -100,7 +102,7 @@ fun NavGraphBuilder.authLocation(
                     if (isEmailVerified && isProfileSet)
                         onAuthenticate()
                     else if (!isEmailVerified)
-                        navController.navigate(EmailScreen)
+                        navController.navigate(EmailScreen(null))
                     else
                         navController.navigate(ProfileScreen)
                 },
@@ -212,7 +214,7 @@ internal fun NavGraphBuilder.profileScreen(
 
 private fun SignupStage.navigationDestination(): Any? = when (this) {
     SignupStage.NotStarted -> SignupScreen
-    SignupStage.AccountCreated -> EmailScreen
+    SignupStage.AccountCreated -> EmailScreen(null)
     SignupStage.EmailVerified -> ProfileScreen
     SignupStage.Finished -> null
 }

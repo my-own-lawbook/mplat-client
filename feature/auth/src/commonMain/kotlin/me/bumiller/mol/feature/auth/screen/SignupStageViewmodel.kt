@@ -30,17 +30,18 @@ internal abstract class SignupStageViewmodel<UiEvent : me.bumiller.mol.common.ui
 
     private val taskScheduler = TaskScheduler(
         delayMillis = 5_000,
-        scope = viewModelScope
-    ) {
-        performStageCheck(false)
-    }
+        scope = viewModelScope,
+        defaultArg = false,
+        task = ::performStageCheck
+    )
 
     init {
         taskScheduler.start()
     }
 
     protected fun requestStageCheck() {
-        taskScheduler.schedule()
+        println("Requesting a stage check manually")
+        taskScheduler.schedule(true)
     }
 
     /**
