@@ -29,7 +29,6 @@ class DynamicUrl(
             val baseHost = userSettingsSource.settings.first().backendUrl?.host
                 ?: throw IllegalStateException("Tried to make a request without having a backendUrl set.")
 
-            println("Inside install() got context.url: ${context.url}")
             context.url.host = baseHost
             context.url.protocol = URLProtocol.HTTPS
         }

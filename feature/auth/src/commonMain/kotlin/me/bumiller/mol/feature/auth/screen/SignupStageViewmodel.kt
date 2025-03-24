@@ -30,9 +30,9 @@ internal abstract class SignupStageViewmodel<UiEvent : me.bumiller.mol.common.ui
 
     private val taskScheduler = TaskScheduler(
         delayMillis = 5_000,
-        scope = viewModelScope,
         defaultArg = false,
-        task = ::performStageCheck
+        task = ::performStageCheck,
+        scope = viewModelScope
     )
 
     init {
@@ -40,7 +40,6 @@ internal abstract class SignupStageViewmodel<UiEvent : me.bumiller.mol.common.ui
     }
 
     protected fun requestStageCheck() {
-        println("Requesting a stage check manually")
         taskScheduler.schedule(true)
     }
 
@@ -52,8 +51,8 @@ internal abstract class SignupStageViewmodel<UiEvent : me.bumiller.mol.common.ui
     private suspend fun performStageCheck(visible: Boolean) {
         val stage = checkCurrentStage(visible)
         if (stage !in setOf(null, signupStage)) {
-            taskScheduler.stop()
             fireEvent(SignupStageEvent.SignupStageChanged(stage!!))
+            taskScheduler.stop()
         }
     }
 

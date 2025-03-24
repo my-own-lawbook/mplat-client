@@ -4,6 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 /**
@@ -34,8 +35,6 @@ internal class TaskScheduler<Data>(
 
     private var trigger = Channel<Data>(Channel.UNLIMITED)
 
-    private var isActive = true
-
     private lateinit var job: Job
 
     /**
@@ -59,11 +58,10 @@ internal class TaskScheduler<Data>(
     }
 
     /**
-     * Stops the execution by not scheduling any more and suspends until the currently running execution has stopped.
+     * Stops the execution by not scheduling any more.
      */
-    suspend fun stop() {
-        isActive = false
-        job.join()
+    fun stop() {
+        job.cancel()
     }
 
     /**
