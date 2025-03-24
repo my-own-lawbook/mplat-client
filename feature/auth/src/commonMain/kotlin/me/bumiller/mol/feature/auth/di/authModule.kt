@@ -5,6 +5,7 @@ import me.bumiller.mol.feature.auth.screen.login.LoginViewModel
 import me.bumiller.mol.feature.auth.screen.profile.ProfileViewModel
 import me.bumiller.mol.feature.auth.screen.signup.SignupViewModel
 import me.bumiller.mol.feature.auth.screen.welcome.WelcomeViewModel
+import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.compose.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -15,6 +16,6 @@ val authFeatureModule = module {
     viewModelOf(::WelcomeViewModel)
     viewModelOf(::LoginViewModel)
     viewModelOf(::SignupViewModel)
-    viewModelOf(::EmailViewModel)
+    viewModel { EmailViewModel(authService = get(), savedStateHandle = get()) }
     viewModelOf(::ProfileViewModel)
 }

@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.serialization.Serializable
+import me.bumiller.mol.common.ui.LocalNavGraphSetupState
+import me.bumiller.mol.common.ui.nav.CivorisDeepLink
+import me.bumiller.mol.common.ui.nav.CivorisNavHost
 import me.bumiller.mol.feature.auth.model.SignupStage
 import me.bumiller.mol.feature.auth.screen.email.EmailScreen
 import me.bumiller.mol.feature.auth.screen.login.LoginScreen
@@ -23,9 +25,11 @@ data object AuthLocation
 
 /**
  * Navigation destination for the email screen.
+ *
+ * @param initialOtp The OTP that will be prefilled on the screen
  */
 @Serializable
-internal data object EmailScreen
+internal data class EmailScreen(val initialOtp: String? = null)
 
 /**
  * Navigation destination for the welcome screen.
@@ -59,22 +63,33 @@ internal data object ProfileScreen
  */
 fun NavGraphBuilder.authLocation(
     onUrlChange: () -> Unit,
-    onAuthenticate: () -> Unit
+    onAuthenticate: () -> Unit,
+    deepLink: CivorisDeepLink?
 ) = composable<AuthLocation> {
     val navController = rememberNavController()
+    val navGraphSetupBefore = LocalNavGraphSetupState.current
 
     val onStageChanged = { stage: SignupStage ->
         stage.navigationDestination()?.let(navController::navigate)
             ?: onAuthenticate()
     }
 
+    val initialLocation: Any =
+        if (deepLink !is CivorisDeepLink.VerifyEmail || navGraphSetupBefore) WelcomeScreen else EmailScreen
+
     Surface(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        NavHost(
+        CivorisNavHost(
             navController = navController,
-            startDestination = WelcomeScreen
+            startDestination = initialLocation,
+            deepLink = deepLink,
+            destinationForDeepLink = {
+                when (it) {
+                    is CivorisDeepLink.VerifyEmail -> EmailScreen(it.otp)
+                }
+            }
         ) {
             welcomeScreen(
                 onLogin = { navController.navigate(LoginScreen) },
@@ -87,7 +102,7 @@ fun NavGraphBuilder.authLocation(
                     if (isEmailVerified && isProfileSet)
                         onAuthenticate()
                     else if (!isEmailVerified)
-                        navController.navigate(EmailScreen)
+                        navController.navigate(EmailScreen(null))
                     else
                         navController.navigate(ProfileScreen)
                 },
@@ -199,7 +214,7 @@ internal fun NavGraphBuilder.profileScreen(
 
 private fun SignupStage.navigationDestination(): Any? = when (this) {
     SignupStage.NotStarted -> SignupScreen
-    SignupStage.AccountCreated -> EmailScreen
+    SignupStage.AccountCreated -> EmailScreen(null)
     SignupStage.EmailVerified -> ProfileScreen
     SignupStage.Finished -> null
 }

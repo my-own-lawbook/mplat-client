@@ -78,7 +78,7 @@ internal class ProfileViewModel(
         }
 
         when (profileResponse) {
-            is AuthResult.Success -> performStageCheck(true)
+            is AuthResult.Success -> requestStageCheck()
             is AuthResult.Error, is AuthResult.UnknownError -> setHasUnknownError()
             is AuthResult.NetworkError -> setHasNetworkError()
         }

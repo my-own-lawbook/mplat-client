@@ -74,7 +74,8 @@ inline fun <ScreenEvent : UiEvent, Event : ViewModelEvent, reified ViewModel : M
     val viewModel = koinViewModel<ViewModel>()
 
     LaunchedEffect(Unit) {
-        viewModel.events.collectLatest(onViewModelEvent)
+        viewModel.events
+            .collectLatest(onViewModelEvent)
     }
 
     val isFetching by viewModel.isFetching.collectAsStateWithLifecycle()

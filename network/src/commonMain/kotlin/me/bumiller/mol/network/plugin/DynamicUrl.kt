@@ -3,6 +3,7 @@ package me.bumiller.mol.network.plugin
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpClientPlugin
 import io.ktor.client.request.HttpRequestPipeline
+import io.ktor.http.URLProtocol
 import io.ktor.util.AttributeKey
 import kotlinx.coroutines.flow.first
 import me.bumiller.mol.settings.UserSettingsSource
@@ -29,6 +30,7 @@ class DynamicUrl(
                 ?: throw IllegalStateException("Tried to make a request without having a backendUrl set.")
 
             context.url.host = baseHost
+            context.url.protocol = URLProtocol.HTTPS
         }
     }
 

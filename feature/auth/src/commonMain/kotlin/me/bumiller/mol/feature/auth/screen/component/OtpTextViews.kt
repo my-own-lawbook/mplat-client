@@ -12,16 +12,15 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
@@ -31,28 +30,25 @@ private const val DIGITS_COUNT = 6
  * Composable for the OTP-input views component.
  *
  * @param modifier The composable modifier
- * @param onFinished The callback invoked when the whole text has been filled
+ * @param onChange The callback invoked when the whole text has been filled
  */
 @Composable
 fun OtpTextViews(
     modifier: Modifier = Modifier,
+    value: String,
     isError: Boolean,
-    onFinished: (String) -> Unit
+    onChange: (String, Boolean) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
-    var input by remember { mutableStateOf("") }
 
     BasicTextField(
         modifier = modifier
             .focusRequester(focusRequester),
-        value = input,
+        value = TextFieldValue(value, TextRange(value.length)),
         onValueChange = {
-            if (it.length < input.length || it.length <= DIGITS_COUNT) {
-                input = it
-            }
-            if (it.length == DIGITS_COUNT) {
-                focusRequester.freeFocus()
-                onFinished(it)
+            if (it.text.length <= DIGITS_COUNT) {
+                val finished = it.text.length == DIGITS_COUNT
+                onChange(it.text, finished)
             }
         },
         keyboardOptions = KeyboardOptions.Default.copy(
@@ -69,8 +65,8 @@ fun OtpTextViews(
                     DigitInput(
                         modifier = Modifier,
                         isError = isError,
-                        digit = input.getOrNull(index),
-                        isActive = index == input.length || (input.length == DIGITS_COUNT && index == DIGITS_COUNT - 1)
+                        digit = value.getOrNull(index),
+                        isActive = index == value.length || (value.length == DIGITS_COUNT && index == DIGITS_COUNT - 1)
                     )
                 }
             }

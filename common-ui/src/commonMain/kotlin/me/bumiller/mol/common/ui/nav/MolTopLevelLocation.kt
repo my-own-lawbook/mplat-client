@@ -1,9 +1,6 @@
-package me.bumiller.mol.app
+package me.bumiller.mol.common.ui.nav
 
 import kotlinx.serialization.Serializable
-import me.bumiller.mol.feature.auth.navigation.AuthLocation
-import me.bumiller.mol.feature.home.navigation.HomeLocation
-import me.bumiller.mol.feature.onboarding.navigation.OnboardingLocation
 
 /**
  * Locations that the app root may directly embed.
@@ -43,14 +40,16 @@ sealed interface MolTopLevelLocation {
     data object Setting : MolTopLevelLocation
 
     /**
-     * Converts this [MolTopLevelLocation] to the associated nav route.
+     * Checks whether the given location requires the user to be authenticated.
+     *
+     * @return Whether the user requires auth for the location
      */
-    val asNavRoute: Any
-        get() = when (this) {
-            Auth -> AuthLocation
-            is Onboarding -> OnboardingLocation(showDesignScreen)
-            Home -> HomeLocation
-            Setting -> TODO()
+    fun requiresAuth(): Boolean =
+        when (this) {
+            Auth -> false
+            is Onboarding -> false
+            Setting -> false
+            Home -> true
         }
 
 }
