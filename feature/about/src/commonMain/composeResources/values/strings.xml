@@ -2,7 +2,7 @@
     <string name="notice_screen_title">License Notice</string>
     <string name="about_screen_title">About the app</string>
     <string name="app_name">Civoris</string>
-    <string name="app_version">0.0.6 | 6</string>
+    <string name="app_version">0.0.7 | 7</string>
     <string name="app_github_link">https://github.com/civoris/mplat-client</string>
     <string name="license_text_pre">Licensed under the </string>
     <string name="license_text">GPLv3 License</string>
