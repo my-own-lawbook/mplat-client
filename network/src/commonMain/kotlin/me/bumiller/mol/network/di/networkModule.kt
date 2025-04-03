@@ -1,7 +1,7 @@
 package me.bumiller.mol.network.di
 
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -29,7 +29,9 @@ import org.koin.dsl.module
  * Koin module for the network module.
  */
 val networkModule = module {
-    single<ServerStatusChecker> { KtorServerStatusChecker() }
+    single<ServerStatusChecker> { KtorServerStatusChecker(get()) }
+
+    single<HttpClientEngineFactory<*>> { instantiateClientEngineFactory() }
 
     single { instantiateKtorClient() }
 
@@ -40,7 +42,13 @@ val networkModule = module {
     single<InvitationService> { KtorInvitationService(get()) }
 }
 
-private fun Scope.instantiateKtorClient(): HttpClient = HttpClient(CIO) {
+/**
+ * Platform-dependant method to create an [HttpClientEngineFactory].
+ */
+internal expect fun Scope.instantiateClientEngineFactory(): HttpClientEngineFactory<*>
+
+private fun Scope.instantiateKtorClient(): HttpClient =
+    HttpClient(get<HttpClientEngineFactory<*>>()) {
     install(ContentNegotiation) {
         json()
     }
