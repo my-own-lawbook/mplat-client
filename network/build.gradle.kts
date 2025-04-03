@@ -1,5 +1,5 @@
 plugins {
-    id("me.bumiller.mol.kotlin.library")
+    id("me.bumiller.mol.android.library")
 }
 
 kotlin {
@@ -13,12 +13,19 @@ kotlin {
             implementation(project(":model"))
 
             implementation(libs.ktor.client)
-            implementation(libs.ktor.cio)
             implementation(libs.ktor.contentnegotiation)
             implementation(libs.ktor.json)
             implementation(libs.ktor.logging)
             implementation(libs.ktor.auth)
             implementation(libs.napier)
+        }
+
+        androidMain.dependencies {
+            implementation(libs.ktor.okhttp)
+        }
+
+        jvmMain.dependencies {
+            implementation(libs.ktor.cio)
         }
     }
 }
