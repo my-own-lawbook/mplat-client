@@ -35,17 +35,17 @@ private fun <T> getError(value: T, semantic: InputSemantic): ValidationError? {
         }
 
         is LocalDate -> when (semantic) {
-            InputSemantic.NotInFuture -> validateNotInFuture(value)
+            InputSemantic.NotInFuture -> validateDateNotInFuture(value)
             else -> null
         }
 
         is LocalDateTime -> when (semantic) {
-            InputSemantic.NotInFuture -> validateNotInFuture(value)
+            InputSemantic.NotInFuture -> validateDateTimeNotInFuture(value)
             else -> null
         }
 
         is LocalTime -> when (semantic) {
-            InputSemantic.NotInFuture -> validateNotInFuture(value)
+            InputSemantic.NotInFuture -> validateTimeNotInFuture(value)
             else -> null
         }
 
@@ -77,17 +77,17 @@ private fun validateUsername(string: String): ValidationError? =
     if (!Regex(USERNAME).matches(string)) ValidationError.UsernameFormat
     else null
 
-private fun validateNotInFuture(value: LocalDate): ValidationError? =
+private fun validateDateNotInFuture(value: LocalDate): ValidationError? =
     if (value > Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date)
         ValidationError.DateInFuture
     else null
 
-private fun validateNotInFuture(value: LocalDateTime): ValidationError? =
+private fun validateDateTimeNotInFuture(value: LocalDateTime): ValidationError? =
     if (value > Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()))
         ValidationError.DateInFuture
     else null
 
-private fun validateNotInFuture(value: LocalTime): ValidationError? =
+private fun validateTimeNotInFuture(value: LocalTime): ValidationError? =
     if (value > Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time)
         ValidationError.DateInFuture
     else null
