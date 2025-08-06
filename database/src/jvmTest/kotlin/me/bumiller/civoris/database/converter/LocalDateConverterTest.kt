@@ -21,7 +21,7 @@ class LocalDateConverterTest {
         )
 
         toTest.forEach { (instant, expected) ->
-            Assertions.assertEquals(expected, converter.localDateToString(instant))
+            Assertions.assertEquals(expected, LocalDateConverter.localDateToString(instant))
         }
     }
 
@@ -34,7 +34,7 @@ class LocalDateConverterTest {
         )
 
         toTest.forEach { (instant, expected) ->
-            Assertions.assertEquals(expected, converter.stringToLocalDate(instant))
+            Assertions.assertEquals(expected, LocalDateConverter.stringToLocalDate(instant))
         }
     }
 

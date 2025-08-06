@@ -23,7 +23,7 @@ class InstantConverterTest {
         )
 
         toTest.forEach { (instant, expected) ->
-            Assertions.assertEquals(expected, converter.instantToIsoString(instant))
+            Assertions.assertEquals(expected, InstantConverter.instantToIsoString(instant))
         }
     }
 
@@ -37,7 +37,7 @@ class InstantConverterTest {
         )
 
         toTest.forEach { (instant, expected) ->
-            Assertions.assertEquals(expected, converter.stringToInstant(instant))
+            Assertions.assertEquals(expected, InstantConverter.stringToInstant(instant))
         }
     }
 

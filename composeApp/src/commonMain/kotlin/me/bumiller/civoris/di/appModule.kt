@@ -1,7 +1,7 @@
 package me.bumiller.civoris.di
 
 import me.bumiller.civoris.app.CivorisAppViewModel
-import org.koin.compose.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 /**

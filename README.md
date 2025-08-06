@@ -1,5 +1,8 @@
 # Civoris-Multiplatform-Client
 
+[![Quality Gate Status](https://sonar.bumiller.me/api/project_badges/measure?project=civoris_mplat-client_7e99fa95-c3dc-485e-afff-a15a291804d0&metric=alert_status&token=sqb_83a938f6e15830fd33eb9f03d523e765c79bd13f)](https://sonar.bumiller.me/dashboard?id=civoris_mplat-client_7e99fa95-c3dc-485e-afff-a15a291804d0)
+[![Lines of Code](https://sonar.bumiller.me/api/project_badges/measure?project=civoris_mplat-client_7e99fa95-c3dc-485e-afff-a15a291804d0&metric=ncloc&token=sqb_83a938f6e15830fd33eb9f03d523e765c79bd13f)](https://sonar.bumiller.me/dashboard?id=civoris_mplat-client_7e99fa95-c3dc-485e-afff-a15a291804d0)
+
 This is the repository for the multiplatform-client of the Civoris-Organization.
 
 ## Installing

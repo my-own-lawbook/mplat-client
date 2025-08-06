@@ -88,11 +88,11 @@ class MappingTest : BaseDataTest() {
             4L,
             1L,
             7L,
-            "admin",
+            "Admin",
             Instant.fromEpochSeconds(23L),
             null,
             null,
-            "open",
+            "Open",
             null
         )
         val model = mapInvitationModel(entity)
@@ -145,10 +145,10 @@ class MappingTest : BaseDataTest() {
     @DisplayName("Mapping strings to invitation statuses returns the correct status")
     fun mapInvitationStatusWorks() {
         val values = mapOf(
-            "open" to InvitationStatus.Open,
-            "declined" to InvitationStatus.Declined,
-            "revoked" to InvitationStatus.Revoked,
-            "accepted" to InvitationStatus.Accepted
+            "Open" to InvitationStatus.Open,
+            "Declined" to InvitationStatus.Declined,
+            "Revoked" to InvitationStatus.Revoked,
+            "Accepted" to InvitationStatus.Accepted
         )
 
         values.forEach { (string, expected) ->
@@ -173,9 +173,9 @@ class MappingTest : BaseDataTest() {
     @DisplayName("Mapping strings to member roles returns the correct status")
     fun mapRoleReturnsCorrectRole() {
         val values = mapOf(
-            "member" to MemberRole.Member,
-            "admin" to MemberRole.Admin,
-            "moderator" to MemberRole.Moderator
+            "Member" to MemberRole.Member,
+            "Admin" to MemberRole.Admin,
+            "Moderator" to MemberRole.Moderator
         )
 
         values.forEach { (string, expected) ->
