@@ -4,7 +4,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "me.bumiller.mol.buildlogic"
+group = "me.bumiller.civoris.buildlogic"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
