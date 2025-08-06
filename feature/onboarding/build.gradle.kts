@@ -1,5 +1,5 @@
 plugins {
-    id("me.bumiller.mol.compose.library")
+    id("me.bumiller.civoris.compose.library")
 }
 
 kotlin {

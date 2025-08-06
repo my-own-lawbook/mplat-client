@@ -23,11 +23,11 @@ env:
   MSI_OUTPUT_DIR: "./composeApp/build/compose/binaries/main-release/msi/"
   DEB_OUTPUT_DIR: "./composeApp/build/compose/binaries/main-release/deb/"
 
-  APK_FILE_NAME: mol.apk
-  AAB_FILE_NAME: mol.aab
-  EXE_FILE_NAME: mol.exe
-  MSI_FILE_NAME: mol.msi
-  DEB_FILE_NAME: mol.deb
+  APK_FILE_NAME: civoris.apk
+  AAB_FILE_NAME: civoris.aab
+  EXE_FILE_NAME: civoris.exe
+  MSI_FILE_NAME: civoris.msi
+  DEB_FILE_NAME: civoris.deb
 
   APK_ARTIFACT_NAME: Android-Apk
   AAB_ARTIFACT_NAME: Android-Aab

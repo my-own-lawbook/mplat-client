@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.mol.kotlin.library)
+    alias(libs.plugins.civoris.kotlin.library)
 }
 
 kotlin {

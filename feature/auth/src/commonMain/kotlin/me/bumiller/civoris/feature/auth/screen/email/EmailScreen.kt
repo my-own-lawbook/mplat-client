@@ -1,0 +1,104 @@
+package me.bumiller.civoris.feature.auth.screen.email
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.datetime.Clock
+import me.bumiller.civoris.auth.Res
+import me.bumiller.civoris.auth.cd_email_screen
+import me.bumiller.civoris.auth.email_screen
+import me.bumiller.civoris.auth.email_screen_description
+import me.bumiller.civoris.auth.email_screen_resend_button_label
+import me.bumiller.civoris.auth.email_screen_title
+import me.bumiller.civoris.auth.email_screen_verify_button_label
+import me.bumiller.civoris.common.ui.viewmodel.ViewModelScope
+import me.bumiller.civoris.feature.auth.model.SignupStage
+import me.bumiller.civoris.feature.auth.screen.SignupStageEvent
+import me.bumiller.civoris.feature.auth.screen.component.OtpTextViews
+import me.bumiller.civoris.ui.components.WideButton
+import me.bumiller.civoris.ui.components.WideOutlinedButton
+import me.bumiller.civoris.ui.layout.AppBarLayoutWithImage
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+
+/**
+ * Composable for the email screen.
+ *
+ * @param onStageChange Callback for when the signup stage changes
+ */
+@Composable
+internal fun EmailScreen(
+    onStageChange: (SignupStage) -> Unit
+) {
+    ViewModelScope<EmailUiEvent, SignupStageEvent, EmailViewModel>(
+        onViewModelEvent = { event ->
+            when (event) {
+                is SignupStageEvent.SignupStageChanged -> onStageChange(event.stage)
+            }
+        }
+    ) { vm ->
+        val formState by vm.formState.collectAsStateWithLifecycle()
+
+        EmailScreen(vm::onEvent, formState)
+    }
+}
+
+@Composable
+private fun EmailScreen(
+    onEvent: (EmailUiEvent) -> Unit,
+    formState: EmailState
+) {
+    AppBarLayoutWithImage(
+        modifier = Modifier
+            .fillMaxSize(),
+        title = {
+            Text(stringResource(Res.string.email_screen_title))
+        },
+        imagePainter = painterResource(Res.drawable.email_screen),
+        imageContentDescription = stringResource(Res.string.cd_email_screen),
+        description = {
+            Text(stringResource(Res.string.email_screen_description))
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceAround,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            OtpTextViews(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                value = formState.token.value,
+                isError = formState.token.isError(),
+                onChange = { value, finished ->
+                    onEvent(EmailUiEvent.ChangeToken(value))
+                    if (finished) {
+                        onEvent(EmailUiEvent.Continue)
+                    }
+                }
+            )
+
+            WideButton(
+                onClick = { onEvent(EmailUiEvent.Continue) }
+            ) {
+                Text(stringResource(Res.string.email_screen_verify_button_label))
+            }
+            if (!formState.isOtpPrefilled) {
+                WideOutlinedButton(
+                    onClick = { onEvent(EmailUiEvent.Resend) },
+                    enabled = Clock.System.now() > formState.nextResendAt
+                ) {
+                    Text(stringResource(Res.string.email_screen_resend_button_label))
+                }
+            }
+        }
+    }
+}

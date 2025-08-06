@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.mol.android.library)
+    alias(libs.plugins.civoris.android.library)
 }
 
 kotlin {

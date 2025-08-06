@@ -1,0 +1,40 @@
+package me.bumiller.civoris.data.impl
+
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import me.bumiller.civoris.data.ConnectionService
+import me.bumiller.civoris.data.ConnectionState
+import me.bumiller.civoris.network.ServerStatusChecker
+import me.bumiller.civoris.settings.UserSettingsSource
+
+internal class ConnectionServiceImpl(
+
+    private val serverStatusChecker: ServerStatusChecker,
+
+    private val settingsSource: UserSettingsSource,
+
+    private val isConnectedToInternet: () -> Boolean = isConnectedToInternetCallback
+
+) : ConnectionService {
+
+    override suspend fun getConnectionState(): ConnectionState {
+        val serverUrl = settingsSource.settings.value.backendUrl ?: return ConnectionState.NoUrl
+
+        return getConnectionState(serverUrl.toString())
+    }
+
+    override suspend fun getConnectionState(url: String): ConnectionState =
+        withContext(Dispatchers.IO) {
+            if (!isConnectedToInternet()) return@withContext ConnectionState.NoInternet
+
+            return@withContext if (serverStatusChecker.checkServerConnection(url))
+                ConnectionState.Connected
+            else ConnectionState.CantReachServer
+        }
+
+}
+
+/**
+ * Checks whether the device is connected to the internet
+ */
+internal expect val isConnectedToInternetCallback: () -> Boolean

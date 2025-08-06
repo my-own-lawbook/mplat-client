@@ -1,6 +1,6 @@
-# MOL-Multiplatform-Client
+# Civoris-Multiplatform-Client
 
-This is the repository for the multiplatform-client of the MOL-Organization.
+This is the repository for the multiplatform-client of the Civoris-Organization.
 
 ## Installing
 
@@ -25,7 +25,7 @@ The app can be downloaded in these package formats:
   - Static web distribution (single page)
 
 Download the latest package of your choice from
-the [Releases page](https://github.com/my-own-lawbook/mplat-client/releases)
+the [Releases page](https://github.com/civoris/mplat-client/releases)
 
 ## Contributing
 

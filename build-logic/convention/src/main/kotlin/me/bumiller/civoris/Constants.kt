@@ -1,0 +1,22 @@
+package me.bumiller.civoris
+
+const val ApplicationId = "me.bumiller.civoris"
+const val Namespace = ApplicationId
+const val NamespacePrefix = "$Namespace."
+
+const val CompileSdk = 35
+const val TargetSdk = CompileSdk
+const val MinSdk = 26
+
+const val VersionCode = 6
+const val VersionName = "0.0.7"
+
+const val SigningConfigReleaseName = "release"
+const val SigningConfigKeyAliasVarName = "SIGNING_KEY_ALIAS"
+const val SigningConfigKeyPasswordVarName = "SIGNING_KEY_PASSWORD"
+const val SigningConfigSigningStorePasswordVarName = "SIGNING_STORE_PASSWORD"
+const val SigningConfigStoreFileRelativeLocation = "./../release-keystore.jks"
+
+const val BuildTypeReleaseName = "release"
+
+const val InstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
