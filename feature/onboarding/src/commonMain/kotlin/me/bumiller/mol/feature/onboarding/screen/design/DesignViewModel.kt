@@ -1,7 +1,7 @@
 package me.bumiller.mol.feature.onboarding.screen.design
 
 import kotlinx.coroutines.flow.map
-import me.bumiller.mol.common.ui.viewmodel.MolViewModel
+import me.bumiller.mol.common.ui.viewmodel.CivorisViewModel
 import me.bumiller.mol.model.state.SimpleState
 import me.bumiller.mol.settings.UserSettingsSource
 
@@ -15,7 +15,7 @@ class DesignViewModel(
      */
     private val settingsSource: UserSettingsSource
 
-) : MolViewModel<DesignUiEvent, DesignEvent>() {
+) : CivorisViewModel<DesignUiEvent, DesignEvent>() {
 
     /**
      * Contains the updated settings of the user.

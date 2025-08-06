@@ -16,7 +16,7 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.eygraber.uri.Uri
 import kotlinx.coroutines.flow.MutableStateFlow
-import me.bumiller.mol.app.MolAppRoot
+import me.bumiller.mol.app.CivorisAppRoot
 import me.bumiller.mol.common.ui.LocalNavGraphSetupState
 import me.bumiller.mol.common.ui.nav.CivorisDeepLink
 
@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
             CompositionLocalProvider(
                 LocalNavGraphSetupState provides navGraphSetup
             ) {
-                MolAppRoot(
+                CivorisAppRoot(
                     windowSizeClass = calculateWindowSizeClass(this@MainActivity),
                     onScreenReady = {
                         showSplashScreen = false

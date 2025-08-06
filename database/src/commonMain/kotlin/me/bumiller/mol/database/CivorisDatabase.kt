@@ -24,13 +24,13 @@ import me.bumiller.mol.database.entities.SectionEntity
  */
 @Database(
     entities = [BookEntity::class, EntryEntity::class, ForeignUserEntity::class, InvitationEntity::class, SectionEntity::class, BookMemberCrossref::class],
-    version = MolDatabase.DB_VERSION
+    version = CivorisDatabase.DB_VERSION
 )
-@ConstructedBy(MolDatabaseConstructor::class)
+@ConstructedBy(CivorisDatabaseConstructor::class)
 @TypeConverters(
     value = [LocalDateConverter::class, InstantConverter::class]
 )
-abstract class MolDatabase : RoomDatabase() {
+abstract class CivorisDatabase : RoomDatabase() {
 
     companion object {
 

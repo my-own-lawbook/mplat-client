@@ -36,7 +36,7 @@ fun <Item> DropdownTextField(
             exposed = it
         }
     ) {
-        MolTextField(
+        CivorisTextField(
             modifier = Modifier
                 .menuAnchor(MenuAnchorType.PrimaryEditable),
             value = value.map { if (it == null) noSelectionLabel ?: "" else nameMap[it]!! },

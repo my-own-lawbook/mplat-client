@@ -1,7 +1,7 @@
 package me.bumiller.mol.feature.auth.screen.welcome
 
 import kotlinx.coroutines.flow.map
-import me.bumiller.mol.common.ui.viewmodel.MolViewModel
+import me.bumiller.mol.common.ui.viewmodel.CivorisViewModel
 import me.bumiller.mol.model.state.SimpleState
 import me.bumiller.mol.settings.UserSettingsSource
 
@@ -15,7 +15,7 @@ class WelcomeViewModel(
      */
     settingsSource: UserSettingsSource
 
-) : MolViewModel<WelcomeUiEvent, WelcomeEvent>() {
+) : CivorisViewModel<WelcomeUiEvent, WelcomeEvent>() {
 
     /**
      * Contains the users settings

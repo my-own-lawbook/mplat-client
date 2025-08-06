@@ -19,7 +19,7 @@ import me.bumiller.mol.ui.locals.LocalWindowSizeClass
  * @param content The content
  */
 @Composable
-fun MolTheme(
+fun CivorisTheme(
     windowSizeClass: WindowSizeClass,
     colorMode: ColorMode = ColorMode.System,
     colorScheme: ColorScheme = ColorScheme.App,

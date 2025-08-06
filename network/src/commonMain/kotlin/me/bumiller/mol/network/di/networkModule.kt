@@ -21,7 +21,7 @@ import me.bumiller.mol.network.impl.KtorInvitationService
 import me.bumiller.mol.network.impl.KtorSectionService
 import me.bumiller.mol.network.impl.KtorServerStatusChecker
 import me.bumiller.mol.network.plugin.DynamicUrl
-import me.bumiller.mol.network.plugin.MolAuth
+import me.bumiller.mol.network.plugin.CivorisAuthPlugin
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
 
@@ -59,5 +59,5 @@ private fun Scope.instantiateKtorClient(): HttpClient =
     }
 
     install(DynamicUrl(get()))
-    install(MolAuth(get()))
+    install(CivorisAuthPlugin(get()))
 }

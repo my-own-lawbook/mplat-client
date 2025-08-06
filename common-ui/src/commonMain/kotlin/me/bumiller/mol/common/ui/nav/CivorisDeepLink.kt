@@ -17,9 +17,9 @@ sealed interface CivorisDeepLink {
     /**
      *
      */
-    fun initialTopLevelLocation(): MolTopLevelLocation =
+    fun initialTopLevelLocation(): CivorisTopLevelLocation =
         when (this) {
-            is VerifyEmail -> MolTopLevelLocation.Auth
+            is VerifyEmail -> CivorisTopLevelLocation.Auth
         }
 
     companion object {

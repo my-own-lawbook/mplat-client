@@ -5,7 +5,7 @@ import me.bumiller.mol.auth.AuthResult
 import me.bumiller.mol.auth.AuthService
 import me.bumiller.mol.auth.GetProfileError
 import me.bumiller.mol.auth.LoginError
-import me.bumiller.mol.common.ui.viewmodel.MolViewModel
+import me.bumiller.mol.common.ui.viewmodel.CivorisViewModel
 import me.bumiller.mol.feature.auth.model.SignupStage
 import me.bumiller.mol.model.user.AuthUser
 import me.bumiller.mol.model.user.AuthUserWithProfile
@@ -26,7 +26,7 @@ internal abstract class SignupStageViewmodel<UiEvent : me.bumiller.mol.common.ui
      */
     private val authService: AuthService
 
-) : MolViewModel<UiEvent, SignupStageEvent>() {
+) : CivorisViewModel<UiEvent, SignupStageEvent>() {
 
     private val taskScheduler = TaskScheduler(
         delayMillis = 5_000,

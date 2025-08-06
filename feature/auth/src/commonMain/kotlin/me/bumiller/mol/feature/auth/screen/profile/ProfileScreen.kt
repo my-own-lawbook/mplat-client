@@ -31,7 +31,7 @@ import me.bumiller.mol.feature.auth.screen.SignupStageEvent
 import me.bumiller.mol.model.user.Gender
 import me.bumiller.mol.ui.components.DateTextField
 import me.bumiller.mol.ui.components.DropdownTextField
-import me.bumiller.mol.ui.components.MolTextField
+import me.bumiller.mol.ui.components.CivorisTextField
 import me.bumiller.mol.ui.components.TextFieldStyle
 import me.bumiller.mol.ui.components.WideButton
 import me.bumiller.mol.ui.layout.AppBarLayoutWithDisplay
@@ -84,7 +84,7 @@ private fun ProfileScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            MolTextField(
+            CivorisTextField(
                 value = formState.firstName,
                 onValueChange = { onEvent(ProfileUiEvent.ChangeFirstName(it)) },
                 style = TextFieldStyle.Outlined,
@@ -94,7 +94,7 @@ private fun ProfileScreen(
                 )
             )
 
-            MolTextField(
+            CivorisTextField(
                 value = formState.lastName,
                 onValueChange = { onEvent(ProfileUiEvent.ChangeLastName(it)) },
                 style = TextFieldStyle.Outlined,

@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
  * Locations that the app root may directly embed.
  */
 @Serializable
-sealed interface MolTopLevelLocation {
+sealed interface CivorisTopLevelLocation {
 
     /**
      * The onboarding route.
@@ -19,25 +19,25 @@ sealed interface MolTopLevelLocation {
          */
         val showDesignScreen: Boolean = true
 
-    ) : MolTopLevelLocation
+    ) : CivorisTopLevelLocation
 
     /**
      * The home route, main part of the app.
      */
     @Serializable
-    data object Home : MolTopLevelLocation
+    data object Home : CivorisTopLevelLocation
 
     /**
      * The auth route for logging in/ signing up.
      */
     @Serializable
-    data object Auth : MolTopLevelLocation
+    data object Auth : CivorisTopLevelLocation
 
     /**
      * The settings route.
      */
     @Serializable
-    data object Setting : MolTopLevelLocation
+    data object Setting : CivorisTopLevelLocation
 
     /**
      * Checks whether the given location requires the user to be authenticated.

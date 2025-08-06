@@ -47,7 +47,7 @@ enum class TopAppBarStyles {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MolAppBar(
+fun CivorisAppBar(
     modifier: Modifier = Modifier,
     style: TopAppBarStyles = TopAppBarStyles.Centered,
     title: @Composable () -> Unit,

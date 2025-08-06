@@ -63,11 +63,11 @@ val LocalViewModelScope = staticCompositionLocalOf {
 }
 
 /**
- * A composable which is supposed to wrap a composable that acts as a screen, and is controlled by a [MolViewModel].
+ * A composable which is supposed to wrap a composable that acts as a screen, and is controlled by a [CivorisViewModel].
  */
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-inline fun <ScreenEvent : UiEvent, Event : ViewModelEvent, reified ViewModel : MolViewModel<ScreenEvent, Event>> ViewModelScope(
+inline fun <ScreenEvent : UiEvent, Event : ViewModelEvent, reified ViewModel : CivorisViewModel<ScreenEvent, Event>> ViewModelScope(
     noinline onViewModelEvent: suspend (Event) -> Unit,
     crossinline content: @Composable ViewModelScope.(ViewModel) -> Unit
 ) {

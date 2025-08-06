@@ -9,8 +9,8 @@ import kotlinx.coroutines.launch
 import me.bumiller.mol.auth.AuthService
 import me.bumiller.mol.common.ui.event.UiEvent
 import me.bumiller.mol.common.ui.event.ViewModelEvent
-import me.bumiller.mol.common.ui.nav.MolTopLevelLocation
-import me.bumiller.mol.common.ui.viewmodel.MolViewModel
+import me.bumiller.mol.common.ui.nav.CivorisTopLevelLocation
+import me.bumiller.mol.common.ui.viewmodel.CivorisViewModel
 import me.bumiller.mol.model.settings.UserSettings
 import me.bumiller.mol.model.state.SimpleState
 import me.bumiller.mol.settings.UserSettingsSource
@@ -18,7 +18,7 @@ import me.bumiller.mol.settings.UserSettingsSource
 /**
  * Viewmodel that handles the top level app state, such as the user settings.
  */
-class MolAppViewModel(
+class CivorisAppViewModel(
 
     /**
      * The data source for the settings
@@ -30,7 +30,7 @@ class MolAppViewModel(
      */
     authApi: AuthService
 
-) : MolViewModel<UiEvent, ViewModelEvent>() {
+) : CivorisViewModel<UiEvent, ViewModelEvent>() {
 
     /**
      * A state flow of the user settings
@@ -40,13 +40,13 @@ class MolAppViewModel(
         .loadingStateIn()
 
     init {
-        registerUiState<SimpleState<MolTopLevelLocation>>(SimpleState.loading())
+        registerUiState<SimpleState<CivorisTopLevelLocation>>(SimpleState.loading())
     }
 
     /**
      * A state flow containing the initial top level location.
      */
-    val topLevelLocation = uiState<SimpleState<MolTopLevelLocation>>().asStateFlow()
+    val topLevelLocation = uiState<SimpleState<CivorisTopLevelLocation>>().asStateFlow()
 
     /**
      * Will wait for the first settings emission and set the initial value for the top-level-location accordingly.
@@ -60,11 +60,11 @@ class MolAppViewModel(
             val profileResponse = authApi.getProfile()
 
             val initialLocation =
-                if (settings.backendUrl == null) MolTopLevelLocation.Onboarding(true)
-                else if (!profileResponse.success) MolTopLevelLocation.Auth
-            else MolTopLevelLocation.Home
+                if (settings.backendUrl == null) CivorisTopLevelLocation.Onboarding(true)
+                else if (!profileResponse.success) CivorisTopLevelLocation.Auth
+            else CivorisTopLevelLocation.Home
 
-            updateUiState<SimpleState<MolTopLevelLocation>> { SimpleState.success(initialLocation) }
+            updateUiState<SimpleState<CivorisTopLevelLocation>> { SimpleState.success(initialLocation) }
         }
     }
 

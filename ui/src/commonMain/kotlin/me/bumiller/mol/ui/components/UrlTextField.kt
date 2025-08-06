@@ -46,7 +46,7 @@ fun UrlTextField(
     shape: Shape = OutlinedTextFieldDefaults.shape,
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors()
 ) {
-    MolTextField(
+    CivorisTextField(
         value,
         onValueChange,
         modifier,

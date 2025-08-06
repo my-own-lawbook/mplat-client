@@ -3,7 +3,7 @@ package me.bumiller.mol.feature.home.screen.home
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.bumiller.mol.common.ui.event.UiEvent
-import me.bumiller.mol.common.ui.viewmodel.MolViewModel
+import me.bumiller.mol.common.ui.viewmodel.CivorisViewModel
 import me.bumiller.mol.sync.SyncManager
 
 /**
@@ -11,7 +11,7 @@ import me.bumiller.mol.sync.SyncManager
  */
 internal class HomeViewmodel(
     syncManager: SyncManager
-) : MolViewModel<UiEvent, HomeEvent>() {
+) : CivorisViewModel<UiEvent, HomeEvent>() {
 
     init {
         val syncJobFlow = syncManager.scheduleSync()

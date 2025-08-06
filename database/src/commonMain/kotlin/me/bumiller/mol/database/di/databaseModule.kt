@@ -2,7 +2,7 @@ package me.bumiller.mol.database.di
 
 import androidx.room.RoomDatabase
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import me.bumiller.mol.database.MolDatabase
+import me.bumiller.mol.database.CivorisDatabase
 import me.bumiller.mol.database.dao.BookDao
 import me.bumiller.mol.database.dao.BookMemberCrossrefDao
 import me.bumiller.mol.database.dao.EntryDao
@@ -19,7 +19,7 @@ import org.koin.dsl.module
 /**
  * Platform specific method to create the database builder
  */
-expect fun Scope.databaseBuilder(): RoomDatabase.Builder<MolDatabase>
+expect fun Scope.databaseBuilder(): RoomDatabase.Builder<CivorisDatabase>
 
 /**
  * The module for the database
@@ -31,12 +31,12 @@ val databaseModule = module {
         database(get())
     }
 
-    single<BookDao> { get<MolDatabase>().bookDao() }
-    single<BookMemberCrossrefDao> { get<MolDatabase>().bookMemberCrossrefDao() }
-    single<EntryDao> { get<MolDatabase>().entryDao() }
-    single<ForeignUserDao> { get<MolDatabase>().foreignUserDao() }
-    single<InvitationDao> { get<MolDatabase>().invitationDao() }
-    single<SectionDao> { get<MolDatabase>().sectionDao() }
+    single<BookDao> { get<CivorisDatabase>().bookDao() }
+    single<BookMemberCrossrefDao> { get<CivorisDatabase>().bookMemberCrossrefDao() }
+    single<EntryDao> { get<CivorisDatabase>().entryDao() }
+    single<ForeignUserDao> { get<CivorisDatabase>().foreignUserDao() }
+    single<InvitationDao> { get<CivorisDatabase>().invitationDao() }
+    single<SectionDao> { get<CivorisDatabase>().sectionDao() }
 
     single<OneToManyDao<BookEntity, EntryEntity>> {
         OneToManyDao(
@@ -57,7 +57,7 @@ val databaseModule = module {
 /**
  * Creates the database off of the platform database builder
  */
-private fun database(builder: RoomDatabase.Builder<MolDatabase>): MolDatabase = builder.apply {
+private fun database(builder: RoomDatabase.Builder<CivorisDatabase>): CivorisDatabase = builder.apply {
     fallbackToDestructiveMigration(true)
     setDriver(BundledSQLiteDriver())
 }.build()

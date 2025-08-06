@@ -12,11 +12,11 @@ import kotlinx.coroutines.flow.combine
 import me.bumiller.mol.common.ui.LocalNavGraphSetupState
 import me.bumiller.mol.common.ui.nav.CivorisDeepLink
 import me.bumiller.mol.common.ui.nav.CivorisNavHost
-import me.bumiller.mol.common.ui.nav.MolTopLevelLocation
-import me.bumiller.mol.common.ui.nav.MolTopLevelLocation.Auth
-import me.bumiller.mol.common.ui.nav.MolTopLevelLocation.Home
-import me.bumiller.mol.common.ui.nav.MolTopLevelLocation.Onboarding
-import me.bumiller.mol.common.ui.nav.MolTopLevelLocation.Setting
+import me.bumiller.mol.common.ui.nav.CivorisTopLevelLocation
+import me.bumiller.mol.common.ui.nav.CivorisTopLevelLocation.Auth
+import me.bumiller.mol.common.ui.nav.CivorisTopLevelLocation.Home
+import me.bumiller.mol.common.ui.nav.CivorisTopLevelLocation.Onboarding
+import me.bumiller.mol.common.ui.nav.CivorisTopLevelLocation.Setting
 import me.bumiller.mol.feature.about.navigation.AboutLocation
 import me.bumiller.mol.feature.about.navigation.aboutScreens
 import me.bumiller.mol.feature.auth.navigation.AuthLocation
@@ -25,7 +25,7 @@ import me.bumiller.mol.feature.home.navigation.HomeLocation
 import me.bumiller.mol.feature.home.navigation.homeLocation
 import me.bumiller.mol.feature.onboarding.navigation.OnboardingLocation
 import me.bumiller.mol.feature.onboarding.navigation.onboardingLocation
-import me.bumiller.mol.ui.theme.MolTheme
+import me.bumiller.mol.ui.theme.CivorisTheme
 import org.koin.compose.KoinContext
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -38,12 +38,12 @@ import org.koin.core.annotation.KoinExperimentalAPI
  */
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-internal fun MolAppRoot(
+internal fun CivorisAppRoot(
     windowSizeClass: WindowSizeClass,
     deepLink: CivorisDeepLink? = null,
     onScreenReady: () -> Unit = {}
 ) = KoinContext {
-    val viewModel = koinViewModel<MolAppViewModel>()
+    val viewModel = koinViewModel<CivorisAppViewModel>()
     val navController = rememberNavController()
     val navGraphSetupBefore = LocalNavGraphSetupState.current
 
@@ -67,7 +67,7 @@ internal fun MolAppRoot(
     val deepLinkLocation = deepLink?.initialTopLevelLocation()
 
     if (settings != null && location != null) {
-        MolTheme(
+        CivorisTheme(
             windowSizeClass = windowSizeClass,
             colorMode = settings.colorMode,
             colorScheme = settings.colorScheme,
@@ -75,7 +75,7 @@ internal fun MolAppRoot(
         ) {
             val initialLocation =
                 decideInitialLocation(location, deepLinkLocation, navGraphSetupBefore)
-            MolAppRootNavHost(
+            CivorisAppRootNavHost(
                 navController = navController,
                 initialLocation = initialLocation,
                 deepLink = deepLink
@@ -85,18 +85,18 @@ internal fun MolAppRoot(
 }
 
 private fun decideInitialLocation(
-    location: MolTopLevelLocation,
-    deepLinkLocation: MolTopLevelLocation?,
+    location: CivorisTopLevelLocation,
+    deepLinkLocation: CivorisTopLevelLocation?,
     navGraphSetupBefore: Boolean
-): MolTopLevelLocation = if (deepLinkLocation == null || navGraphSetupBefore) location else {
+): CivorisTopLevelLocation = if (deepLinkLocation == null || navGraphSetupBefore) location else {
     if (!location.requiresAuth() && deepLinkLocation.requiresAuth()) location
     else deepLinkLocation
 }
 
 /**
- * Converts this [MolTopLevelLocation] to the associated nav route.
+ * Converts this [CivorisTopLevelLocation] to the associated nav route.
  */
-private val MolTopLevelLocation.asNavRoute: Any
+private val CivorisTopLevelLocation.asNavRoute: Any
     get() = when (this) {
         Auth -> AuthLocation
         is Onboarding -> OnboardingLocation(showDesignScreen)
@@ -105,9 +105,9 @@ private val MolTopLevelLocation.asNavRoute: Any
     }
 
 @Composable
-private fun MolAppRootNavHost(
+private fun CivorisAppRootNavHost(
     navController: NavHostController,
-    initialLocation: MolTopLevelLocation,
+    initialLocation: CivorisTopLevelLocation,
     deepLink: CivorisDeepLink?
 ) {
     CivorisNavHost(

@@ -10,20 +10,20 @@ import me.bumiller.mol.settings.UserSettingsSource
 /**
  * Ktor plugin that sets the authorization plugin based on the saved access token.
  */
-class MolAuth(
+class CivorisAuthPlugin(
 
     /**
      * The settings source
      */
     private val userSettingsSource: UserSettingsSource
 
-) : HttpClientPlugin<Unit, MolAuth> {
+) : HttpClientPlugin<Unit, CivorisAuthPlugin> {
 
-    override val key = AttributeKey<MolAuth>("MolAuth")
+    override val key = AttributeKey<CivorisAuthPlugin>("CivorisAuth")
 
     override fun prepare(block: Unit.() -> Unit) = this
 
-    override fun install(plugin: MolAuth, scope: HttpClient) {
+    override fun install(plugin: CivorisAuthPlugin, scope: HttpClient) {
         scope.requestPipeline.intercept(HttpRequestPipeline.Before) {
             val accessToken = userSettingsSource.settings.value.accessToken
 

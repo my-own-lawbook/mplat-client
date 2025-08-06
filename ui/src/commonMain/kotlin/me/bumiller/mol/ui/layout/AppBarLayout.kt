@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.times
 import me.bumiller.mol.common.ui.operator.plus
 import me.bumiller.mol.common.ui.viewmodel.LocalViewModelScope
 import me.bumiller.mol.model.sync.SyncJobInfo
-import me.bumiller.mol.ui.components.MolAppBar
+import me.bumiller.mol.ui.components.CivorisAppBar
 import me.bumiller.mol.ui.components.TopAppBarStyles
 import me.bumiller.mol.ui.locals.LocalWindowSizeClass
 
@@ -414,7 +414,7 @@ private fun ColumnAppBarLayout(
     Column(
         modifier = modifier
     ) {
-        MolAppBar(
+        CivorisAppBar(
             modifier = Modifier
                 .fillMaxWidth(),
             style = appBarStyle,
@@ -483,7 +483,7 @@ private fun RowAppBarLayout(
     Column(
         modifier = modifier
     ) {
-        MolAppBar(
+        CivorisAppBar(
             modifier = Modifier
                 .fillMaxWidth(),
             style = appBarStyle,

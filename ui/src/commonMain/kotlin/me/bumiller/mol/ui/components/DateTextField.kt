@@ -95,7 +95,7 @@ fun DateTextField(
         }
     }
 
-    MolTextField(
+    CivorisTextField(
         modifier = modifier,
         value = value.map {
             it?.formatDateTextField() ?: ""

@@ -19,7 +19,7 @@ import me.bumiller.mol.common.ui.input.InputValue
 import me.bumiller.mol.common.ui.localization.localizedDescription
 
 @Composable
-fun MolTextField(
+fun CivorisTextField(
     value: InputValue<String>,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,

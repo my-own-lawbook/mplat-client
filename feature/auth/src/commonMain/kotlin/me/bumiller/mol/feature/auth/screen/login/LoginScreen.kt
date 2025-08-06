@@ -31,7 +31,7 @@ import me.bumiller.mol.auth.login_screen_signup_link_suffix
 import me.bumiller.mol.auth.login_screen_title
 import me.bumiller.mol.common.ui.viewmodel.ViewModelScope
 import me.bumiller.mol.ui.components.BackIconButton
-import me.bumiller.mol.ui.components.MolTextField
+import me.bumiller.mol.ui.components.CivorisTextField
 import me.bumiller.mol.ui.components.MultiStyleText
 import me.bumiller.mol.ui.components.PasswordTextField
 import me.bumiller.mol.ui.components.TextFieldStyle
@@ -107,7 +107,7 @@ private fun LoginScreen(
                 verticalArrangement = Arrangement.spacedBy(32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                MolTextField(
+                CivorisTextField(
                     value = formState.email,
                     onValueChange = { onEvent(LoginUiEvent.ChangeEmail(it)) },
                     style = TextFieldStyle.Outlined,

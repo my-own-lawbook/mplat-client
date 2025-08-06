@@ -4,7 +4,7 @@ import androidx.room.Room
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
-import me.bumiller.mol.database.MolDatabase
+import me.bumiller.mol.database.CivorisDatabase
 import me.bumiller.mol.database.dao.BookDao
 import me.bumiller.mol.database.dao.BookMemberCrossrefDao
 import me.bumiller.mol.database.dao.EntryDao
@@ -26,11 +26,11 @@ abstract class BaseRoomTest {
     /**
      * The in-memory database
      */
-    private lateinit var db: MolDatabase
+    private lateinit var db: CivorisDatabase
 
     @BeforeEach
     fun setup() {
-        db = Room.inMemoryDatabaseBuilder<MolDatabase>()
+        db = Room.inMemoryDatabaseBuilder<CivorisDatabase>()
             .setDriver(BundledSQLiteDriver())
             .build()
     }

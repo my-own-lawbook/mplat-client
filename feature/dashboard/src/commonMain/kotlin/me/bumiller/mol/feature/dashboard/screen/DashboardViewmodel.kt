@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import me.bumiller.mol.common.ui.viewmodel.MolViewModel
+import me.bumiller.mol.common.ui.viewmodel.CivorisViewModel
 import me.bumiller.mol.domain.GetBooksUsecase
 import me.bumiller.mol.domain.GetInvitationsUsecase
 import me.bumiller.mol.model.law.InvitationStatus
@@ -25,7 +25,7 @@ internal class DashboardViewmodel(
     private val getInvitations: GetInvitationsUsecase,
     private val syncManager: SyncManager,
     private val settingsSource: UserSettingsSource
-) : MolViewModel<DashboardUiEvent, DashboardEvent>() {
+) : CivorisViewModel<DashboardUiEvent, DashboardEvent>() {
 
     init {
         registerUiState<DashboardUiState>(DashboardUiState())

@@ -19,7 +19,7 @@ import kotlin.reflect.KClass
 /**
  * Base class for any view model.
  */
-abstract class MolViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, Event : ViewModelEvent> :
+abstract class CivorisViewModel<UiEvent : me.bumiller.mol.common.ui.event.UiEvent, Event : ViewModelEvent> :
     ViewModel() {
 
     //

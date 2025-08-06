@@ -7,7 +7,7 @@ import me.bumiller.mol.auth.GetProfileError
 import me.bumiller.mol.auth.LoginError
 import me.bumiller.mol.common.ui.input.validation.ValidationError
 import me.bumiller.mol.common.ui.input.validation.validate
-import me.bumiller.mol.common.ui.viewmodel.MolViewModel
+import me.bumiller.mol.common.ui.viewmodel.CivorisViewModel
 import me.bumiller.mol.model.user.Profile
 
 /**
@@ -20,7 +20,7 @@ class LoginViewModel(
      */
     private val authService: AuthService
 
-) : MolViewModel<LoginUiEvent, LoginEvent>() {
+) : CivorisViewModel<LoginUiEvent, LoginEvent>() {
 
     init {
         registerUiState<LoginState>(LoginState())

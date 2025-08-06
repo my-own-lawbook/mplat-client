@@ -8,7 +8,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.dsl.binds
 import org.koin.dsl.module
 
-class MolApplication : Application(), KoinComponent {
+class CivorisApplication : Application(), KoinComponent {
 
     override fun onCreate() {
         super.onCreate()
@@ -17,7 +17,7 @@ class MolApplication : Application(), KoinComponent {
 
             modules(
                 module {
-                    single { this@MolApplication } binds arrayOf(Context::class, Application::class)
+                    single { this@CivorisApplication } binds arrayOf(Context::class, Application::class)
                 }
             )
 

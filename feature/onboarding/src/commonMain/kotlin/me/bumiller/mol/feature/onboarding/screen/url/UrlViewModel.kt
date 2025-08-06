@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import me.bumiller.mol.common.ui.input.validation.ValidationError
 import me.bumiller.mol.common.ui.input.validation.validate
-import me.bumiller.mol.common.ui.viewmodel.MolViewModel
+import me.bumiller.mol.common.ui.viewmodel.CivorisViewModel
 import me.bumiller.mol.data.ConnectionService
 import me.bumiller.mol.settings.UserSettingsSource
 
@@ -17,7 +17,7 @@ import me.bumiller.mol.settings.UserSettingsSource
 class UrlViewModel(
     private val settingsSource: UserSettingsSource,
     private val connectionService: ConnectionService
-) : MolViewModel<UrlUiEvent, UrlEvent>() {
+) : CivorisViewModel<UrlUiEvent, UrlEvent>() {
 
     init {
         registerUiState(UrlState())

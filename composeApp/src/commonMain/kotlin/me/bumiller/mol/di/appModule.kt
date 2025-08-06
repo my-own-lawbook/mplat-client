@@ -1,6 +1,6 @@
 package me.bumiller.mol.di
 
-import me.bumiller.mol.app.MolAppViewModel
+import me.bumiller.mol.app.CivorisAppViewModel
 import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -9,6 +9,6 @@ import org.koin.dsl.module
  */
 val appModule = module {
     viewModel {
-        MolAppViewModel(get(), get())
+        CivorisAppViewModel(get(), get())
     }
 }
