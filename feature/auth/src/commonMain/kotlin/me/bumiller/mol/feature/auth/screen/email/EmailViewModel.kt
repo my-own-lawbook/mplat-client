@@ -32,14 +32,19 @@ internal class EmailViewModel(
         val route = savedStateHandle.toRoute<EmailScreen>()
 
         val initialState = if (route.initialOtp == null) EmailState()
-        else EmailState().let { it.copy(token = it.token.update(route.initialOtp)) }
+        else EmailState().let {
+            it.copy(
+                token = it.token.update(route.initialOtp),
+                isOtpPrefilled = true
+            )
+        }
 
         registerUiState(initialState)
 
         viewModelScope.launch {
-            requestEmailToken(false)
-
-            if (route.initialOtp != null) {
+            if (route.initialOtp == null) {
+                requestEmailToken(false)
+            } else {
                 delay(1_000)
                 handleEvent(EmailUiEvent.Continue)
             }

@@ -6,6 +6,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Class that manages executing a task in fixed time intervals.
@@ -37,6 +40,8 @@ internal class TaskScheduler<Data>(
 
     private lateinit var job: Job
 
+    private lateinit var start: Instant
+
     /**
      * Starts the scheduling.
      */
@@ -45,14 +50,16 @@ internal class TaskScheduler<Data>(
             while (isActive) {
                 task(defaultArg)
 
-                var result = trigger.tryReceive().getOrNull()
-                while (result != null) {
-                    if (!isActive) break
-                    task(result)
-                    result = trigger.tryReceive().getOrNull()
+                start = Clock.System.now()
+                while (Clock.System.now() < start + delayMillis.milliseconds) {
+                    var result = trigger.tryReceive().getOrNull()
+                    while (result != null) {
+                        if (!isActive) break
+                        task(result)
+                        result = trigger.tryReceive().getOrNull()
+                    }
+                    delay(100)
                 }
-
-                delay(delayMillis)
             }
         }
     }
