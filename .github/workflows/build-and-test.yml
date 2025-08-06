@@ -20,9 +20,6 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
 
-      - name: Execute gradle assemble
-        run: ./gradlew assemble
-
       - name: Execute gradle check
         run: ./gradlew check
 
