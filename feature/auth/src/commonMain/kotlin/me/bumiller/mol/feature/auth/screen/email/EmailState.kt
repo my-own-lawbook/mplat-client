@@ -18,6 +18,11 @@ data class EmailState(
     /**
      * State in time of the next resend.
      */
-    val nextResendAt: Instant = Clock.System.now()
+    val nextResendAt: Instant = Clock.System.now(),
+
+    /**
+     * Whether the OTP was prefilled due to the deep-link.
+     */
+    val isOtpPrefilled: Boolean = false
 
 )

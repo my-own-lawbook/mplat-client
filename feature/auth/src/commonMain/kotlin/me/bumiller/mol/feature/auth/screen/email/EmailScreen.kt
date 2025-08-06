@@ -91,11 +91,13 @@ private fun EmailScreen(
             ) {
                 Text(stringResource(Res.string.email_screen_verify_button_label))
             }
-            WideOutlinedButton(
-                onClick = { onEvent(EmailUiEvent.Resend) },
-                enabled = Clock.System.now() > formState.nextResendAt
-            ) {
-                Text(stringResource(Res.string.email_screen_resend_button_label))
+            if (!formState.isOtpPrefilled) {
+                WideOutlinedButton(
+                    onClick = { onEvent(EmailUiEvent.Resend) },
+                    enabled = Clock.System.now() > formState.nextResendAt
+                ) {
+                    Text(stringResource(Res.string.email_screen_resend_button_label))
+                }
             }
         }
     }
