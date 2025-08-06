@@ -102,11 +102,11 @@ abstract class BaseDataTest {
         authorId = key,
         recipientId = key,
         targetId = key,
-        role = modOptions(key, listOf("member", "moderator", "admin")),
+        role = modOptions(key, listOf("Member", "Moderator", "Admin")),
         sentTimestamp = Instant.fromEpochSeconds(1000 + key),
         usedTimestamp = Instant.fromEpochSeconds(1000 + key),
         expiredTimestamp = Instant.fromEpochSeconds(1000 + key),
-        status = modOptions(key, listOf("open", "accepted", "declined", "revoked")),
+        status = modOptions(key, listOf("Open", "Accepted", "Declined", "Revoked")),
         message = "message $key"
     )
 
