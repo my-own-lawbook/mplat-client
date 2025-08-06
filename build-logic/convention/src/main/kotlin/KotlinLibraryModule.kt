@@ -1,10 +1,10 @@
-import me.bumiller.mol.SourceSets
-import me.bumiller.mol.baseDependencies
-import me.bumiller.mol.junitConfig
-import me.bumiller.mol.kotlinConfig
-import me.bumiller.mol.multiplatformPlugin
-import me.bumiller.mol.serializationPlugin
-import me.bumiller.mol.testDependencies
+import me.bumiller.civoris.SourceSets
+import me.bumiller.civoris.baseDependencies
+import me.bumiller.civoris.junitConfig
+import me.bumiller.civoris.kotlinConfig
+import me.bumiller.civoris.multiplatformPlugin
+import me.bumiller.civoris.serializationPlugin
+import me.bumiller.civoris.testDependencies
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

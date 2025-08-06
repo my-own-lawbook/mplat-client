@@ -1,9 +1,9 @@
-import me.bumiller.mol.androidApplicationConfig
-import me.bumiller.mol.androidPlugin
-import me.bumiller.mol.applyPlugin
-import me.bumiller.mol.baseDependencies
-import me.bumiller.mol.kotlinConfig
-import me.bumiller.mol.testDependencies
+import me.bumiller.civoris.androidApplicationConfig
+import me.bumiller.civoris.androidPlugin
+import me.bumiller.civoris.applyPlugin
+import me.bumiller.civoris.baseDependencies
+import me.bumiller.civoris.kotlinConfig
+import me.bumiller.civoris.testDependencies
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

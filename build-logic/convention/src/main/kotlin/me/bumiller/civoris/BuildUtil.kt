@@ -1,0 +1,42 @@
+package me.bumiller.civoris
+
+import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.LibraryExtension
+import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.kotlin.dsl.findByType
+import org.jetbrains.compose.ComposeExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+
+/**
+ * Shorthand to get a specific extension of a project
+ */
+inline fun <reified T : Any> Project.extension(): T {
+    val n = extensions.findByType<T>()
+    return n!!
+}
+
+/**
+ * Gets the LibraryExtension
+ */
+fun Project.libraryExtension() = extension<LibraryExtension>()
+
+/**
+ * Gets the ComposeExtension
+ */
+fun Project.composeExtension() = extension<ComposeExtension>()
+
+/**
+ * Gets the ApplicationExtension
+ */
+fun Project.applicationExtension() = extension<ApplicationExtension>()
+
+/**
+ * Gets the KotlinMultiplatformExtension
+ */
+fun Project.kotlinExtension() = extension<KotlinMultiplatformExtension>()
+
+/**
+ * Gets the VersionCatalogsExtension
+ */
+fun Project.versionCatalogExtension() = extension<VersionCatalogsExtension>()

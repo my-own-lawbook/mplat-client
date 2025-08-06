@@ -2,7 +2,7 @@ package me.bumiller.civoris
 
 import android.app.Application
 import android.content.Context
-import me.bumiller.mol.di.initKoin
+import me.bumiller.civoris.di.initKoin
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.component.KoinComponent
 import org.koin.dsl.binds

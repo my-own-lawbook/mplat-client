@@ -16,9 +16,9 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.eygraber.uri.Uri
 import kotlinx.coroutines.flow.MutableStateFlow
-import me.bumiller.mol.app.CivorisAppRoot
-import me.bumiller.mol.common.ui.LocalNavGraphSetupState
-import me.bumiller.mol.common.ui.nav.CivorisDeepLink
+import me.bumiller.civoris.app.CivorisAppRoot
+import me.bumiller.civoris.common.ui.LocalNavGraphSetupState
+import me.bumiller.civoris.common.ui.nav.CivorisDeepLink
 
 /**
  * Main entrypoint into the android app.
