@@ -130,7 +130,7 @@ compose.desktop.application {
         configurationFiles.setFrom("proguard-rules.pro", "compose-desktop.pro")
     }
 
-    mainClass = "me.bumiller.mol.MainKt"
+    mainClass = "me.bumiller.civoris.MainKt"
 
     nativeDistributions {
         targetFormats(TargetFormat.Exe, TargetFormat.Msi, TargetFormat.Deb)
