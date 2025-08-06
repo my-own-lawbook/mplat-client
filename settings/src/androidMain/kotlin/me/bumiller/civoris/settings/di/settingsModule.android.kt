@@ -7,7 +7,7 @@ import com.russhwolf.settings.SharedPreferencesSettings
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.scope.Scope
 
-private const val SharedPrefsFileName = "mol.prefs"
+private const val SharedPrefsFileName = "civoris.prefs"
 
 /**
  * Platform method to create an instance of the [Settings] interface

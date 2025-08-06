@@ -42,7 +42,7 @@ abstract class CivorisDatabase : RoomDatabase() {
         /**
          * The database name
          */
-        const val DB_NAME = "mol_db"
+        const val DB_NAME = "civoris_db"
 
     }
 

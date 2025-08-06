@@ -74,7 +74,7 @@ internal class WorkManagerSyncManager(
 
     companion object {
 
-        private const val SYNC_TAG = "me.bumiller.mol.sync.work_tag"
+        private const val SYNC_TAG = "me.bumiller.civoris.sync.work_tag"
 
     }
 

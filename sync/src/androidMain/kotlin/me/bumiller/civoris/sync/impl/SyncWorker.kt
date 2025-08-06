@@ -28,7 +28,7 @@ internal class SyncWorker(
 
     companion object {
 
-        internal const val KEY_OUTPUT_DATA = "me.bumiller.mol.sync.impl.SyncWorker.key_output_data"
+        internal const val KEY_OUTPUT_DATA = "me.bumiller.civoris.sync.impl.SyncWorker.key_output_data"
 
     }
 
