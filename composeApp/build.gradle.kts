@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("me.bumiller.mol.compose.application")
+    id("me.bumiller.civoris.compose.application")
     alias(libs.plugins.license)
 }
 

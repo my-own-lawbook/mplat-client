@@ -120,5 +120,5 @@ sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
 license = { id = "com.jaredsburrows.license", version.ref = "license" }
 
 # Custom convention plugins
-mol-android-library = { id = "me.bumiller.mol.android.library", version = "1.0.0" }
-mol-kotlin-library = { id = "me.bumiller.mol.kotlin.library", version = "1.0.0" }
+mol-android-library = { id = "me.bumiller.civoris.android.library", version = "1.0.0" }
+mol-kotlin-library = { id = "me.bumiller.civoris.kotlin.library", version = "1.0.0" }

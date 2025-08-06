@@ -11,7 +11,7 @@ import org.gradle.api.Project
 class ComposeLibraryModule : Plugin<Project> {
 
     override fun apply(target: Project) = with(target) {
-        applyPlugin("me.bumiller.mol.android.library")
+        applyPlugin("me.bumiller.civoris.android.library")
 
         composePlugins()
         composeConfig()

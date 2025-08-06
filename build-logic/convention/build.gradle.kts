@@ -35,30 +35,30 @@ tasks {
 gradlePlugin {
     plugins {
         register("androidLibrary") {
-            id = "me.bumiller.mol.android.library"
+            id = "me.bumiller.civoris.android.library"
             implementationClass = "AndroidLibraryModule"
             version = "1.0.0"
         }
 
         register("androidApplication") {
-            id = "me.bumiller.mol.android.application"
+            id = "me.bumiller.civoris.android.application"
             implementationClass = "AndroidApplicationModule"
             version = "1.0.0"
         }
 
         register("kotlinLibrary") {
-            id = "me.bumiller.mol.kotlin.library"
+            id = "me.bumiller.civoris.kotlin.library"
             implementationClass = "KotlinLibraryModule"
             version = "1.0.0"
         }
 
         register("composeLibrary") {
-            id = "me.bumiller.mol.compose.library"
+            id = "me.bumiller.civoris.compose.library"
             implementationClass = "ComposeLibraryModule"
             version = "1.0.0"
         }
         register("composeApplication") {
-            id = "me.bumiller.mol.compose.application"
+            id = "me.bumiller.civoris.compose.application"
             implementationClass = "ComposeApplicationModule"
             version = "1.0.0"
         }

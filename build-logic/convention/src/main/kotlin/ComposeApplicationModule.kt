@@ -11,7 +11,7 @@ import org.gradle.api.Project
 class ComposeApplicationModule : Plugin<Project> {
 
     override fun apply(target: Project) = with(target) {
-        applyPlugin("me.bumiller.mol.android.application")
+        applyPlugin("me.bumiller.civoris.android.application")
 
         composePlugins()
         composeConfig()

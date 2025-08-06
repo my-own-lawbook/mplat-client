@@ -13,7 +13,7 @@ import org.gradle.api.Project
 class AndroidApplicationModule : Plugin<Project> {
 
     override fun apply(target: Project) = with(target) {
-        applyPlugin("me.bumiller.mol.kotlin.library")
+        applyPlugin("me.bumiller.civoris.kotlin.library")
 
         androidPlugin(application = true)
 
