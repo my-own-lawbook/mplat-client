@@ -1,7 +1,7 @@
 package me.bumiller.civoris.feature.dashboard.di
 
 import me.bumiller.civoris.feature.dashboard.screen.DashboardViewmodel
-import org.koin.compose.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 /**
