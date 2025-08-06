@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.multiplatform.webview.web.WebView
 import com.multiplatform.webview.web.rememberWebViewStateWithHTMLData
-import me.bumiller.mol.about.Res
-import me.bumiller.mol.about.notice_screen_title
+import me.bumiller.civoris.about.Res
+import me.bumiller.civoris.about.notice_screen_title
 import me.bumiller.mol.common.ui.color.hexString
 import me.bumiller.mol.ui.layout.AppBarLayout
 import org.jetbrains.compose.resources.ExperimentalResourceApi

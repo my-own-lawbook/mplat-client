@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import me.bumiller.mol.model.law.LawBook
 import me.bumiller.mol.model.state.SimpleState
-import me.bumiller.mol.ui.Res
-import me.bumiller.mol.ui.book_feed_empty_text
-import me.bumiller.mol.ui.book_feed_item_name
+import me.bumiller.civoris.ui.Res
+import me.bumiller.civoris.ui.book_feed_empty_text
+import me.bumiller.civoris.ui.book_feed_item_name
 import me.bumiller.mol.ui.components.LawBookCard
 import org.jetbrains.compose.resources.stringResource
 

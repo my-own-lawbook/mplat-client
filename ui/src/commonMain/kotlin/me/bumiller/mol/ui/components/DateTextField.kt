@@ -24,10 +24,10 @@ import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
 import me.bumiller.mol.common.ui.input.InputValue
 import me.bumiller.mol.common.ui.input.inputValue
-import me.bumiller.mol.ui.Res
-import me.bumiller.mol.ui.cd_date_input_button
-import me.bumiller.mol.ui.date_input_dialog_cancel
-import me.bumiller.mol.ui.date_input_dialog_confirm
+import me.bumiller.civoris.ui.Res
+import me.bumiller.civoris.ui.cd_date_input_button
+import me.bumiller.civoris.ui.date_input_dialog_cancel
+import me.bumiller.civoris.ui.date_input_dialog_confirm
 import org.jetbrains.compose.resources.stringResource
 
 /**

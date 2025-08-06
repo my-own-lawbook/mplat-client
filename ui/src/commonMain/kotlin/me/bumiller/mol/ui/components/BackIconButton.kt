@@ -6,8 +6,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import me.bumiller.mol.ui.Res
-import me.bumiller.mol.ui.cd_back_button
+import me.bumiller.civoris.ui.Res
+import me.bumiller.civoris.ui.cd_back_button
 import org.jetbrains.compose.resources.stringResource
 
 /**

@@ -1,10 +1,10 @@
 package me.bumiller.mol.common.ui.localization
 
 import androidx.compose.runtime.Composable
-import me.bumiller.mol.common_ui.Res
-import me.bumiller.mol.common_ui.mode_dark
-import me.bumiller.mol.common_ui.mode_light
-import me.bumiller.mol.common_ui.mode_system
+import me.bumiller.civoris.common_ui.Res
+import me.bumiller.civoris.common_ui.mode_dark
+import me.bumiller.civoris.common_ui.mode_light
+import me.bumiller.civoris.common_ui.mode_system
 import me.bumiller.mol.model.settings.ColorMode
 import org.jetbrains.compose.resources.stringResource
 

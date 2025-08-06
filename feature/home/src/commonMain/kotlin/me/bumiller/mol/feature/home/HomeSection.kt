@@ -10,9 +10,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.Serializable
 import me.bumiller.mol.feature.dashboard.navigation.DashboardScreen
 import me.bumiller.mol.feature.profile.navigation.ProfileScreen
-import me.bumiller.mol.home.Res
-import me.bumiller.mol.home.section_home_label
-import me.bumiller.mol.home.section_profile_label
+import me.bumiller.civoris.home.Res
+import me.bumiller.civoris.home.section_home_label
+import me.bumiller.civoris.home.section_profile_label
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 

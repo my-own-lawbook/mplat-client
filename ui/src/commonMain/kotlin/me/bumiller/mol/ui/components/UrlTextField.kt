@@ -15,8 +15,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import me.bumiller.mol.common.ui.input.InputValue
-import me.bumiller.mol.ui.Res
-import me.bumiller.mol.ui.url_textfield_prefix
+import me.bumiller.civoris.ui.Res
+import me.bumiller.civoris.ui.url_textfield_prefix
 import org.jetbrains.compose.resources.stringResource
 
 /**

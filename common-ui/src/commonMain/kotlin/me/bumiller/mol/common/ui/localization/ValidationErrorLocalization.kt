@@ -2,22 +2,22 @@ package me.bumiller.mol.common.ui.localization
 
 import androidx.compose.runtime.Composable
 import me.bumiller.mol.common.ui.input.validation.ValidationError
-import me.bumiller.mol.common_ui.Res
-import me.bumiller.mol.common_ui.validation_date_in_future
-import me.bumiller.mol.common_ui.validation_email
-import me.bumiller.mol.common_ui.validation_email_taken
-import me.bumiller.mol.common_ui.validation_email_token
-import me.bumiller.mol.common_ui.validation_empty
-import me.bumiller.mol.common_ui.validation_invalid_credentials
-import me.bumiller.mol.common_ui.validation_name
-import me.bumiller.mol.common_ui.validation_password
-import me.bumiller.mol.common_ui.validation_password_repeat
-import me.bumiller.mol.common_ui.validation_secret_invalid
-import me.bumiller.mol.common_ui.validation_signup_token_invalid
-import me.bumiller.mol.common_ui.validation_url
-import me.bumiller.mol.common_ui.validation_url_reach
-import me.bumiller.mol.common_ui.validation_username
-import me.bumiller.mol.common_ui.validation_username_taken
+import me.bumiller.civoris.common_ui.Res
+import me.bumiller.civoris.common_ui.validation_date_in_future
+import me.bumiller.civoris.common_ui.validation_email
+import me.bumiller.civoris.common_ui.validation_email_taken
+import me.bumiller.civoris.common_ui.validation_email_token
+import me.bumiller.civoris.common_ui.validation_empty
+import me.bumiller.civoris.common_ui.validation_invalid_credentials
+import me.bumiller.civoris.common_ui.validation_name
+import me.bumiller.civoris.common_ui.validation_password
+import me.bumiller.civoris.common_ui.validation_password_repeat
+import me.bumiller.civoris.common_ui.validation_secret_invalid
+import me.bumiller.civoris.common_ui.validation_signup_token_invalid
+import me.bumiller.civoris.common_ui.validation_url
+import me.bumiller.civoris.common_ui.validation_url_reach
+import me.bumiller.civoris.common_ui.validation_username
+import me.bumiller.civoris.common_ui.validation_username_taken
 import org.jetbrains.compose.resources.stringResource
 
 /**

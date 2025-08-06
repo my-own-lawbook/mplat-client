@@ -19,8 +19,8 @@ import me.bumiller.mol.common.ui.ListPosition.Companion.positionOf
 import me.bumiller.mol.common.ui.style.disabledColor
 import me.bumiller.mol.model.Identifiable
 import me.bumiller.mol.model.state.SimpleState
-import me.bumiller.mol.ui.Res
-import me.bumiller.mol.ui.feed_loading
+import me.bumiller.civoris.ui.Res
+import me.bumiller.civoris.ui.feed_loading
 import org.jetbrains.compose.resources.stringResource
 
 /**

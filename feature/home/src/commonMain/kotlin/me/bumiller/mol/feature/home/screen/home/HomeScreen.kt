@@ -23,9 +23,9 @@ import me.bumiller.mol.feature.dashboard.navigation.DashboardScreen
 import me.bumiller.mol.feature.dashboard.navigation.dashboard
 import me.bumiller.mol.feature.home.HomeSection
 import me.bumiller.mol.feature.profile.navigation.profile
-import me.bumiller.mol.home.Res
-import me.bumiller.mol.home.sync_failed_snackbar_action
-import me.bumiller.mol.home.sync_failed_snackbar_message
+import me.bumiller.civoris.home.Res
+import me.bumiller.civoris.home.sync_failed_snackbar_action
+import me.bumiller.civoris.home.sync_failed_snackbar_message
 import org.jetbrains.compose.resources.stringResource
 import kotlin.system.exitProcess
 

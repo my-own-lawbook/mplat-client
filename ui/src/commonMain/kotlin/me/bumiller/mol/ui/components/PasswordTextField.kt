@@ -23,9 +23,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import me.bumiller.mol.common.ui.input.InputValue
-import me.bumiller.mol.ui.Res
-import me.bumiller.mol.ui.cd_password_textfield_invisible
-import me.bumiller.mol.ui.cd_password_textfield_visible
+import me.bumiller.civoris.ui.Res
+import me.bumiller.civoris.ui.cd_password_textfield_invisible
+import me.bumiller.civoris.ui.cd_password_textfield_visible
 import org.jetbrains.compose.resources.stringResource
 
 /**

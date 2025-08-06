@@ -5,10 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import me.bumiller.mol.model.aggregate.LawBookInvitationAggregate
 import me.bumiller.mol.model.state.SimpleState
-import me.bumiller.mol.ui.Res
+import me.bumiller.civoris.ui.Res
 import me.bumiller.mol.ui.components.LawBookInvitationListItem
-import me.bumiller.mol.ui.invitation_list_empty_text
-import me.bumiller.mol.ui.invitation_list_item_name
+import me.bumiller.civoris.ui.invitation_list_empty_text
+import me.bumiller.civoris.ui.invitation_list_item_name
 import org.jetbrains.compose.resources.stringResource
 
 /**

@@ -1,6 +1,6 @@
 package me.bumiller.mol
 
-const val ApplicationId = "me.bumiller.mol"
+const val ApplicationId = "me.bumiller.civoris"
 const val Namespace = ApplicationId
 const val NamespacePrefix = "$Namespace."
 

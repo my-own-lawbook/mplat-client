@@ -12,10 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.datetime.Clock
 import me.bumiller.mol.model.aggregate.LawBookInvitationAggregate
-import me.bumiller.mol.ui.Res
-import me.bumiller.mol.ui.cd_invitation_list_item_trailing
+import me.bumiller.civoris.ui.Res
+import me.bumiller.civoris.ui.cd_invitation_list_item_trailing
 import me.bumiller.mol.ui.format.formatFullName
-import me.bumiller.mol.ui.invitation_list_item_header
+import me.bumiller.civoris.ui.invitation_list_item_header
 import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Duration.Companion.days
 

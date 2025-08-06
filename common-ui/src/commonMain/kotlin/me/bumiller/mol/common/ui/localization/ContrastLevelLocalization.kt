@@ -1,9 +1,9 @@
 package me.bumiller.mol.common.ui.localization
 
 import androidx.compose.runtime.Composable
-import me.bumiller.mol.common_ui.Res
-import me.bumiller.mol.common_ui.level_medium
-import me.bumiller.mol.common_ui.level_normal
+import me.bumiller.civoris.common_ui.Res
+import me.bumiller.civoris.common_ui.level_medium
+import me.bumiller.civoris.common_ui.level_normal
 import me.bumiller.mol.model.settings.ColorSchemeContrastLevel
 import org.jetbrains.compose.resources.stringResource
 

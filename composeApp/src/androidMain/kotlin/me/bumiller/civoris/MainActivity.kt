@@ -1,4 +1,4 @@
-package me.bumiller.mol
+package me.bumiller.civoris
 
 import android.content.Intent
 import android.os.Bundle
