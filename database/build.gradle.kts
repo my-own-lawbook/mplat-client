@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
-    alias(libs.plugins.mol.android.library)
+    alias(libs.plugins.civoris.android.library)
 }
 
 kotlin {
