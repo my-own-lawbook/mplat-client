@@ -26,5 +26,6 @@ class InvitationDaoTest : SimpleDaoTest<InvitationEntity, InvitationDao>() {
     @Test
     @DisplayName("<Triggering parent tests>")
     fun triggerParentTests() {
+        // Stub method to trigger implicit tests from parent class
     }
 }

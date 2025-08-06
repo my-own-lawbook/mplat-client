@@ -32,6 +32,10 @@ work = "2.10.0"
 license = "0.9.8"
 webview = "1.9.0"
 uuid = "5.1.0"
+android_tools_gradle = "8.2.2"
+android_tools_common = "31.7.3"
+kotlin_gradle_plugin = "2.0.20"
+compose_gradle_plugin = "1.8.0-alpha01"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -106,6 +110,11 @@ uuid = { group = "com.fasterxml.uuid", name = "java-uuid-generator", version.ref
 kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
 
 google-guava-workaround = { group = "com.google.guava", name = "listenablefuture", version = "9999.0-empty-to-avoid-conflict-with-guava" }
+
+android-tools-build-gradle = { group = "com.android.tools.build", name  ="gradle", version.ref = "android_tools_gradle" }
+android-tools-common = { group = "com.android.tools", name = "common", version.ref = "android_tools_common" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin_gradle_plugin" }
+compose-gradle-plugin = { group = "org.jetbrains.compose", name = "compose-gradle-plugin", version.ref = "compose_gradle_plugin" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

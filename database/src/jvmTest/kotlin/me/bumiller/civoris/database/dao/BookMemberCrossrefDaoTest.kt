@@ -23,6 +23,7 @@ class BookMemberCrossrefDaoTest : CrossrefDaoTest<BookMemberCrossref, BookMember
     @Test
     @DisplayName("<Triggering parent tests>")
     fun triggerParentTests() {
+        // Stub method to trigger implicit tests from parent class
     }
 
 }
