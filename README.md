@@ -11,7 +11,6 @@ This project uses compose-kotlin-multiplatform and therefore compiles natively t
 
 - Android
 - Desktop (JVM native)
-- Web (WebAssemblyJS)
 
 The app can be downloaded in these package formats:
 
@@ -26,7 +25,7 @@ The app can be downloaded in these package formats:
   - Android App Bundle (.aab)
 
 Download the latest package of your choice from
-the [Releases page](https://github.com/civoris/mplat-client/releases)
+the [Releases](https://github.com/civoris/mplat-client/releases)
 
 ## Contributing
 
