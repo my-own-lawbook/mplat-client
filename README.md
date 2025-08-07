@@ -11,7 +11,6 @@ This project uses compose-kotlin-multiplatform and therefore compiles natively t
 
 - Android
 - Desktop (JVM native)
-- Web (WebAssemblyJS)
 
 The app can be downloaded in these package formats:
 
