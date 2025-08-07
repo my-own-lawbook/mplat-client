@@ -24,8 +24,6 @@ The app can be downloaded in these package formats:
 - Android
   - Android Package (.apk)
   - Android App Bundle (.aab)
-- Web
-  - Static web distribution (single page)
 
 Download the latest package of your choice from
 the [Releases page](https://github.com/civoris/mplat-client/releases)
